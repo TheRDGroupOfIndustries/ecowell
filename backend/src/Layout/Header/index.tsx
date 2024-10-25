@@ -57,7 +57,7 @@ const Header = () => {
               </label>
             </div>
           </div>
-          <Col au className="nav-right ">
+          <Col au="true" className="nav-right ">
             <ul className={"nav-menus " + (navMenus ? "open" : "")}>
               <li>
                 <SearchHeader />

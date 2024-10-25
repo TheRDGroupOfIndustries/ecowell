@@ -21,7 +21,7 @@ const EmployeeStatus = () => {
               </thead>
               <tbody>
                 {EmployeeStatusData.map((item, i) => (
-                  <tr>
+                  <tr key={i}>
                     <td className="bd-t-none u-s-tb">
                       <div className="align-middle image-sm-size">
                         <img className="img-radius align-top m-r-15 rounded-circle blur-up lazyloaded" src={`${ImagePath}/dashboard/${item.imageSrc}`} alt="" data-original-title="" title="" />
