@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import { Media, Container, Row, Col, Input, Form, Button } from "reactstrap";
 import CartContext from "../../../helpers/cart";
-import logo from "../../../public/assets/images/icon/logo.png";
+import logo from "../../../public/assets/images/icon/logo-dark.png";
 import like from "../../../public/assets/images/icon/like.png";
 import user from "../../../public/assets/images/icon/users.png";
 import Link from "next/link";
@@ -39,7 +39,7 @@ const IconTopbar = () => {
             <Col sm="6">
               <div className="header-contact">
                 <ul>
-                  <li>Welcome to Our store Multikart</li>
+                  <li>Welcome to Our store EcoWell</li>
                   <li>
                     <i className="fa fa-phone" aria-hidden="true"></i>Call Us:
                     123 - 456 - 7890
@@ -52,14 +52,15 @@ const IconTopbar = () => {
                     <div className="bar-style">
                       <i
                         className="fa fa-bars sidebar-bar"
-                        aria-hidden="true"></i>
+                        aria-hidden="true"
+                      ></i>
                     </div>
                   </a>
                 </div>
                 <div className="brand-logo mobile-logo">
                   <a href={null}>
                     <Media
-                      src={logo.src}
+                      src={logo}
                       className="img-fluid blur-up lazyload"
                       alt=""
                     />

@@ -13,20 +13,20 @@ import Currency from "./common/currency";
 import { useRouter } from "next/router";
 import SearchOverlay from "./common/search-overlay";
 
-const HeaderOne = ({
-  logoName,
-  headerClass,
-  topClass,
-  noTopBar,
-  direction,
-}) => {
+const HeaderOne = ({ headerClass, topClass, noTopBar, direction }) => {
   const router = useRouter();
+  const [logoName, setLogoName] = useState("");
 
-  /*=====================
-     Pre loader
-     ==========================*/
   useEffect(() => {
-    setTimeout(function () {
+    const updateLogoName = () => {
+      setLogoName(
+        document.body.classList.contains("dark") ? "logo.png" : "logo-dark.png"
+      );
+    };
+
+    updateLogoName();
+
+    setTimeout(() => {
       document.querySelectorAll(".loader-wrapper").style = "display:none";
     }, 2000);
 
@@ -36,7 +36,7 @@ const HeaderOne = ({
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [router.asPath]);
 
   const handleScroll = () => {
     let number =
@@ -48,8 +48,7 @@ const HeaderOne = ({
       if (window.innerWidth < 581)
         document.getElementById("sticky").classList.remove("fixed");
       else document.getElementById("sticky").classList.add("fixed");
-    }
-    else document.getElementById("sticky").classList.remove("fixed");
+    } else document.getElementById("sticky").classList.remove("fixed");
   };
 
   const openNav = () => {
@@ -96,12 +95,12 @@ const HeaderOne = ({
                     <SideBar />
                   </div>
                   <div className="brand-logo">
-                    <LogoImage logo={logoName} />
+                    <LogoImage logo={`/${logoName}`} />
                   </div>
                 </div>
                 <div className="menu-right pull-right">
                   {/*Top Navigation Bar Component*/}
-                   <NavBar />
+                  <NavBar />
 
                   <div>
                     <div className="icon-nav">
@@ -126,7 +125,6 @@ const HeaderOne = ({
                           // <></>
                           <CartContainer layout={direction} icon={cart.src} />
                         ) : (
-                          
                           <Cart layout={direction} icon={cart.src} />
                         )}
                       </ul>
