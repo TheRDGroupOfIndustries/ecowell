@@ -11,7 +11,7 @@ export const lineChart1 = {
                 show: true
             },
         },
-        colors: ["#ff4c3b"],
+        colors: ["#399B2E"],
         dataLabels: {
             enabled: false
         },
@@ -36,7 +36,7 @@ export const lineChart1 = {
             show: false
         },
         fill: {
-            colors: ["#ff4c3b"],
+            colors: ["#399B2E"],
             type: "gradient",
             gradient: {
                 shade: 'light',

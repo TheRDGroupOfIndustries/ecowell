@@ -16,7 +16,7 @@ const TopBarDark = ({ topClass, fluid }) => {
           <Col lg="6">
             <div className="header-contact">
               <ul>
-                <li>Welcome to Our store Multikart</li>
+                <li>Welcome to Our store EcoWell</li>
                 <li>
                   <i className="fa fa-phone text-white" aria-hidden="true"></i>
                   Call Us: 123 - 456 - 7890
