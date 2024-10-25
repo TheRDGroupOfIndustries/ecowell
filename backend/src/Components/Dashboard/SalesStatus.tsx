@@ -19,7 +19,7 @@ const SalesStatus = () => {
                 </div>
                 <div className="order-graph-bottom">
                   {SalesStatusCountry.map((item, i) => (
-                    <Media>
+                    <Media key={i}>
                       <div className={`order-color-${item.color}`}></div>
                       <Media body>
                         <h6 className="mb-0">
