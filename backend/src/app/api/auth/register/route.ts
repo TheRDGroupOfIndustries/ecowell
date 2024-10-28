@@ -7,12 +7,12 @@ import { transporter } from "../../core";
 export const POST = async (request: NextRequest) => {
   const { name, email, password, otp, checkOtpCode } = await request.json();
 
-  console.log(
-    name,
-    email,
-    password,
-    otp, checkOtpCode
-  );
+  // console.log(
+  //   name,
+  //   email,
+  //   password,
+  //   otp, checkOtpCode
+  // );
 
   await connectToMongoDB();
 
@@ -30,7 +30,7 @@ export const POST = async (request: NextRequest) => {
     <span style="color: #ccc; font-size: 18px; font-family: 'Arial', sans-serif;">Here's an OTP for your email verification <b style="color: #2fff00;">${otpCode}</b><br /></span>`;
 
     await transporter.sendMail({
-      from: process.env.GMAIL_Admin,
+      from: process.env.GMAIL_USER,
       to: email,
       subject: "EcoWell - Verify Email",
       text: "Email Verification",

@@ -197,19 +197,21 @@ const RegisterForm = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Name"
+          disabled={otpBtn}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Input
+          required
+          type="email"
+          value={email}
+          onChange={handleEmail}
+          placeholder="E-mail"
+          disabled={otpBtn}
         />
       </FormGroup>
       {!otpSuccess && (
         <>
-          <FormGroup>
-            <Input
-              required
-              type="email"
-              value={email}
-              onChange={handleEmail}
-              placeholder="E-mail"
-            />
-          </FormGroup>
           <FormGroup>
             <InputGroup>
               <Input
@@ -242,7 +244,6 @@ const RegisterForm = () => {
             type="button"
             onClick={handleGetOtp}
             disabled={otpBtn || sendingOtp || otpSuccess}
-            className={`w-full ${otpBtn && "animate-pulse"}`}
           >
             {sendingOtp
               ? "Sending OTP..."
