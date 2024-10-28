@@ -129,6 +129,7 @@
 
           +.rdt_TableCell {
             border-left: 1px solid rgba($black, 0.05);
+            min-width: 150px;
           }
 
           // &:nth-child(2),
@@ -243,6 +244,7 @@
           b {
             font-size: 14px;
             color: $theme-body-font-color;
+            word-break: break-all;
           }
         }
       }
@@ -577,6 +579,7 @@ a {
 .digital-add {
   .col-form-label {
     font-family: $font-nunito;
+    font-size: 16px;
   }
 
   .form-control {
@@ -893,7 +896,7 @@ a {
       li {
         // padding: 10px;
         border-radius: 100%;
-        border: 1px solid #ff8084;
+        border: 1px solid #399B2E;
         height: 40px;
         width: 40px;
         margin-right: 10px;
@@ -4035,7 +4038,7 @@ $i: 1;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba($primary-color, 0.17);
+    background-color: rgba($primary-color, 0.8);
   }
 }
 
@@ -4300,7 +4303,7 @@ $i: 1;
         .rdt_TableRow {
           .rdt_TableCell {
             +.rdt_TableCell {
-              width: 150px;
+              // min-width: 150px;
             }
           }
         }
@@ -4313,7 +4316,8 @@ $i: 1;
       .rdt_TableHead {
         .rdt_TableHeadRow {
           .rdt_TableCol {
-            width: 150px;
+            min-width: 150px;
+            word-break: break-all;
           }
         }
       }
@@ -4557,7 +4561,7 @@ $i: 1;
       .main-header-left {
         .logo-wrapper {
           img {
-            height: 23px;
+            // height: 23px;
             margin-top: 0;
             margin-right: 15px;
           }

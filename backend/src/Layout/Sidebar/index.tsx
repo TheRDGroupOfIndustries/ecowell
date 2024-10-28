@@ -164,7 +164,7 @@ const Sidebar = () => {
         <div className="main-header-left d-none d-lg-block">
           <div className="logo-wrapper">
             <Link href={`/${i18LangStatus}/dashboard`}>
-              <img className="blur-up lazyloaded" src={`${ImagePath}/dashboard/multikart-logo-black.png`} alt="" />
+              <img className="blur-up lazyloaded" src={`${ImagePath}/dashboard/multikart-logo-black.png`} width={120} alt="" />
             </Link>
           </div>
         </div>

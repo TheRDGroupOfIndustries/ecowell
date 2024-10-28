@@ -1,12 +1,20 @@
-"use client"
+"use client";
 
-import { useAppSelector } from "@/Redux/Hooks";
+import { ChangeEvent, FormEvent, useState } from "react";
 import Cookies from "js-cookie";
+import { signIn } from "next-auth/react";
+import { useAppSelector } from "@/Redux/Hooks";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { Eye, EyeOff } from "react-feather";
 import { toast } from "react-toastify";
-import { Button, Form, FormGroup, Input, InputGroup, InputGroupText, Label } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupText,
+} from "reactstrap";
 import SocialMediaIcons from "./SocialMediaIcons";
 
 export const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -16,7 +24,7 @@ export const passwordPattern =
 const LoginForm = () => {
   const router = useRouter();
   const { i18LangStatus } = useAppSelector((store) => store.LangReducer);
-  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassWord, setShowPassWord] = useState(false);
@@ -44,31 +52,44 @@ const LoginForm = () => {
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setPassword(inputValue);
+    const validations = [
+      { condition: inputValue.trim() === "", message: "Password is required." },
+      {
+        condition: !/(?=.*[a-z])/.test(inputValue),
+        message: "Include at least one lowercase letter.",
+      },
+      {
+        condition: !/(?=.*[A-Z])/.test(inputValue),
+        message: "Include at least one uppercase letter.",
+      },
+      {
+        condition: !/(?=.*\d)/.test(inputValue),
+        message: "Include at least one digit.",
+      },
+      {
+        condition: !/(?=.*[@$!%*?&])/.test(inputValue),
+        message: "Include at least one special character (@$!%*?&).",
+      },
+      {
+        condition: inputValue.length < 8,
+        message: "Password must be at least 8 characters long.",
+      },
+      {
+        condition: !passwordPattern.test(inputValue),
+        message: "Invalid password",
+      },
+    ];
 
-    if (inputValue.trim() === "") {
-      setDisableBtn(true);
-    } else if (!/(?=.*[a-z])/.test(inputValue)) {
-      toast.error("Include at least one lowercase letter.");
-      setDisableBtn(true);
-    } else if (!/(?=.*[A-Z])/.test(inputValue)) {
-      toast.error("Include at least one uppercase letter.");
-      setDisableBtn(true);
-    } else if (!/(?=.*\d)/.test(inputValue)) {
-      toast.error("Include at least one digit.");
-      setDisableBtn(true);
-    } else if (!/(?=.*[@$!%*?&])/.test(inputValue)) {
-      toast.error("Include at least one special character (@$!%*?&).");
-      setDisableBtn(true);
-    } else if (inputValue.length < 8) {
-      toast.error("Password must be at least 8 characters long.");
-      setDisableBtn(true);
-    } else if (!passwordPattern.test(inputValue)) {
-      toast.error("Invalid password");
-      setDisableBtn(true);
-    } else {
-      toast.success("Valid password!");
-      setDisableBtn(false);
+    for (const validation of validations) {
+      if (validation.condition) {
+        toast.error(validation.message);
+        setDisableBtn(true);
+        return;
+      }
     }
+
+    toast.success("Valid password!");
+    setDisableBtn(false);
   };
 
   const handleAdminAuthLogin = async (e: FormEvent<HTMLFormElement>) => {
@@ -79,34 +100,45 @@ const LoginForm = () => {
     }
 
     setSubmitting(true);
-    try {
-      // const res = await signIn("credentials", {
-      //   redirect: false,
-      //   email,
-      //   password,
-      // });
+    const login = async () => {
+      try {
+        const res = await signIn("credentials", {
+          redirect: false,
+          email,
+          password,
+        });
 
-      // if (res?.error) {
-      //   console.log(res.error);
-      //   setSubmitting(false);
-      //   toast.error("User doesn't exist or Invalid e-mail or password!");
-      // }
+        if (res?.error) {
+          console.log(res.error);
+          setSubmitting(false);
+          throw new Error("User doesn't exist or Invalid e-mail or password!");
+        }
 
-      // if (res?.url) {
-      //   setSubmitting(false);
-      //   setSuccess(true);
-      //   toast.success("Logged in successfully!");
-      //   router.replace("/");
-      // } else {
-      //   setSubmitting(false);
-      //   toast.error("Something went wrong, please try again!");
-      // }
-    } catch (error) {
+        if (res?.url) {
+          console.log(res?.url);
+
+          setSubmitting(true);
+          setSuccess(true);
+          router.replace("/");
+          Cookies.set("token", JSON.stringify(true));
+          router.push(`${process.env.PUBLIC_URL}/${i18LangStatus}/dashboard`);
+          return "Logged in successfully!";
+        } else {
+          setSubmitting(false);
+          throw new Error("Something went wrong, please try again!");
+        }
+      } catch (error) {
         setSubmitting(false);
-        console.log(error);
-        toast.error("Something went wrong, please try again!");
-    }
-  }
+        throw error;
+      }
+    };
+    toast.promise(login(), {
+      pending: "Logging in...",
+      success: "Logged in successfully!",
+      error: "Something went wrong, please try again!",
+      // error: (error: any) => error.message || 'An error occurred.',
+    });
+  };
 
   // const formSubmitHandle = (event: FormEvent) => {
   //   event.preventDefault();
@@ -122,12 +154,23 @@ const LoginForm = () => {
   return (
     <Form className="form-horizontal auth-form" onSubmit={handleAdminAuthLogin}>
       <FormGroup>
-        <Input required onChange={handleEmail} type="email" value={email}  placeholder="E-mail" />
+        <Input
+          required
+          onChange={handleEmail}
+          type="email"
+          value={email}
+          placeholder="E-mail"
+        />
       </FormGroup>
       <FormGroup>
         <InputGroup onClick={() => setShowPassWord(!showPassWord)}>
-          <Input required onChange={handlePassword} type={showPassWord ? "text" : "password"} value={password}  
-          placeholder="Password" />
+          <Input
+            required
+            onChange={handlePassword}
+            type={showPassWord ? "text" : "password"}
+            value={password}
+            placeholder="Password"
+          />
           <InputGroupText>{showPassWord ? <Eye /> : <EyeOff />}</InputGroupText>
         </InputGroup>
       </FormGroup>
@@ -145,8 +188,12 @@ const LoginForm = () => {
         </div>
       </div> */}
       <div className="form-button">
-        <Button color="primary" type="submit" disabled={disableBtn || submitting || success}>
-        {submitting ? "Logging in..." : success ? "Logged in" : "Login"}
+        <Button
+          color="primary"
+          type="submit"
+          disabled={disableBtn || submitting || success}
+        >
+          {submitting ? "Logging in..." : success ? "Logged in" : "Login"}
         </Button>
       </div>
       <div className="form-footer">

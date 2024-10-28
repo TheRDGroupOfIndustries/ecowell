@@ -1,9 +1,8 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
 const VariantSchema = new Schema({
   flavor: { type: String, required: true },
   images: { type: [String], required: true },
-  price: { type: Number, required: true },
   stock: { type: Number, required: true },
   form: { type: String, enum: ['tablet', 'powder', 'liquid'], required: true },
   netQuantity: { type: Number, required: true },
@@ -25,31 +24,30 @@ const AdditionalInfoSchema = new Schema({
 });
 
 const ProductSchema = new Schema({
-  _id: { type: String, required: true }, // Unique identifier for the product
-  sku: { type: String, required: true }, // Stock Keeping Unit identifier
-  title: { type: String, required: true }, // Title of the product
-  description: { type: String, required: true }, // Description of the product
+  sku: { type: String, required: true }, 
+  title: { type: String, required: true },
+  new: { type: Boolean, default: false },
+  description: { type: String, required: true }, 
   category: { 
     title: { type: String, required: true }, 
     slug: { type: String, required: true } 
-  }, // Category of the product
-  brand: { type: String, required: true }, // Brand of the product
-  price: { type: Number, required: true }, // Price of the product
-  salePrice: { type: Number, required: true }, // Sale price
-  discount: { type: Number, required: false }, // Discount details for the product
-  sell_on_google_quantity: { type: Number, required: true }, // Quantity available for Google Shopping
-  new: { type: Boolean, default: false }, // Indicates if the product is new
-  variants: [VariantSchema], // Array of variants
-  bestBefore: { type: Date, required: true }, // Best before date
-  directions: { type: [String], required: true }, // Directions for use
-  ingredients: { type: [String], required: true }, // Ingredients list
-  benefits: { type: [String], required: true }, // List of product benefits
-  faqs: [FaqSchema], // List of FAQs (Question/Answer)
-  additionalInfo: AdditionalInfoSchema, // Additional Information about the product
-  ratings: { type: Number, default: 0 }, // Average product rating
-  reviews_number: { type: Number, default: 0 }, // Number of reviews
+  }, 
+  brand: { type: String, required: true }, 
+  price: { type: Number, required: true }, 
+  salePrice: { type: Number, required: true }, 
+  discount: { type: Number, required: false }, 
+  sell_on_google_quantity: { type: Number, required: true }, 
+  variants: [VariantSchema], 
+  bestBefore: { type: Date, required: true }, 
+  directions: { type: [String], required: true }, 
+  ingredients: { type: [String], required: true }, 
+  benefits: { type: [String], required: true }, 
+  faqs: [FaqSchema], 
+  additionalInfo: AdditionalInfoSchema, 
+  ratings: { type: Number, default: 0 }, 
+  reviews_number: { type: Number, default: 0 }, 
 }, { timestamps: true });
 
-const Product = model('Product', ProductSchema);
+const Product = models.Products || model("Products", ProductSchema);
 
 export default Product;

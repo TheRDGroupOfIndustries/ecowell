@@ -96,6 +96,7 @@ export const ProductListDigitalData = [
     image: <img height={50} width={50} alt="" src={`${ImagePath}/digital-product/web-dev.jpg`} />,
     product_title: "Websites",
     entry_type: "Add",
+    stock: "2",
     quantity: "5",
   },
   {

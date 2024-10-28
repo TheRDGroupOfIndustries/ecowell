@@ -1,65 +1,216 @@
+import React, { useEffect, useState } from 'react';
 import CommonCardHeader from "@/CommonComponents/CommonCardHeader";
 import MyUploader from "@/CommonComponents/CommonDropzone";
 import { Card, CardBody, FormGroup, Input, Label } from "reactstrap";
+import MultiInputField from './MultiInputField';
+import FaqInputField from './FaqInputField';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const GeneralForm = () => {
+
+const GeneralForm = ({ generalFormState, handleGeneralForm }: {
+  generalFormState: {
+    price: number,
+    salePrice: number,
+    discount: number,
+    directions: string[],
+    ingredients: string[],
+    benefits: string[],
+    faqs: { question: string; answer: string }[],
+    title: string,
+    description: string,
+    category: { title: string, slug: string },
+    brand: string,
+    sell_on_google_quantity: number,
+    isNew: boolean,
+    bestBefore: string,
+  },
+  handleGeneralForm: (field: string, value: any) => void
+}) => {
+  const { price, salePrice, discount, directions, ingredients, benefits, faqs, title, description, category, brand, sell_on_google_quantity, isNew, bestBefore } = generalFormState;
+  // const categories = [
+  //   { title: "Fitness", slug: "fitness" },
+  //   { title: "Health", slug: "health" },
+  //   { title: "Beauty", slug: "beauty" },
+  // ];
+  const [categories, setCategories] = useState<{ title: string, slug: string }[]>([]);
+  useEffect(() => {
+    if (price > 0 && salePrice > 0) {
+      const calculatedDiscount = ((price - salePrice) / price) * 100;
+      handleGeneralForm('discount', calculatedDiscount);
+    } else {
+      handleGeneralForm('discount', 0);
+    }
+  }, [price, salePrice]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('/api/categories/all-categories');
+        console.log("Fetched Categories:", response.data);
+        //only title, image_link and slug to show 
+        let categoriesToShow = response.data.map((category: any) => {
+          return { title: category.title,slug: category.slug };
+        });
+        setCategories(categoriesToShow);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        toast.error("Failed to fetch categories");
+      } finally {
+        
+      }
+    };
+
+    fetchCategories();
+  }, []);
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCategory = categories.find(cat => cat.slug === e.target.value);
+    handleGeneralForm('category', selectedCategory);
+  };
+
   return (
     <Card>
       <CommonCardHeader title="General" />
-      <CardBody>
+      <CardBody className='mt-0 pt-0'>
         <div className="digital-add needs-validation">
           <FormGroup>
             <Label className="col-form-label pt-0">
               <span>*</span> Title
             </Label>
-            <Input id="validationCustom01" type="text" required />
+            <Input
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => handleGeneralForm('title', e.target.value)}
+              required
+            />
           </FormGroup>
           <FormGroup>
             <Label className="col-form-label pt-0">
-              <span>*</span> SKU
+              <span>*</span> Description
             </Label>
-            <Input id="validationCustom02" type="text" required />
+            <textarea
+              id="description"
+              rows={4}
+              cols={12}
+              value={description}
+              onChange={(e) => handleGeneralForm('description', e.target.value)}
+              required
+            ></textarea>
           </FormGroup>
           <FormGroup>
-            <Label className="col-form-label">
-              <span>*</span> Categories
+            <Label className="col-form-label pt-0">
+              <span>*</span> Category
             </Label>
-            <select className="form-select" required>
+            <select
+              id="category"
+              className="form-select"
+              value={category?.slug || ""}
+              onChange={handleCategoryChange}
+              required
+            >
               <option value="">--Select--</option>
-              <option value="1">eBooks</option>
-              <option value="2">Graphic Design</option>
-              <option value="3">3D Impact</option>
-              <option value="4">Application</option>
-              <option value="5">Websites</option>
+              {categories.map(cat => (
+                <option key={cat.slug} value={cat.slug}>{cat.title}</option>
+              ))}
             </select>
           </FormGroup>
           <FormGroup>
-            <Label className="col-form-label">Sort Summary</Label>
-            <textarea rows={4} cols={12}></textarea>
+            <Label className="col-form-label pt-0">
+              <span>*</span> Brand
+            </Label>
+            <Input
+              id="brand"
+              type="text"
+              value={brand}
+              onChange={(e) => handleGeneralForm('brand', e.target.value)}
+              required
+            />
           </FormGroup>
           <FormGroup>
-            <Label className="col-form-label">
+            <Label className="col-form-label pt-0">
               <span>*</span> Product Price
             </Label>
-            <Input id="validationCustom02" type="text" required />
+            <Input
+              id="price"
+              type="number"
+              value={price}
+              onChange={(e) => handleGeneralForm('price', parseFloat(e.target.value))}
+              required
+            />
           </FormGroup>
           <FormGroup>
-            <Label className="col-form-label">
-              <span>*</span> Status
+            <Label className="col-form-label pt-0">
+              <span>*</span> Sale Price
             </Label>
+            <Input
+              id="salePrice"
+              type="number"
+              value={salePrice}
+              onChange={(e) => {
+                if (Number(e.target.value) < price) handleGeneralForm('salePrice', parseFloat(e.target.value));
+              }}
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label className="col-form-label pt-0">Discount</Label>
+            <Input id="discount" type="number" value={discount.toFixed(2)} disabled />
+          </FormGroup>
+          <FormGroup>
+            <Label className="col-form-label pt-0">
+              <span>*</span> Sell on Google Quantity
+            </Label>
+            <Input
+              id="sell_on_google_quantity"
+              type="number"
+              value={sell_on_google_quantity}
+              onChange={(e) => handleGeneralForm('sell_on_google_quantity', parseFloat(e.target.value))}
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label className="col-form-label pt-0">Is New</Label>
             <div className="m-checkbox-inline mb-0 custom-radio-ml d-flex radio-animated">
               <Label className="d-block">
-                <Input className="radio_animated" id="edo-ani" type="radio" name="rdo-ani" />
-                Enable
+                <Input
+                  className="radio_animated"
+                  id="isNew-yes"
+                  type="radio"
+                  name="isNew"
+                  value="true"
+                  checked={isNew === true}
+                  onChange={() => handleGeneralForm('isNew', true)}
+                />
+                Yes
               </Label>
               <Label className="d-block">
-                <Input className="radio_animated" id="edo-ani1" type="radio" name="rdo-ani" />
-                Disable
+                <Input
+                  className="radio_animated"
+                  id="isNew-no"
+                  type="radio"
+                  name="isNew"
+                  value="false"
+                  checked={isNew === false}
+                  onChange={() => handleGeneralForm('isNew', false)}
+                />
+                No
               </Label>
             </div>
           </FormGroup>
-          <Label className="col-form-label pt-0"> Product Upload</Label>
-          <MyUploader />
+          <FormGroup>
+            <Label className="col-form-label pt-0">Best Before</Label>
+            <Input
+              id="bestBefore"
+              type="date"
+              value={bestBefore}
+              onChange={(e) => handleGeneralForm('bestBefore', e.target.value)}
+            />
+          </FormGroup>
+          <MultiInputField label="Directions" items={directions} handleArrayChange={handleGeneralForm} fieldName='directions' />
+          <MultiInputField label="Ingredients" items={ingredients} handleArrayChange={handleGeneralForm} fieldName='ingredients' />
+          <MultiInputField label="Benefits" items={benefits} handleArrayChange={handleGeneralForm} fieldName='benefits' />
+          <FaqInputField label="FAQs" faqs={faqs} handleChange={handleGeneralForm} />
         </div>
       </CardBody>
     </Card>
