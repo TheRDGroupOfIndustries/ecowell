@@ -13,8 +13,12 @@ import { CurrencyContextProvider } from "../helpers/Currency/CurrencyContext";
 import Helmet from "react-helmet";
 import { ApolloProvider } from "@apollo/client";
 import { useApollo } from "../helpers/apollo";
+import { SessionProvider } from "next-auth/react";
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   const [isLoading, setIsLoading] = useState(true);
   const [url, setUrl] = useState();
   const apolloClient = useApollo(pageProps);
@@ -33,46 +37,48 @@ export default function MyApp({ Component, pageProps }) {
   }, []);
   return (
     <>
-      <ApolloProvider client={apolloClient}>
-        {isLoading ? (
-          <div className="loader-wrapper">
-            {url === "Christmas" ? (
-              <div id="preloader"></div>
-            ) : (
-              <div className="loader"></div>
-            )}
-          </div>
-        ) : (
-          <>
-            <Helmet>
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1"
-              />
-              {/* <Head><link rel="icon" type="image/x-icon" href={favicon} /></Head> */}
-              <title>EcoWel - Get yourself some protiens</title>
-            </Helmet>
-            <div>
-              <SettingProvider>
-                <CompareContextProvider>
-                  <CurrencyContextProvider>
-                    <CartContextProvider>
-                      <WishlistContextProvider>
-                        <FilterProvider>
-                          <Component {...pageProps} />
-                        </FilterProvider>
-                      </WishlistContextProvider>
-                    </CartContextProvider>
-                  </CurrencyContextProvider>
-                  <ThemeSettings />
-                </CompareContextProvider>
-              </SettingProvider>
-              <ToastContainer />
-              <TapTop />
+      <SessionProvider session={session}>
+        <ApolloProvider client={apolloClient}>
+          {isLoading ? (
+            <div className="loader-wrapper">
+              {url === "Christmas" ? (
+                <div id="preloader"></div>
+              ) : (
+                <div className="loader"></div>
+              )}
             </div>
-          </>
-        )}
-      </ApolloProvider>
+          ) : (
+            <>
+              <Helmet>
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1"
+                />
+                {/* <Head><link rel="icon" type="image/x-icon" href={favicon} /></Head> */}
+                <title>EcoWel - Get yourself some protiens</title>
+              </Helmet>
+              <div>
+                <SettingProvider>
+                  <CompareContextProvider>
+                    <CurrencyContextProvider>
+                      <CartContextProvider>
+                        <WishlistContextProvider>
+                          <FilterProvider>
+                            <Component {...pageProps} />
+                          </FilterProvider>
+                        </WishlistContextProvider>
+                      </CartContextProvider>
+                    </CurrencyContextProvider>
+                    <ThemeSettings />
+                  </CompareContextProvider>
+                </SettingProvider>
+                <ToastContainer />
+                <TapTop />
+              </div>
+            </>
+          )}
+        </ApolloProvider>
+      </SessionProvider>
     </>
   );
 }
