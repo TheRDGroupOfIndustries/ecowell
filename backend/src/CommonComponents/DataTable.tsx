@@ -1,12 +1,16 @@
 //@ts-nocheck
 import dynamic from "next/dynamic";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 const DataTable = dynamic(() => import("react-data-table-component"), { ssr: false });
 
-const Datatable = ({ myData, myClass, multiSelectOption, pagination }: any) => {
+const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable, isDelete, handleOnClick, onClickField, loading }: any) => {
+  useEffect(() => {
+    setData(myData);
+    console.log("myData", myData);
+  }, [myData]);
   const [open, setOpen] = useState(false);
   const [checkedValues, setCheckedValues] = useState([]);
   const [data, setData] = useState(myData);
@@ -86,7 +90,32 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination }: any) => {
     columns.push({
       name: <b>{Capitalize(key.toString())}</b>,
       header: <b>{Capitalize(key.toString())}</b>,
-      selector: (row) => row[key],
+      selector: (row) => {
+        if (typeof row[key] === 'object' && row[key] !== null) {
+          return JSON.stringify(row[key]);
+        }
+        return row[key];
+      },
+      cell: (row) => {
+        if (key === "image_link") {
+          return (
+            <div style={{ textAlign: "center" }}>
+              <img src={row[key]} alt="Product Image" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+            </div>
+          );
+        }
+        if (key === onClickField) {
+          return (
+            <div
+              style={{ cursor: "pointer", color: "blue", textDecorationLine: "underline" }}
+              onClick={() => handleOnClick(row)}
+            >
+              {row[key]}
+            </div>
+          );
+        }
+        return row[key];
+      },
       Cell: editable,
       style: {
         textAlign: "center",
@@ -122,70 +151,73 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination }: any) => {
       },
       sortable: false,
     });
-  } else {
+  } else if (isEditable || isDelete) {
     columns.push({
       name: <b>Action</b>,
       id: "delete",
       accessor: (str) => "delete",
       cell: (row, index) => (
         <div>
-          <span onClick={() => handleDelete(index)}>
-            <i
-              className="fa fa-trash"
-              style={{
-                width: 35,
-                fontSize: 20,
-                padding: 11,
-                color: "#e4566e",
-                cursor: "pointer",
-              }}
-            ></i>
-          </span>
-
-          <span>
-            <i
-              onClick={onOpenModal}
-              className="fa fa-pencil"
-              style={{
-                width: 35,
-                fontSize: 20,
-                padding: 11,
-                color: "rgb(40, 167, 69)",
-                cursor: "pointer",
-              }}
-            ></i>
-            <Modal isOpen={open} toggle={onCloseModal} style={{ overlay: { opacity: 0.1 } }}>
-              <ModalHeader toggle={onCloseModal}>
-                <h5 className="modal-title f-w-600" id="exampleModalLabel2">
-                  Edit Product
-                </h5>
-              </ModalHeader>
-              <ModalBody>
-                <Form>
-                  <FormGroup>
-                    <Label htmlFor="recipient-name" className="col-form-label">
-                      Category Name :
-                    </Label>
-                    <Input type="text" />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label htmlFor="message-text" className="col-form-label">
-                      Category Image :
-                    </Label>
-                    <Input id="validationCustom02" type="file" />
-                  </FormGroup>
-                </Form>
-              </ModalBody>
-              <ModalFooter>
-                <Button type="button" color="primary" onClick={() => onCloseModal("VaryingMdo")}>
-                  Update
-                </Button>
-                <Button type="button" color="secondary" onClick={() => onCloseModal("VaryingMdo")}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </span>
+          {isDelete && (
+            <span onClick={() => handleDelete(index)}>
+              <i
+                className="fa fa-trash"
+                style={{
+                  width: 35,
+                  fontSize: 20,
+                  padding: 11,
+                  color: "#e4566e",
+                  cursor: "pointer",
+                }}
+              ></i>
+            </span>
+          )}
+          {isEditable && (
+            <span>
+              <i
+                onClick={onOpenModal}
+                className="fa fa-pencil"
+                style={{
+                  width: 35,
+                  fontSize: 20,
+                  padding: 11,
+                  color: "rgb(40, 167, 69)",
+                  cursor: "pointer",
+                }}
+              ></i>
+              <Modal isOpen={open} toggle={onCloseModal} style={{ overlay: { opacity: 0.1 } }}>
+                <ModalHeader toggle={onCloseModal}>
+                  <h5 className="modal-title f-w-600" id="exampleModalLabel2">
+                    Edit Product
+                  </h5>
+                </ModalHeader>
+                <ModalBody>
+                  <Form>
+                    <FormGroup>
+                      <Label htmlFor="recipient-name" className="col-form-label">
+                        Category Name :
+                      </Label>
+                      <Input type="text" />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label htmlFor="message-text" className="col-form-label">
+                        Category Image :
+                      </Label>
+                      <Input id="validationCustom02" type="file" />
+                    </FormGroup>
+                  </Form>
+                </ModalBody>
+                <ModalFooter>
+                  <Button type="button" color="primary" onClick={() => onCloseModal("VaryingMdo")}>
+                    Update
+                  </Button>
+                  <Button type="button" color="secondary" onClick={() => onCloseModal("VaryingMdo")}>
+                    Close
+                  </Button>
+                </ModalFooter>
+              </Modal>
+            </span>
+          )}
         </div>
       ),
       style: {
@@ -194,10 +226,15 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination }: any) => {
       sortable: false,
     });
   }
+
+  useEffect(() => {
+    console.log("loading: ", loading);
+  }, [loading]);
   return (
     <div>
       <Fragment>
-        <DataTable data={data} columns={columns} className={myClass} pagination={pagination} striped={true} center={true} />
+        {loading ? <div>Loading...</div> :
+          <DataTable data={data} columns={columns} className={myClass} pagination={pagination} striped={true} center={true} />}
 
         <ToastContainer />
       </Fragment>

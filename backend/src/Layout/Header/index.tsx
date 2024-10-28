@@ -38,7 +38,7 @@ const Header = () => {
           <div className="main-header-left d-lg-none col-auto">
             <div className="logo-wrapper">
               <a href={Href}>
-                <img  className="blur-up lazyloaded" src={`${ImagePath}/dashboard/multikart-logo-black.png`} alt="" />
+                <img  className="blur-up lazyloaded" src={`${ImagePath}/dashboard/multikart-logo-black.png`} width={120} alt="" />
               </a>
             </div>
           </div>

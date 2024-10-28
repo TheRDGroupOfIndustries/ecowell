@@ -1,77 +1,146 @@
-import { Href, ImagePath } from "@/Constants";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import ReactStars from "react-rating-stars-component";
-import { Button, Col, Modal, ModalHeader } from "reactstrap";
-import ProductQuantity from "./ProductQuantity";
-import ProductTimer from "./ProductTimer";
-const ProductInformation = () => {
-  const sizes = ["s", "m", "l", "xl"];
-  const [open, setOpen] = useState(false);
+import { Col, Nav, NavItem, NavLink, TabContent, TabPane, Card, CardBody, Collapse } from "reactstrap";
+import classnames from 'classnames';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+
+const ProductInformation = ({ product, selectedFlavor, setSelectedFlavor }: any) => {
+  const flavors = product.variants.map((variant: any) => variant.flavor);
   const [rating, setRating] = useState<number>(1);
-  const [active, setActive] = useState(0);
+  const [activeTab, setActiveTab] = useState('1');
+  const [faqOpen, setFaqOpen] = useState<number | null>(null);
 
-  const onOpenModal = () => {
-    setOpen(true);
+  const toggleTab = (tab: string) => {
+    if (activeTab !== tab) setActiveTab(tab);
   };
 
-  const onCloseModal = () => {
-    setOpen(false);
+  const toggleFaq = (index: number) => {
+    setFaqOpen(faqOpen === index ? null : index);
   };
-  const onStarClick = (nextValue: SetStateAction<number>) => {
+
+  const onStarClick = (nextValue: number) => {
     setRating(nextValue);
   };
 
   return (
     <Col xl="8">
       <div className="product-page-details product-right mb-0">
-        <h2>WOMEN PINK SHIRT</h2>
+        <h2>{product.title}</h2>
         <div style={{ fontSize: 27, height: 31 }}>
-          <ReactStars count={5} onChange={onStarClick} size={40} activeColor="#ffd700" value={0} />
+          <ReactStars count={5} onChange={onStarClick} size={40} activeColor="#ffd700" value={rating} />
         </div>
         <hr />
-        <h6 className="product-title">product details</h6>
-        <p>Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem,</p>
+        <h5 className="product-title">Product Details</h5>
+        <p>{product.description}</p>
+        <h5 className="product-title">Product Category</h5>
+        <p>{product.category.title}</p>
         <div className="product-price digits mt-2">
           <h3>
-            $26.00 <del>$350.00</del>
+            ₹{product.price} <del>{product.salePrice ? `₹${product.salePrice}` : ""}</del>
           </h3>
         </div>
-        <ul className="color-variant">
-          <li className="bg-light0"></li>
-          <li className="bg-light1"></li>
-          <li className="bg-light2"></li>
-        </ul>
-        <hr />
-        <h6 className="product-title size-text">
-          select size
-          <span className="pull-right">
-            <a href={Href} data-toggle="modal" data-target="#sizemodal" onClick={onOpenModal}>
-              size chart
-            </a>
-          </span>
-        </h6>
-        <Modal className="size-modal" isOpen={open} toggle={onCloseModal}>
-          <ModalHeader toggle={onCloseModal}>
-            <img src={`${ImagePath}/size-chart.jpg`} alt="" className="img-fluid blur-up lazyloaded" />
-          </ModalHeader>
-        </Modal>
-        <div className="size-box">
+
+        <h5 className="product-title size-text">Select Flavor</h5>
+        <div className="">
           <ul>
-            {sizes.map((item, i) => (
-              <li key={i} onClick={() => setActive(i)} className={`${active == i ? "active" : ""}`}>
-                <a>{item}</a>
+            {flavors.map((flavor: string, index: number) => (
+              <li
+                key={index}
+                onClick={() => setSelectedFlavor(product.variants[index])}
+                className={`${selectedFlavor && selectedFlavor.flavor === flavor ? "activeFlavourInstance" : ""} flavourInstance`}
+              >
+                <a>{flavor}</a>
               </li>
             ))}
           </ul>
         </div>
-        <ProductQuantity />
-        <hr />
-        <ProductTimer />
-        <div className="m-t-15">
-          <Button color="primary" className="m-r-10">
-            Add To Cart
-          </Button>
-          <Button color="secondary">Buy Now</Button>
+
+        {selectedFlavor && (
+          <>
+            <h5 className="product-title">Flavor Details</h5>
+            <p><strong>Stock:</strong> {selectedFlavor.stock}</p>
+            <p><strong>Form:</strong> {selectedFlavor.form}</p>
+            <p><strong>Net Quantity:</strong> {selectedFlavor.netQuantity}</p>
+            <p><strong>Serving Size:</strong> {selectedFlavor.servingSize}</p>
+          </>
+        )}
+
+        <Nav tabs>
+          {['Benefits', 'Ingredients', 'Nutrition Facts', 'Additional Info', 'Allergens'].map((tabLabel, index) => (
+            <NavItem key={index}>
+              <NavLink
+                className={classnames({ active: activeTab === `${index + 1}` })}
+                onClick={() => { toggleTab(`${index + 1}`); }}
+                style={{ cursor: 'pointer', padding: '10px 20px', }}
+              >
+                {tabLabel}
+              </NavLink>
+            </NavItem>
+          ))}
+        </Nav>
+
+        <TabContent activeTab={activeTab}>
+          <TabPane tabId="1">
+            <Card>
+              <CardBody>
+                <ul className={"detailsList"}>{product.benefits.map((benefit: string, index: number) => <li key={index}>{benefit}</li>)}</ul>
+              </CardBody>
+            </Card>
+          </TabPane>
+          <TabPane tabId="2">
+            <Card>
+              <CardBody>
+                <ul className={"detailsList"}>{product.ingredients.map((ingredient: string, index: number) => <li key={index}>{ingredient}</li>)}</ul>
+              </CardBody>
+            </Card>
+          </TabPane>
+          <TabPane tabId="3">
+            <Card>
+              <CardBody>
+                <ul className={"detailsList"}>{selectedFlavor ? selectedFlavor.nutritionFacts.map((fact: string, index: number) => <li key={index}>{fact}</li>) : "No Nutrition Facts available"}</ul>
+              </CardBody>
+            </Card>
+          </TabPane>
+          <TabPane tabId="4">
+            <Card>
+              <CardBody>
+                <p><strong>Best Before:</strong> {new Date(product.bestBefore).toLocaleDateString()}</p>
+                <p><strong>Directions:</strong> {product.directions.join(", ")}</p>
+                <p><strong>Manufactured By:</strong> {product.additionalInfo.manufacturedBy}</p>
+                <p><strong>Country of Origin:</strong> {product.additionalInfo.countryOfOrigin}</p>
+                <p><strong>Phone:</strong> {product.additionalInfo.phone}</p>
+                <p><strong>Email:</strong> {product.additionalInfo.email}</p>
+              </CardBody>
+            </Card>
+          </TabPane>
+          <TabPane tabId="5">
+            <Card>
+              <CardBody>
+                <ul className={"detailsList"}>{selectedFlavor ? selectedFlavor.allergens.map((allergen: string, index: number) => <li key={index}>{allergen}</li>) : "No Allergens available"}</ul>
+              </CardBody>
+            </Card>
+          </TabPane>
+        </TabContent>
+
+        <h5 className="product-title">FAQs</h5>
+        <div className="d-flex mt-4 flex-column gap-2">
+        {product.faqs.map((faq: any, index: number) => (
+          <div key={index} style={{
+            backgroundColor: '#f9f9f9',
+            padding: '10px',
+            borderRadius: '5px',
+          }}>
+            <div className="d-flex flex-row justify-content-between align-items-center">
+              <h6 onClick={() => toggleFaq(index)} style={{ cursor: "pointer", display: 'flex', alignItems: 'center', width:'95%', fontSize:'16px', color:"#000" }}>
+                {faq.question}
+              </h6>
+                {faqOpen === index ? <FaChevronUp style={{ marginLeft: '8px' }} /> : <FaChevronDown style={{ marginLeft: '8px' }} />}
+              </div>
+            <Collapse isOpen={faqOpen === index}>
+              <p style={{fontSize:"14px"}}>{faq.answer}</p>
+            </Collapse>
+          </div>
+        ))}
         </div>
       </div>
     </Col>
