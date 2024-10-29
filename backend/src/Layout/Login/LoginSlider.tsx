@@ -20,7 +20,7 @@ const LoginSlider = () => {
           {[...Array(3)].map((_, i) => (
             <div key={i}>
               <div>
-                <h3>Welcome to Multikart</h3>
+                <h3>Ecowell - Admin</h3>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.</p>
               </div>
             </div>

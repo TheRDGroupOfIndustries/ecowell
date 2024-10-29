@@ -1,5 +1,9 @@
+"use client";
+
 import { Href, ImagePath } from "@/Constants";
 import Cookies from "js-cookie";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
@@ -10,11 +14,21 @@ const UserMenu = () => {
     Cookies.remove("token");
     router.push("/auth/login");
   };
+  const { data: session } = useSession();
+  // console.log(session);
+
   return (
     <Fragment>
       <li className="onhover-dropdown">
         <div className="media align-items-center">
-          <img className="align-self-center pull-right img-50 rounded-circle blur-up lazyloaded" src={`${ImagePath}/dashboard/man.png`} alt="header-user" />
+          <Image
+            src={session?.user?.image || `${ImagePath}/admin.png`}
+            alt="header-user"
+            width={200}
+            height={200}
+            className="align-self-center pull-right img-50 rounded-circle blur-up lazyloaded"
+            style={{ width: "18px", height: "50px" }}
+          />
           <div className="dotted-animation">
             <span className="animate-circle"></span>
             <span className="main-circle"></span>

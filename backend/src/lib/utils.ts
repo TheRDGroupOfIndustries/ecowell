@@ -1,5 +1,3 @@
-
-
 export const generateRandomSku = (length: number = 8): string => {
     const characters =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

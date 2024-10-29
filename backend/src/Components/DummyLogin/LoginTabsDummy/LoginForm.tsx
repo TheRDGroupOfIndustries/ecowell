@@ -11,7 +11,7 @@ const LoginForm = () => {
   const router = useRouter();
 
   return (
-    <Form className="form-horizontal auth-form">
+    <Form className="form-horizontal auth-for">
       <FormGroup>
         <Input required type="email" placeholder="Username" id="exampleInputEmail1" />
       </FormGroup>
@@ -24,8 +24,8 @@ const LoginForm = () => {
       <div className="form-terms">
         <div className="custom-control custom-checkbox me-sm-2">
           <Label className="d-block">
-            <Input className="checkbox_animated" id="chk-ani2" type="checkbox" />
-            Reminder Me
+            {/* <Input className="checkbox_animated" id="chk-ani2" type="checkbox" />
+            Reminder Me */}
             <span className="pull-right">
               <Button color="transparent" className="forgot-pass p-0">
                 lost your password

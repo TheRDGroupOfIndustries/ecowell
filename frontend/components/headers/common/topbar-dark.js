@@ -1,14 +1,12 @@
 import React from "react";
-import { Container, Row, Col } from "reactstrap";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { Container, Row, Col } from "reactstrap";
 
 const TopBarDark = ({ topClass, fluid }) => {
-  const router = useRouter();
-  const Logout = () => {
-    localStorage.setItem("user", false);
-    router.push("/page/account/login-auth");
-  };
+  const { data: session, status } = useSession();
+  // console.log(session, status);
+
   return (
     <div className={topClass}>
       <Container fluid={fluid}>
@@ -28,31 +26,27 @@ const TopBarDark = ({ topClass, fluid }) => {
             <ul className="header-dropdown">
               <li className="mobile-wishlist">
                 <Link href="/page/account/wishlist">
-                  {/* <a> */}
                   <i className="fa fa-heart" aria-hidden="true"></i> wishlist
-                  {/* </a> */}
                 </Link>
               </li>
               <li className="onhover-dropdown mobile-account">
-                <i className="fa fa-user" aria-hidden="true"></i> My Account
+                <i className="fa fa-user" aria-hidden="true"></i>{" "}
+                {status === "authenticated" ? "My Account" : "Login now"}
                 <ul className="onhover-show-div">
-                  <li>
-                    <Link href={`/page/account/login`}>
-                      {/* <a> */}
-                      Login
-                      {/* </a> */}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href={`/page/account/register`}>
-                      {/* <a> */}
-                      Register
-                      {/* </a> */}
-                    </Link>
-                  </li>
-                  <li onClick={() => Logout()}>
-                    <a>Logout</a>
-                  </li>
+                  {status === "authenticated" ? (
+                    <li onClick={() => signOut()}>
+                      <a>Logout</a>
+                    </li>
+                  ) : (
+                    <>
+                      <li>
+                        <Link href={`/page/account/login`}>Login</Link>
+                      </li>
+                      <li>
+                        <Link href={`/page/account/register`}>Register</Link>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </li>
             </ul>
