@@ -269,7 +269,7 @@ const Register = () => {
                           <Input
                             type="text"
                             placeholder="Enter OTP"
-                            disabled={disableBtn || submitting || success}
+                            // disabled={disableBtn || submitting || success}
                             value={otp}
                             onChange={(e) =>
                               setOtp(
