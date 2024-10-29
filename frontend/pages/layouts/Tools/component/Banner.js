@@ -42,8 +42,8 @@ const Banner = () => {
                   <Col>
                     <div className="slider-contain">
                       <div>
-                        <h4>Welcom to tools</h4>
-                        <h1>Auto parts</h1>
+                        
+                        {/* <h1>Auto parts</h1> */}
                         <a
                           href="!#"
                           className="btn btn-solid"
