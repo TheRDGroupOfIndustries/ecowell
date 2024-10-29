@@ -25,11 +25,50 @@ const CategoriesDigital = () => {
   const [errors, setErrors] = useState<{ title?: boolean; image_link?: boolean }>({});
   const [isUploading, setIsUploading] = useState(false);
   const [creatingCategory, setCreatingCategory] = useState(false);
+  const [isEditingModal, setIsEditingModal] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(false);
   const router = useRouter();
+
   const onOpenModal = () => {
     setOpen(true);
   };
 
+  const handleUpdateCategory = async () => {
+    const newErrors: { title?: boolean; image_link?: boolean } = {};
+    if (!newCategory.title) newErrors.title = true;
+    if (!newCategory.image_link) newErrors.image_link = true;
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    try {
+      setEditingCategory(true);
+      const response = await axios.put(`/api/categories/${newCategory.slug}`, newCategory);
+      toast.success(response.data.message);
+      const updatedCategories = categories.map((category) => {
+        if (category.slug === newCategory.slug) {
+          return newCategory;
+        } else {
+          return category;
+        }
+      });
+      setCategories(updatedCategories);
+      onCloseModal();
+    } catch (error) {
+      console.error("Error updating category:", error);
+      toast.error("Failed to update category");
+    } finally {
+      setEditingCategory(false);
+    }
+  };
+  const handleOpenEditModal = (category: Category) => {
+    setNewCategory(category);
+    setIsEditingModal(true);
+    setImagePreviews([category.image_link]);
+    onOpenModal();
+  };
   const onCloseModal = () => {
     setOpen(false);
     setNewCategory({ title: "", image_link: "", slug: "" });
@@ -115,6 +154,24 @@ const CategoriesDigital = () => {
       toast.error("Failed to create category");
     } finally {
       setCreatingCategory(false);
+    }
+  };
+
+  const onDelete = async (row: any): Promise<boolean> => {
+    try {
+      const response = await axios.delete(`/api/categories/${row.slug}`);
+      if (response.status === 200) {
+        setCategories(categories.filter(category => category.slug !== row.slug));
+        toast.success("Category deleted successfully");
+        return true;
+      } else {
+        toast.error("Failed to delete category");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      toast.error("Failed to delete category");
+      return false;
     }
   };
 
@@ -218,11 +275,17 @@ const CategoriesDigital = () => {
                       </Form>
                     </ModalBody>
                     <ModalFooter>
-                      <Button type="button" color="primary" onClick={handleAddCategory}
+                      { isEditingModal ?
+                      <Button type="button" color="primary" onClick={handleUpdateCategory}
+                        disabled={editingCategory}
+                      > 
+                        {editingCategory ? <Loader size={20} /> : "Update"}
+                      </Button> :
+                        <Button type="button" color="primary" onClick={handleAddCategory}
                         disabled={creatingCategory}
                       >
                         {creatingCategory ? <Loader size={20} /> : "Save"}
-                      </Button>
+                      </Button>}
                       <Button type="button" color="secondary" onClick={onCloseModal}>
                         Close
                       </Button>
@@ -241,12 +304,15 @@ const CategoriesDigital = () => {
                       pagination={false}
                       class="-striped -highlight"
                       isDelete={true}
+                      isEditable={true}
                       onClickField={"title"}
                       loading={loading}
-                      handleOnClick={(row:any) => {
+                      handleOpenEditModal={handleOpenEditModal}
+                      handleOnClick={(row: any) => {
                         console.log("Clicked Category:", row.title);
                         router.push(`/en/products/digital/product-detail/${row.slug}`);
                       }}
+                      onDelete={onDelete}
                     />
                   )}
                 </div>

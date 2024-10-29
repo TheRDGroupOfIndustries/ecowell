@@ -6,12 +6,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 const DataTable = dynamic(() => import("react-data-table-component"), { ssr: false });
 
-const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable, isDelete, handleOnClick, onClickField, loading }: any) => {
+const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable, isDelete, handleOnClick, onClickField, loading, onDelete,handleOpenEditModal }: any) => {
   useEffect(() => {
     setData(myData);
     console.log("myData", myData);
   }, [myData]);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [checkedValues, setCheckedValues] = useState([]);
   const [data, setData] = useState(myData);
   const selectRow = (e, i) => {
@@ -48,21 +48,28 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
     );
   };
 
-  const handleDelete = (index: number) => {
+  const handleDelete = async(index: number, row:any) => {
     if (window.confirm("Are you sure you wish to delete this item?")) {
       const del = data;
       del.splice(index, 1);
-      setData([...del]);
+      if(onDelete){
+        const hasDeleted = await onDelete(row);
+        console.log("hasDeleted: ", hasDeleted);
+        if (hasDeleted)
+        setData([...del]);
+      } else{
+         toast.error("On Delete function is not defined!");
+      }
     }
-    toast.success("Successfully Deleted !");
+    // toast.success("Successfully Deleted !");
   };
-  const onOpenModal = () => {
-    setOpen(true);
-  };
+  // const onOpenModal = () => {
+  //   setOpen(true);
+  // };
 
-  const onCloseModal = () => {
-    setOpen(false);
-  };
+  // const onCloseModal = () => {
+  //   setOpen(false);
+  // };
 
   const Capitalize = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -159,7 +166,7 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
       cell: (row, index) => (
         <div>
           {isDelete && (
-            <span onClick={() => handleDelete(index)}>
+            <span onClick={() => handleDelete(index, row)}>
               <i
                 className="fa fa-trash"
                 style={{
@@ -175,7 +182,15 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
           {isEditable && (
             <span>
               <i
-                onClick={onOpenModal}
+                onClick={()=>{
+                  if(handleOpenEditModal){
+                    if(window.confirm("Are you sure you wish to edit this item? You will be redirect to its edit page."))
+                    handleOpenEditModal(row)
+                  }else{
+                    toast.error("Edit function is not defined!");
+                  }
+                }
+                }
                 className="fa fa-pencil"
                 style={{
                   width: 35,
@@ -185,7 +200,7 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
                   cursor: "pointer",
                 }}
               ></i>
-              <Modal isOpen={open} toggle={onCloseModal} style={{ overlay: { opacity: 0.1 } }}>
+              {/* <Modal isOpen={open} toggle={onCloseModal} style={{ overlay: { opacity: 0.1 } }}>
                 <ModalHeader toggle={onCloseModal}>
                   <h5 className="modal-title f-w-600" id="exampleModalLabel2">
                     Edit Product
@@ -215,7 +230,7 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
                     Close
                   </Button>
                 </ModalFooter>
-              </Modal>
+              </Modal> */}
             </span>
           )}
         </div>

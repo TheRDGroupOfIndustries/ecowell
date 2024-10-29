@@ -62,6 +62,9 @@ const ProductInformation = ({ product, selectedFlavor, setSelectedFlavor }: any)
             <p><strong>Form:</strong> {selectedFlavor.form}</p>
             <p><strong>Net Quantity:</strong> {selectedFlavor.netQuantity}</p>
             <p><strong>Serving Size:</strong> {selectedFlavor.servingSize}</p>
+            <p><strong>Best Before: </strong>
+              {new Date(product.bestBefore).toLocaleDateString()}
+            </p>
           </>
         )}
 

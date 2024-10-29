@@ -40,6 +40,18 @@ const ProductListDigital = () => {
     fetchProducts();
   }, []);
 
+  const onDelete = async (row: any) => {
+    try {
+      const response = await axios.delete(`/api/products/delete/${row.sku}`);
+      console.log("Delete Response:", response.data);
+      toast.success("Product deleted successfully!");
+      return true;
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      toast.error("Failed to delete product");
+      return false;
+    }
+  }
   return (
     <Fragment>
       <CommonBreadcrumb title="Product List" parent="Digital" />
@@ -58,11 +70,17 @@ const ProductListDigital = () => {
                     pagination={false}
                     class="-striped -highlight"
                     isDelete={true}
+                    isEditable={true}
+                    handleOpenEditModal={(row:any) => {
+                      console.log("Edit Row:", row);
+                      router.push(`/en/products/digital/digital-edit-product/${row.sku}`);
+                    }}
+                    onDelete={onDelete}
                     onClickField={"sku"}
                     loading={loading}
-                    handleOnClick={(sku: string, category_slug:string) => {
-                      console.log("Clicked SKU:", sku);
-                      router.push(`/en/products/digital/product-detail/${category_slug}/${sku}`);
+                    handleOnClick={(row:any) => {
+                      console.log("Clicked SKU:", row.sku);
+                      router.push(`/en/products/digital/product-detail/${row.category_slug}/${row.sku}`);
                     }}
                   />
                 </div>
