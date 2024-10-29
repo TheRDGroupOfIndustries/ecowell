@@ -18,10 +18,10 @@ const Login = () => {
   const [emailOrPhone, setEmailOrPhone] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
+  const [showOtpInput, setShowOtpInput] = useState(false);
   const [disableBtn, setDisableBtn] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [showOtpInput, setShowOtpInput] = useState(false);
 
   const handleEmailOrPhone = (e) => {
     let inputValue = e.target.value;

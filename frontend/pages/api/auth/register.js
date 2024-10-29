@@ -6,13 +6,6 @@ import {
 import { connectToMongoDB } from "../../../utils/db";
 import User from "../../../models/User";
 import bcrypt from "bcryptjs";
-import twilio from "twilio";
-
-const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
-const twilioServiceSid = process.env.TWILIO_SERVICE_SID;
-const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
-
-const client = twilio(twilioAccountSid, twilioAuthToken);
 
 export default async function handler(req, res) {
   const { query, method, body } = req;

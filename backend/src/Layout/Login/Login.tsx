@@ -1,10 +1,23 @@
+"use client";
+
 import { Fragment } from "react";
 import { Container, Row } from "reactstrap";
 import LoginTabs from "./LoginTabs";
 import LoginSlider from "./LoginSlider";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/Redux/Hooks";
 
 const Login = () => {
-  const arr = [1, 2, 3];
+  const router = useRouter();
+  const { i18LangStatus } = useAppSelector((store) => store.LangReducer);
+
+  const { status } = useSession();
+
+  // console.log(session);
+  if (status === "authenticated") {
+    return router.push(`/${i18LangStatus}/dashboard`);
+  }
 
   return (
     <Fragment>

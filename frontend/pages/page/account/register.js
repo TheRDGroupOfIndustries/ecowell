@@ -141,11 +141,9 @@ const Register = () => {
         setOtpBtn(true);
         setOtpSuccess(true);
         if (isEmail) {
-          toast.success(
-            `OTP has been sent to your ${email}, check your email!`
-          );
+          toast.info(`OTP has been sent to your ${email}, check your email!`);
         } else {
-          toast.success(
+          toast.info(
             `OTP has been sent to your ${emailOrPhone}, check your phone!`
           );
         }
@@ -199,7 +197,6 @@ const Register = () => {
         if (res.status === 200) {
           setSuccess(true);
           router.push("/page/account/login");
-          // router.refresh();
           return "Registered successfully!";
         } else {
           setSubmitting(false);

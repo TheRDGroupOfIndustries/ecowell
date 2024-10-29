@@ -21,6 +21,9 @@ const RegisterForm = () => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [isEmail, setIsEmail] = useState(false);
+  const [emailOrPhone, setEmailOrPhone] = useState("");
+  // console.log(emailOrPhone);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [termsChecked, setTermsChecked] = useState(false);
@@ -34,23 +37,45 @@ const RegisterForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setEmail(inputValue);
+  const handleEmailOrPhone = (e: ChangeEvent<HTMLInputElement>) => {
+    let inputValue = e.target.value;
+    setEmailOrPhone(inputValue);
+    setEmail("");
 
-    if (inputValue.trim() === "") {
-      setDisableBtn(true);
-      return;
-    }
-
-    if (!emailPattern.test(inputValue)) {
-      toast.error("Invalid email");
-      setDisableBtn(true);
-    } else {
+    if (emailPattern.test(inputValue)) {
+      setIsEmail(true);
+      setEmail(inputValue);
       toast.success("Valid email");
       setDisableBtn(false);
+    } else {
+      setIsEmail(false);
+      if (/^\d+$/.test(inputValue) && inputValue.length <= 10) {
+        inputValue = inputValue.replace(/[^\d]/g, "").slice(0, 10);
+        setEmailOrPhone(inputValue);
+        setDisableBtn(false);
+      } else {
+        // toast.error("Invalid input");
+        setDisableBtn(true);
+      }
     }
   };
+  // const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const inputValue = e.target.value;
+  //   setEmail(inputValue);
+
+  //   if (inputValue.trim() === "") {
+  //     setDisableBtn(true);
+  //     return;
+  //   }
+
+  //   if (!emailPattern.test(inputValue)) {
+  //     toast.error("Invalid email");
+  //     setDisableBtn(true);
+  //   } else {
+  //     toast.success("Valid email");
+  //     setDisableBtn(false);
+  //   }
+  // };
 
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -98,8 +123,14 @@ const RegisterForm = () => {
   const handleGetOtp = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (!name || !email || !password) {
-      return toast.error("Please fill all the fields!");
+    if (!name || !emailOrPhone) {
+      if (isEmail) {
+        if (!email || !password) {
+          return toast.error("Please enter your email and password!");
+        }
+      } else {
+        return toast.error("Please enter your phone number!");
+      }
     }
     if (!termsChecked) {
       return toast.error("Terms & Conditions should be checked!");
@@ -111,30 +142,46 @@ const RegisterForm = () => {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          phone_number: emailOrPhone,
+          isEmail,
+        }),
       });
 
       if (res.status === 400) {
-        setSendingOtp(false);
-        toast.error(`${email} is already registered!`);
+        if (isEmail) {
+          toast.error(`${email} is already registered!`);
+        } else {
+          toast.error(`${emailOrPhone} is already registered!`);
+        }
       } else if (res.status === 201) {
         const otpCheck = await res.json();
         setCheckOtpCode(otpCheck);
         setOtpBtn(true);
         setOtpSuccess(true);
-        toast.success(`OTP has been sent to your ${email}, check your email!`);
+        if (isEmail) {
+          toast.info(`OTP has been sent to your ${email}, check your email!`);
+        } else {
+          toast.info(
+            `OTP has been sent to your ${emailOrPhone}, check your phone!`
+          );
+        }
       }
     } catch (error) {
-      setSendingOtp(false);
       console.error("Error sending OTP:", error);
       toast.error("An error occurred while sending OTP.");
+    } finally {
+      setSendingOtp(false);
     }
   };
 
   const handleAdminAuthRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!name || !email || !password) {
+    if (!name || !emailOrPhone || !otp) {
       return toast.error("Please fill all the fields!");
     }
     // if (password !== confirmPassword) {
@@ -152,28 +199,33 @@ const RegisterForm = () => {
             name,
             email,
             password,
+            phone_number: emailOrPhone,
+            isEmail,
             otp,
             checkOtpCode,
           }),
         });
 
         if (res.status === 400) {
-          setSubmitting(false);
-          throw new Error(`${email} is already registered!`);
+          if (isEmail) {
+            throw new Error(`${email} is already registered!`);
+          } else {
+            throw new Error(`${emailOrPhone} is already registered!`);
+          }
         }
 
         if (res.status === 200) {
           setSuccess(true);
-          router.push("/auth/login");
+          router.push("/en/auth/login");
           router.refresh();
           return "Registered successfully!";
         } else {
-          setSubmitting(false);
           throw new Error("Something went wrong, please try again!");
         }
       } catch (error) {
-        setSubmitting(false);
         throw error;
+      } finally {
+        setSubmitting(false);
       }
     };
 
@@ -202,30 +254,33 @@ const RegisterForm = () => {
       </FormGroup>
       <FormGroup>
         <Input
+          type="text"
+          name="email"
+          placeholder="Enter email or phone"
           required
-          type="email"
-          value={email}
-          onChange={handleEmail}
-          placeholder="E-mail"
+          value={emailOrPhone}
+          onChange={handleEmailOrPhone}
           disabled={otpBtn}
         />
       </FormGroup>
       {!otpSuccess && (
         <>
-          <FormGroup>
-            <InputGroup>
-              <Input
-                required
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={handlePassword}
-                placeholder="Password"
-              />
-              <InputGroupText onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <Eye /> : <EyeOff />}
-              </InputGroupText>
-            </InputGroup>
-          </FormGroup>
+          {isEmail && (
+            <FormGroup>
+              <InputGroup>
+                <Input
+                  required
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={handlePassword}
+                  placeholder="Password"
+                />
+                <InputGroupText onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <Eye /> : <EyeOff />}
+                </InputGroupText>
+              </InputGroup>
+            </FormGroup>
+          )}
           <div className="form-terms">
             <Label className="d-block">
               <Input
@@ -260,7 +315,7 @@ const RegisterForm = () => {
                 disabled={disableBtn || submitting || success}
                 value={otp}
                 onChange={(e) =>
-                  setOtp(e.target.value.replace(/[^\d]/g, "").slice(0, 4))
+                  setOtp(e.target.value.replace(/[^\d]/g, "").slice(0, 6))
                 }
                 required
                 className="input-style animate-slide-down"

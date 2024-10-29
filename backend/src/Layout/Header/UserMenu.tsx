@@ -1,8 +1,9 @@
 "use client";
 
-import { Href, ImagePath } from "@/Constants";
-import Cookies from "js-cookie";
-import { useSession } from "next-auth/react";
+import { ImagePath } from "@/Constants";
+import { useAppSelector } from "@/Redux/Hooks";
+// import Cookies from "js-cookie";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,12 +11,19 @@ import { Fragment } from "react";
 
 const UserMenu = () => {
   const router = useRouter();
+  const { i18LangStatus } = useAppSelector((store) => store.LangReducer);
+
   const handleLogOut = () => {
-    Cookies.remove("token");
-    router.push("/auth/login");
+    // Cookies.remove("token");
+    signOut();
+    router.push(`/${i18LangStatus}/auth/login`);
   };
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
   // console.log(session);
+  if (status === "unauthenticated") {
+    return router.push(`/${i18LangStatus}/auth/login`);
+  }
 
   return (
     <Fragment>
@@ -40,25 +48,15 @@ const UserMenu = () => {
               <i data-feather="user"></i>Edit Profile
             </Link>
           </li>
-          <li>
-            <a href={Href}>
-              <i data-feather="mail"></i>Inbox
-            </a>
-          </li>
-          <li>
-            <a href={Href}>
-              <i data-feather="lock"></i>Lock Screen
-            </a>
-          </li>
-          <li>
-            <a href={Href}>
+          {/* <li>
+            <Link href={Href}>
               <i data-feather="settings"></i>Settings
-            </a>
-          </li>
+            </Link>
+          </li> */}
           <li>
-            <a onClick={handleLogOut}>
+            <div onClick={handleLogOut}>
               <i data-feather="log-out"></i>Logout
-            </a>
+            </div>
           </li>
         </ul>
       </li>

@@ -9,6 +9,7 @@ import { connectToMongoDB } from "@/lib/db";
 import Admin from "@/models/Admin";
 import bcrypt from "bcryptjs";
 import { AdminValues } from "@/Types/Layout";
+import { sendOtpToPhone, verifyOtpFromPhone } from "../../core";
 
 interface CustomUser extends AuthUser {
   email: string;
@@ -28,22 +29,75 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "E-mail", type: "text" },
         password: { label: "Password", type: "password" },
+        phone_number: { label: "Phone", type: "text" },
+        otp: { label: "OTP", type: "text" },
       },
       async authorize(credentials) {
         await connectToMongoDB();
         try {
-          const admin = await Admin.findOne({ email: credentials?.email });
-          if (admin && credentials?.password) {
-            const isPasswordCorrect = await bcrypt.compare(
-              credentials.password,
-              admin.password
-            );
-            if (isPasswordCorrect) {
-              return admin;
+          console.log("Credentials received:", credentials);
+
+          if (credentials?.phone_number && credentials?.phone_number !== "") {
+            const user = await Admin.findOne({
+              phone_number: credentials?.phone_number,
+            });
+            if (user) {
+              if (!credentials?.otp) {
+                // sending OTP to the user's phone number
+                const verification = await sendOtpToPhone(
+                  credentials.phone_number
+                );
+                if (verification) {
+                  throw new Error("OTP_SENT");
+                } else {
+                  throw new Error("Failed to send OTP");
+                }
+              } else {
+                // verifying OTP
+                const isOtpValid = await verifyOtpFromPhone(
+                  credentials?.phone_number,
+                  credentials?.otp
+                );
+                if (isOtpValid) {
+                  return user;
+                } else {
+                  throw new Error("Invalid OTP");
+                }
+              }
+            } else {
+              console.error(
+                "User not found with phone number:",
+                credentials?.phone_number
+              );
+              throw new Error("User not found");
+            }
+          } else if (credentials?.email !== "") {
+            const user = await Admin.findOne({ email: credentials?.email });
+            if (user && credentials?.password) {
+              const isPasswordCorrect = await bcrypt.compare(
+                credentials?.password,
+                user.password
+              );
+              if (isPasswordCorrect) {
+                return user;
+              } else {
+                console.error(
+                  "Incorrect password for email:",
+                  credentials?.email
+                );
+                throw new Error("Incorrect password");
+              }
+            } else {
+              console.error(
+                "User not found or password missing for email:",
+                credentials?.email
+              );
+              throw new Error("User not found or password missing");
             }
           }
         } catch (error) {
-          throw new Error(error);
+          console.error("Authorization error:", error.message);
+          throw new Error(error.message);
         }
       },
     }),

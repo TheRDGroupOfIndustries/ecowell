@@ -2,57 +2,90 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToMongoDB } from "@/lib/db";
 import Admin from "@/models/Admin";
 import bcrypt from "bcryptjs";
-import { transporter } from "../../core";
+import { sendOtpToPhone, transporter, verifyOtpFromPhone } from "../../core";
 
 export const POST = async (request: NextRequest) => {
-  const { name, email, password, otp, checkOtpCode } = await request.json();
+  const { name, email, password, phone_number, isEmail, otp, checkOtpCode } =
+    await request.json();
 
-  // console.log(
-  //   name,
-  //   email,
-  //   password,
-  //   otp, checkOtpCode
-  // );
+  console.log(name, email, phone_number, isEmail, password, otp, checkOtpCode);
 
   await connectToMongoDB();
 
-  const existingAdmin = await Admin.findOne({ email });
-  if (existingAdmin) {
-    return new NextResponse("Error : Admin already exists!", { status: 400 });
+  if (isEmail) {
+    const existingAdmin = await Admin.findOne({ email });
+    if (existingAdmin) {
+      return new NextResponse("Admin already exists!", { status: 400 });
+    }
+  } else {
+    const existingAdmin = await Admin.findOne({ phone_number });
+    if (existingAdmin) {
+      return new NextResponse("Admin already exists!", { status: 400 });
+    }
   }
+
   let otpCode = checkOtpCode || "";
 
   if (!otp) {
     console.log("sending otp");
-    
-    otpCode = Math.floor(1000 + Math.random() * 9000);
-    const body = `<h1 style="color: #333; font-family: 'Arial', sans-serif;">Heya ${name}!!</h1>
+
+    if (isEmail) {
+      otpCode = Math.floor(1000 + Math.random() * 9000);
+      const body = `<h1 style="color: #333; font-family: 'Arial', sans-serif;">Heya ${name}!!</h1>
     <span style="color: #ccc; font-size: 18px; font-family: 'Arial', sans-serif;">Here's an OTP for your email verification <b style="color: #2fff00;">${otpCode}</b><br /></span>`;
 
-    await transporter.sendMail({
-      from: process.env.GMAIL_USER,
-      to: email,
-      subject: "EcoWell - Verify Email",
-      text: "Email Verification",
-      html: body,
-    });
+      await transporter.sendMail({
+        from: process.env.GMAIL_USER,
+        to: email,
+        subject: "EcoWell - Verify Email",
+        text: "Email Verification",
+        html: body,
+      });
 
-    return new NextResponse(JSON.stringify(otpCode), {
-      status: 201,
-    //   message: "Otp has been sent to your email for verification.",
-    });
+      return new NextResponse(JSON.stringify(otpCode), {
+        status: 201,
+        //   message: "Otp has been sent to your email for verification.",
+      });
+    } else {
+      try {
+        // send otp to phone number
+        const verification = await sendOtpToPhone(phone_number);
+
+        if (verification) {
+          return new NextResponse(JSON.stringify(otpCode), {
+            status: 201,
+          });
+        }
+      } catch (error) {
+        return new NextResponse("Internal Server Error : " + error, {
+          status: 500,
+        });
+      }
+    }
   }
 
-  console.log(otp, " -> ", checkOtpCode);
+  // console.log(otp, " -> ", checkOtpCode);
 
-  if (otp && otp == checkOtpCode) {
-    const hashPassword = await bcrypt.hash(password, 5); // converting password into hash-code
+  if (otp) {
+    let newAdmin;
+    if (isEmail && otp == checkOtpCode) {
+      const hashPassword = await bcrypt.hash(password, 5); // converting password into hash-code
 
-    const newAdmin = new Admin({
-      name,
-      email,
-      password: hashPassword,
-    });
+      newAdmin = new Admin({
+        name,
+        email,
+        password: hashPassword,
+      });
+    } else {
+      const isOtpValid = await verifyOtpFromPhone(phone_number, otp);
+
+      if (isOtpValid) {
+        newAdmin = new Admin({
+          name,
+          phone_number,
+        });
+      }
+    }
 
     try {
       await newAdmin.save();
@@ -65,4 +98,5 @@ export const POST = async (request: NextRequest) => {
       });
     }
   }
+  return new NextResponse("Internal Server Error!", { status: 500 });
 };
