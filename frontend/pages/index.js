@@ -14,7 +14,7 @@ import Paragraph from "../components/common/Paragraph";
 import ModalComponent from "../components/common/Modal";
 import Helmet from "react-helmet";
 import MasterFooter from "../components/footers/common/MasterFooter";
-
+import ShoesCategoryTwo from './layouts/Shoes/components/Category-two';
 const Fashion = () => {
   const logoName = document.body.classList.contains("dark")
     ? "logo.png"
@@ -33,7 +33,9 @@ const Fashion = () => {
       <ModalComponent />
       <HeaderOne topClass="top-header" />
       <Banner />
-      <CollectionBanner />
+      <div className=" mt-5">
+      <ShoesCategoryTwo title={"Categories"} />
+      </div>
       <Paragraph
         title="title1 section-t-space"
         inner="title-inner1"

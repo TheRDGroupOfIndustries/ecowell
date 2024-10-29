@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Col, Container, Row } from "reactstrap";
 import logo from "../../../../public/assets/images/icon/bigLogo.png";
-import ecoSubtitle1 from "../../../../public/assets/images/icon/ecoSubtitle1.png";
 
-const MasterBanner = ({ img, title, desc, link, classes, btn, btnClass }) => {
-  console.log("logo: ", logo);
+
+const MasterBanner = ({ img, ecoSubtitle, link, classes, btn, btnClass }) => {
+  console.log("logo: ", ecoSubtitle);
   return (
     <div>
       <div className={`home ${img} ${classes ? classes : "text-center"}`}>
@@ -26,14 +26,13 @@ const MasterBanner = ({ img, title, desc, link, classes, btn, btnClass }) => {
                             width: "400px",
                           }}
                         />
-                <img src={ecoSubtitle1.src}
+                <img src={ecoSubtitle?.src}
                           className=" mb-5"
                           alt=""
                           style={{
                             width: "600px",
                           }}
                         />
-                  {/* <h1>{desc}</h1> */} 
                   <Link
                     href={link}
                     className={`btn ${btnClass ? btnClass : "btn-solid"}`}>

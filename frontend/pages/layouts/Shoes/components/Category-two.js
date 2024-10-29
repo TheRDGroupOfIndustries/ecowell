@@ -46,6 +46,13 @@ const MasterCategory = ({ img, title, link }) => {
 const CategoryTwo = () => (
   <Fragment>
     <section className="p-0 ratio2_1">
+    <div className={"title1"}>
+        {/* <h4>{subtitle}</h4> */}
+        <h2 className=" text-center title-inner1">Browse Categories</h2>
+          <div className="line">
+            <span></span>
+          </div>
+      </div>
       <Container fluid={true}>
         <Row className="category-border">
           {Data.map((data, i) => {
