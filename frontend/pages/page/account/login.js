@@ -14,27 +14,54 @@ const Login = () => {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
+  const [isEmail, setIsEmail] = useState(false);
+  const [emailOrPhone, setEmailOrPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
   const [disableBtn, setDisableBtn] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [showOtpInput, setShowOtpInput] = useState(false);
 
-  const handleEmail = (e) => {
-    const inputValue = e.target.value;
-    setEmail(inputValue);
+  const handleEmailOrPhone = (e) => {
+    let inputValue = e.target.value;
+    setEmailOrPhone(inputValue);
+    setEmail("");
 
-    if (inputValue.trim() === "") {
-      setDisableBtn(true);
+    if (emailPattern.test(inputValue)) {
+      setIsEmail(true);
+      setEmail(inputValue);
+      toast.success("Valid email");
+      setDisableBtn(false);
     } else {
-      if (!emailPattern.test(inputValue)) {
-        toast.error("Invalid email");
-        setDisableBtn(true);
-      } else {
-        toast.success("Valid email");
+      setIsEmail(false);
+      if (/^\d+$/.test(inputValue) && inputValue.length <= 10) {
+        inputValue = inputValue.replace(/[^\d]/g, "").slice(0, 10);
+        setEmailOrPhone(inputValue);
         setDisableBtn(false);
+      } else {
+        // toast.error("Invalid input");
+        setDisableBtn(true);
       }
     }
   };
+
+  // const handleEmail = (e) => {
+  //   const inputValue = e.target.value;
+  //   setEmail(inputValue);
+
+  //   if (inputValue.trim() === "") {
+  //     setDisableBtn(true);
+  //   } else {
+  //     if (!emailPattern.test(inputValue)) {
+  //       toast.error("Invalid email");
+  //       setDisableBtn(true);
+  //     } else {
+  //       toast.success("Valid email");
+  //       setDisableBtn(false);
+  //     }
+  //   }
+  // };
 
   const handlePassword = (e) => {
     const inputValue = e.target.value;
@@ -82,8 +109,15 @@ const Login = () => {
   const handleUserAuthLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      return toast.error("Please provide credentials!");
+    if (!emailOrPhone) {
+      if (isEmail) {
+        if (!email || !password) {
+          return toast.error("Please enter your email and password!");
+        }
+      } else {
+        return toast.error("Please enter your phone number!");
+      }
+      // return toast.error("Please provide credentials!");
     }
 
     setSubmitting(true);
@@ -91,11 +125,21 @@ const Login = () => {
       try {
         const res = await signIn("credentials", {
           redirect: false,
-          email,
+          email: isEmail ? email : "",
+          phone_number: !isEmail ? emailOrPhone : "",
+          otp,
           password,
         });
+        // console.log("res:", res);
 
         if (res?.error) {
+          if (res.error === "OTP_SENT") {
+            toast.info("OTP sent to your phone. Please enter the OTP.");
+            setShowOtpInput(true);
+            setSubmitting(false);
+            setDisableBtn(false);
+            return;
+          }
           console.log(res.error);
           setSubmitting(false);
           throw new Error("User doesn't exist or Invalid e-mail or password!");
@@ -121,7 +165,6 @@ const Login = () => {
       pending: "Logging in...",
       success: "Logged in successfully!",
       error: "Something went wrong, please try again!",
-      // error: (error: any) => error.message || 'An error occurred.',
     });
   };
 
@@ -136,32 +179,54 @@ const Login = () => {
                 <Form className="theme-form">
                   <div className="form-group">
                     <Label className="form-label" for="email">
-                      Email
+                      Email or Phone
                     </Label>
                     <Input
-                      type="email"
+                      type="text"
                       name="email"
-                      defaultValue={email}
-                      onChange={handleEmail}
                       className="form-control"
-                      placeholder="Email"
-                      required=""
+                      placeholder="Enter email or phone"
+                      required
+                      value={emailOrPhone}
+                      onChange={handleEmailOrPhone}
                     />
                   </div>
-                  <div className="form-group">
-                    <Label className="form-label" for="review">
-                      Password
-                    </Label>
-                    <Input
-                      type="password"
-                      defaultValue={password}
-                      onChange={handlePassword}
-                      className="form-control"
-                      id="review"
-                      placeholder="Enter your password"
-                      required=""
-                    />
-                  </div>
+                  {isEmail && (
+                    <div className="form-group">
+                      <Label className="form-label" for="review">
+                        Password
+                      </Label>
+                      <Input
+                        type="password"
+                        defaultValue={password}
+                        onChange={handlePassword}
+                        className="form-control"
+                        id="review"
+                        placeholder="Enter your password"
+                        required=""
+                      />
+                    </div>
+                  )}
+                  {showOtpInput && (
+                    <div className="form-group">
+                      <Label className="form-label" for="otp">
+                        Enter OTP
+                      </Label>
+                      <Input
+                        type="text"
+                        name="otp"
+                        className="form-control"
+                        placeholder="Enter OTP"
+                        required
+                        value={otp}
+                        onChange={(e) =>
+                          setOtp(
+                            e.target.value.replace(/[^\d]/g, "").slice(0, 6)
+                          )
+                        }
+                      />
+                    </div>
+                  )}
                   <button
                     type="submit"
                     className="btn btn-solid"

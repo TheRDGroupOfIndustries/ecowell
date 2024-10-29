@@ -4,6 +4,7 @@ import CommonLayout from "../../../components/shop/common-layout";
 import { Input, Container, Row, Form, Label, Col } from "reactstrap";
 import { emailPattern, passwordPattern } from "./login";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const Register = () => {
   const router = useRouter();
@@ -12,7 +13,7 @@ const Register = () => {
   const [last_name, setLast_name] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
   // const [termsChecked, setTermsChecked] = useState(false);
   const [otp, setOtp] = useState("");
   const [checkOtpCode, setCheckOtpCode] = useState("");
@@ -24,21 +25,30 @@ const Register = () => {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleEmail = (e) => {
-    const inputValue = e.target.value;
-    setEmail(inputValue);
+  const [isEmail, setIsEmail] = useState(false);
+  const [emailOrPhone, setEmailOrPhone] = useState("");
+  // console.log(emailOrPhone);
 
-    if (inputValue.trim() === "") {
-      setDisableBtn(true);
-      return;
-    }
+  const handleEmailOrPhone = (e) => {
+    let inputValue = e.target.value;
+    setEmailOrPhone(inputValue);
+    setEmail("");
 
-    if (!emailPattern.test(inputValue)) {
-      toast.error("Invalid email");
-      setDisableBtn(true);
-    } else {
+    if (emailPattern.test(inputValue)) {
+      setIsEmail(true);
+      setEmail(inputValue);
       toast.success("Valid email");
       setDisableBtn(false);
+    } else {
+      setIsEmail(false);
+      if (/^\d+$/.test(inputValue) && inputValue.length <= 10) {
+        inputValue = inputValue.replace(/[^\d]/g, "").slice(0, 10);
+        setEmailOrPhone(inputValue);
+        setDisableBtn(false);
+      } else {
+        // toast.error("Invalid input");
+        setDisableBtn(true);
+      }
     }
   };
 
@@ -88,8 +98,14 @@ const Register = () => {
   const handleGetOtp = async (e) => {
     e.preventDefault();
 
-    if (!first_name || !last_name || !email || !password) {
-      return toast.error("Please fill all the fields!");
+    if (!first_name || !last_name || !emailOrPhone) {
+      if (isEmail) {
+        if (!email || !password) {
+          return toast.error("Please enter your email and password!");
+        }
+      } else {
+        return toast.error("Please enter your phone number!");
+      }
     }
     // if (!termsChecked) {
     //   return toast.error("Terms & Conditions should be checked!");
@@ -101,30 +117,51 @@ const Register = () => {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ first_name, last_name, email, password }),
+        body: JSON.stringify({
+          first_name,
+          last_name,
+          email,
+          password,
+          phone_number: emailOrPhone,
+          isEmail,
+        }),
       });
 
       if (res.status === 400) {
-        setSendingOtp(false);
-        toast.error(`${email} is already registered!`);
+        if (isEmail) {
+          toast.error(`${email} is already registered!`);
+        } else {
+          toast.error(`${emailOrPhone} is already registered!`);
+        }
       } else if (res.status === 201) {
         const otpCheck = await res.json();
-        setCheckOtpCode(otpCheck);
+        // console.log(otpCheck, otpCheck.otpCode);
+
+        setCheckOtpCode(otpCheck.otpCode);
         setOtpBtn(true);
         setOtpSuccess(true);
-        toast.success(`OTP has been sent to your ${email}, check your email!`);
+        if (isEmail) {
+          toast.success(
+            `OTP has been sent to your ${email}, check your email!`
+          );
+        } else {
+          toast.success(
+            `OTP has been sent to your ${emailOrPhone}, check your phone!`
+          );
+        }
       }
     } catch (error) {
-      setSendingOtp(false);
       console.error("Error sending OTP:", error);
       toast.error("An error occurred while sending OTP.");
+    } finally {
+      setSendingOtp(false);
     }
   };
 
   const handleUserAuthRegister = async (e) => {
     e.preventDefault();
 
-    if (!first_name || !last_name || !email || !password) {
+    if (!first_name || !last_name || !emailOrPhone || !otp || !checkOtpCode) {
       return toast.error("Please fill all the fields!");
     }
     // if (password !== confirmPassword) {
@@ -143,6 +180,8 @@ const Register = () => {
             last_name,
             email,
             password,
+            phone_number: emailOrPhone,
+            isEmail,
             otp,
             checkOtpCode,
           }),
@@ -150,13 +189,17 @@ const Register = () => {
 
         if (res.status === 400) {
           setSubmitting(false);
-          throw new Error(`${email} is already registered!`);
+          if (isEmail) {
+            toast.error(`${email} is already registered!`);
+          } else {
+            toast.error(`${emailOrPhone} is already registered!`);
+          }
         }
 
         if (res.status === 200) {
           setSuccess(true);
-          router.push("page/account/login");
-          router.refresh();
+          router.push("/page/account/login");
+          // router.refresh();
           return "Registered successfully!";
         } else {
           setSubmitting(false);
@@ -181,13 +224,13 @@ const Register = () => {
       <section className="register-page section-b-space">
         <Container>
           <Row>
-            <Col lg="12">
-              <h3>create account</h3>
+            <Col lg="8">
+              <h3>Create account</h3>
               <div className="theme-card">
                 <Form className="theme-form">
                   <Row>
                     <Col md="6">
-                      <Label className="form-label" for="email">
+                      <Label className="form-label" for="first_name">
                         First Name
                       </Label>
                       <Input
@@ -202,13 +245,13 @@ const Register = () => {
                       />
                     </Col>
                     <Col md="6">
-                      <Label className="form-label" for="review">
+                      <Label className="form-label" for="last_name">
                         Last Name
                       </Label>
                       <Input
                         type="text"
                         className="form-control"
-                        id="lname"
+                        id="last_name"
                         placeholder="Last Name"
                         required
                         value={last_name}
@@ -219,85 +262,98 @@ const Register = () => {
                   </Row>
                   <Row>
                     <Col md="6">
-                      <Label className="form-label" for="email">
-                        E-mail
-                      </Label>
+                      <Label className="form-label">Email or Phone</Label>
                       <Input
-                        type="email"
+                        type="text"
+                        name="email"
                         className="form-control"
-                        id="email"
-                        placeholder="Email"
+                        placeholder="Enter email or phone"
                         required
-                        value={email}
-                        onChange={handleEmail}
+                        value={emailOrPhone}
+                        onChange={handleEmailOrPhone}
                         disabled={otpBtn}
                       />
                     </Col>
-                    <Col md="6">
-                      <Label className="form-label" for="review">
-                        Password
-                      </Label>
-                      <Input
-                        type="password"
-                        className="form-control"
-                        id="review"
-                        placeholder="Enter your password"
-                        required
-                        value={password}
-                        onChange={handlePassword}
-                        disabled={otpBtn}
-                      />
-                    </Col>
-                    {!otpBtn || !otpSuccess ? (
-                      <Col md="12">
-                        <button
-                          type="button"
-                          onClick={handleGetOtp}
-                          disabled={otpBtn || sendingOtp || otpSuccess}
-                          className="btn btn-solid w-auto"
-                        >
-                          {sendingOtp
-                            ? "Sending OTP..."
-                            : otpSuccess
-                            ? "Check your E-mail!"
-                            : "Send OTP"}
-                        </button>
+                    {isEmail && (
+                      <Col md="6">
+                        <Label className="form-label">Password</Label>
+                        <Input
+                          type="password"
+                          className="form-control"
+                          placeholder="Enter your password"
+                          required
+                          value={password}
+                          onChange={handlePassword}
+                          disabled={otpBtn}
+                        />
                       </Col>
-                    ) : (
-                      <>
-                        <Col md="6">
-                          <Input
-                            type="text"
-                            placeholder="Enter OTP"
-                            // disabled={disableBtn || submitting || success}
-                            value={otp}
-                            onChange={(e) =>
-                              setOtp(
-                                e.target.value.replace(/[^\d]/g, "").slice(0, 4)
-                              )
-                            }
-                            required
-                            className="input-style animate-slide-down"
-                          />
-                        </Col>
-                        <Col md="12">
-                          <button
-                            type="submit"
-                            onClick={handleUserAuthRegister}
-                            disabled={disableBtn || submitting || success}
-                            className="btn btn-solid w-auto"
-                          >
-                            {submitting
-                              ? "Creating account..."
-                              : success
-                              ? "Registered Successfully!"
-                              : "Create Account"}
-                          </button>
-                        </Col>
-                      </>
                     )}
                   </Row>
+
+                  {!otpBtn || !otpSuccess ? (
+                    <Col md="12">
+                      <button
+                        type="button"
+                        onClick={handleGetOtp}
+                        disabled={otpBtn || sendingOtp || otpSuccess}
+                        className="btn btn-solid w-auto"
+                      >
+                        {sendingOtp
+                          ? "Sending OTP..."
+                          : otpSuccess
+                          ? "Check your E-mail!"
+                          : "Send OTP"}
+                      </button>
+                    </Col>
+                  ) : (
+                    <>
+                      <Col md="6">
+                        <Label className="form-label">Enter OTP</Label>
+                        <Input
+                          type="text"
+                          placeholder="Enter OTP"
+                          // disabled={disableBtn || submitting || success}
+                          value={otp}
+                          onChange={(e) =>
+                            setOtp(
+                              e.target.value.replace(/[^\d]/g, "").slice(0, 6)
+                            )
+                          }
+                          required
+                          className="input-style animate-slide-down"
+                        />
+                      </Col>
+                      <Col md="12">
+                        <button
+                          type="submit"
+                          onClick={handleUserAuthRegister}
+                          disabled={disableBtn || submitting || success}
+                          className="btn btn-solid w-auto"
+                        >
+                          {submitting
+                            ? "Creating account..."
+                            : success
+                            ? "Registered Successfully!"
+                            : "Create Account"}
+                        </button>
+                      </Col>
+                    </>
+                  )}
                 </Form>
+              </div>
+            </Col>
+            <Col lg="4" className="right-login">
+              <h3>Sign In</h3>
+              <div className="theme-card authentication-right">
+                <h6 className="title-font">Already have an account?</h6>
+                <p>
+                  Sign in to your account to access your account. and easy. It
+                  allows you to be able to order from our shop. To start
+                  shopping click register.
+                </p>
+                <Link href="/page/account/login" className="btn btn-solid">
+                  Sign in
+                </Link>
               </div>
             </Col>
           </Row>

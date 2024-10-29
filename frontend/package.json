@@ -65,6 +65,7 @@
     "reactstrap": "^9.1.9",
     "responsive-loader": "^3.1.2",
     "rxjs-compat": "^6.6.7",
-    "sass": "^1.62.0"
+    "sass": "^1.62.0",
+    "twilio": "^5.3.5"
   }
 }
