@@ -3,7 +3,7 @@
 import { MouseEvent } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import { useAppSelector } from "@/Redux/Hooks";
 import { toast } from "react-toastify";
 
@@ -15,9 +15,9 @@ const SocialMediaIcons = () => {
     e.preventDefault();
 
     await signIn("google");
-    Cookies.set("token", JSON.stringify(true));
-    toast.success("Logged in with google!");
-    router.push(`${process.env.PUBLIC_URL}/${i18LangStatus}/dashboard`);
+    // Cookies.set("token", JSON.stringify(true));
+    // toast.success("Logged in with google!");
+    // router.push(`/${i18LangStatus}/dashboard`);
   };
   return (
     <ul className="social">

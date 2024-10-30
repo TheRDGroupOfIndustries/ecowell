@@ -82,6 +82,7 @@ export const WishlistContextProvider = (props) => {
   const [wishlistItems, setWishlistItems] = useState([]);
 
   const { data: session, status } = useSession();
+  console.log("wishlist", session?.user._id);
 
   useEffect(() => {
     console.log('session:', session);
@@ -92,7 +93,7 @@ export const WishlistContextProvider = (props) => {
 
   const fetchWishlist = async (userId) => {
     try {
-      const response = await fetch(`/api/wishlist/getUserWishlist?userId=${userId}`);
+      const response = await fetch(`/api/wishlist/getWishlist?userId=${userId}`);
       if (response.ok) {
         const data = await response.json();
         setWishlistItems(data.products);
@@ -108,7 +109,7 @@ export const WishlistContextProvider = (props) => {
 
   const addToWish = async (product) => {
     try {
-      const response = await fetch('/api/wishlist/addToUserWishlist', {
+      const response = await fetch('/api/wishlist/addToWishlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,7 +132,7 @@ export const WishlistContextProvider = (props) => {
 
   const removeFromWish = async (product) => {
     try {
-      const response = await fetch('/api/wishlist/removeFromUserWishlist', {
+      const response = await fetch('/api/wishlist/removeFromWishlist', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

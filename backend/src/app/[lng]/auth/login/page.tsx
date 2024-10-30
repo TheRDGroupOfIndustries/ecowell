@@ -1,5 +1,4 @@
-'use client'
-import Login from "@/Layout/Login";
+import Login from "@/Layout/Login/Login";
 
 const LoginContainer = () => {
   return <Login />;

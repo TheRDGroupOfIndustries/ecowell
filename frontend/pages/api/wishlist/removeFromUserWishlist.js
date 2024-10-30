@@ -1,31 +1,20 @@
-import connectToMongoDB from "../../../utils/db";
-import Wishlist from "../../../models/Wishlist";
+// removeFromUser Wishlist.js
+import User from "./models/User";
 
-export default async function handler(req, res) {
-    await connectToMongoDB();
+export default async function removeFromUserWishlist(req, res) {
+    const { userId, productId } = req.body; // Assuming you send userId and productId in the body
 
-    if (req.method === 'DELETE') {
-        const { userId, productId } = req.body;
-
-        try {
-            const wishlist = await Wishlist.findOne({ userId });
-
-            if (!wishlist) {
-                return res.status(404).json({ message: "Wishlist not found for this user." });
-            }
-
-            // Remove product from wishlist
-            wishlist.products = wishlist.products.filter(
-                (product) => product.toString() !== productId
-            );
-
-            await wishlist.save();
-            res.status(200).json({ message: "Product removed from wishlist", wishlist });
-        } catch (error) {
-            res.status(500).json({ error: "Failed to remove product from wishlist." });
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User  not found" });
         }
-    } else {
-        res.setHeader('Allow', ['DELETE']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+
+        // Remove the product from the wishlist
+        user.wishlist_products = user.wishlist_products.filter(id => id.toString() !== productId);
+        await user.save();
+        return res.status(200).json({ message: "Product removed from wishlist", wishlist: user.wishlist_products });
+    } catch (error) {
+        return res.status(500).json({ message: "Error removing from wishlist", error: error.message });
     }
 }

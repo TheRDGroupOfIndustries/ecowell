@@ -5,7 +5,8 @@ const AdminSchema = new Schema(
     name: { type: String, required: true },
     email: {
       type: String,
-      required: true,
+      unique: true,
+      required: false,
       trim: true,
       lowercase: true,
       match: [/.+\@.+\..+/, "Please fill a valid email address"],
@@ -17,7 +18,7 @@ const AdminSchema = new Schema(
       required: true,
       default: "/assets/images/admin.png",
     },
-    phone_number: { type: String, required: false },
+    phone_number: { type: String, required: false, unique: true },
   },
   { timestamps: true }
 );

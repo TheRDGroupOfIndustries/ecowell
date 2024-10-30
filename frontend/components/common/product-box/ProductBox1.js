@@ -44,7 +44,6 @@ const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass,
   };
 
   if(!product.variants || !product.variants[0].images) {
-    console.log("No variants found:", product);
     return null;
   }
 

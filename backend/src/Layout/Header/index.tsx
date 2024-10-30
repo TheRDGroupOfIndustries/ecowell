@@ -72,9 +72,9 @@ const Header = () => {
           </div>
           <Col au="true" className="nav-right ">
             <ul className={"nav-menus " + (navMenus ? "open" : "")}>
-              <li>
+              {/* <li>
                 <SearchHeader />
-              </li>
+              </li> */}
               <li>
                 <a
                   onClick={() => goFull(!fullScreen)}
@@ -84,12 +84,12 @@ const Header = () => {
                   <Maximize2 />
                 </a>
               </li>
-              <li className="onhover-dropdown">
+              {/* <li className="onhover-dropdown">
                 <a className="txt-dark" href={Href}>
                   <h6>EN</h6>
                 </a>
                 <Language />
-              </li>
+              </li> */}
               <li className="onhover-dropdown">
                 <Bell />
                 <Badge

@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import { signIn } from "next-auth/react";
 import { useAppSelector } from "@/Redux/Hooks";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,7 @@ import {
   Input,
   InputGroup,
   InputGroupText,
+  Label,
 } from "reactstrap";
 import SocialMediaIcons from "./SocialMediaIcons";
 
@@ -26,25 +27,35 @@ const LoginForm = () => {
   const { i18LangStatus } = useAppSelector((store) => store.LangReducer);
 
   const [email, setEmail] = useState("");
+  const [isEmail, setIsEmail] = useState(false);
+  const [emailOrPhone, setEmailOrPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassWord, setShowPassWord] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [showOtpInput, setShowOtpInput] = useState(false);
   const [disableBtn, setDisableBtn] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setEmail(inputValue);
+  const handleEmailOrPhone = (e: ChangeEvent<HTMLInputElement>) => {
+    let inputValue = e.target.value;
+    setEmailOrPhone(inputValue);
+    setEmail("");
 
-    if (inputValue.trim() === "") {
-      setDisableBtn(true);
+    if (emailPattern.test(inputValue)) {
+      setIsEmail(true);
+      setEmail(inputValue);
+      toast.success("Valid email");
+      setDisableBtn(false);
     } else {
-      if (!emailPattern.test(inputValue)) {
-        toast.error("Invalid email");
-        setDisableBtn(true);
-      } else {
-        toast.success("Valid email");
+      setIsEmail(false);
+      if (/^\d+$/.test(inputValue) && inputValue.length <= 10) {
+        inputValue = inputValue.replace(/[^\d]/g, "").slice(0, 10);
+        setEmailOrPhone(inputValue);
         setDisableBtn(false);
+      } else {
+        // toast.error("Invalid input");
+        setDisableBtn(true);
       }
     }
   };
@@ -95,8 +106,15 @@ const LoginForm = () => {
   const handleAdminAuthLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      return toast.error("Please provide credentials!");
+    if (!emailOrPhone) {
+      if (isEmail) {
+        if (!email || !password) {
+          return toast.error("Please enter your email and password!");
+        }
+      } else {
+        return toast.error("Please enter your phone number!");
+      }
+      // return toast.error("Please provide credentials!");
     }
 
     setSubmitting(true);
@@ -104,11 +122,21 @@ const LoginForm = () => {
       try {
         const res = await signIn("credentials", {
           redirect: false,
-          email,
+          email: isEmail ? email : "",
+          phone_number: !isEmail ? emailOrPhone : "",
+          otp,
           password,
         });
+        console.log("res:", res);
 
         if (res?.error) {
+          if (res.error === "OTP_SENT") {
+            toast.info("OTP sent to your phone. Please enter the OTP.");
+            setShowOtpInput(true);
+            setSubmitting(false);
+            setDisableBtn(false);
+            return;
+          }
           console.log(res.error);
           setSubmitting(false);
           throw new Error("User doesn't exist or Invalid e-mail or password!");
@@ -120,7 +148,7 @@ const LoginForm = () => {
           setSubmitting(true);
           setSuccess(true);
           router.replace("/");
-          Cookies.set("token", JSON.stringify(true));
+          // Cookies.set("token", JSON.stringify(true));
           router.push(`${process.env.PUBLIC_URL}/${i18LangStatus}/dashboard`);
           return "Logged in successfully!";
         } else {
@@ -140,40 +168,56 @@ const LoginForm = () => {
     });
   };
 
-  // const formSubmitHandle = (event: FormEvent) => {
-  //   event.preventDefault();
-  //   if (email === "Test@gmail.com" && password === "Test@123") {
-  //     Cookies.set("token", JSON.stringify(true));
-  //     router.push(`${process.env.PUBLIC_URL}/${i18LangStatus}/dashboard`);
-  //     toast.success("login successful");
-  //   } else {
-  //     toast.error("Please Enter Valid Email Or Password");
-  //   }
-  // };
-
   return (
     <Form className="form-horizontal auth-form" onSubmit={handleAdminAuthLogin}>
       <FormGroup>
+        <Label className="form-label" for="emailOrPhone">
+          E-mail or Phone Number
+        </Label>
         <Input
           required
-          onChange={handleEmail}
-          type="email"
-          value={email}
-          placeholder="E-mail"
+          onChange={handleEmailOrPhone}
+          type={isEmail ? "email" : "text"}
+          value={emailOrPhone}
+          placeholder="E-mail or Phone Number"
         />
       </FormGroup>
-      <FormGroup>
-        <InputGroup onClick={() => setShowPassWord(!showPassWord)}>
+      {isEmail && (
+        <FormGroup>
+          <Label className="form-label" for="password">
+            Password
+          </Label>
+          <InputGroup onClick={() => setShowPassWord(!showPassWord)}>
+            <Input
+              required
+              onChange={handlePassword}
+              type={showPassWord ? "text" : "password"}
+              value={password}
+              placeholder="Password"
+            />
+            <InputGroupText>
+              {showPassWord ? <Eye /> : <EyeOff />}
+            </InputGroupText>
+          </InputGroup>
+        </FormGroup>
+      )}
+      {showOtpInput && (
+        <FormGroup>
+          <Label className="form-label" for="otp">
+            Enter OTP
+          </Label>
           <Input
+            type="text"
+            name="otp"
+            placeholder="Enter OTP"
             required
-            onChange={handlePassword}
-            type={showPassWord ? "text" : "password"}
-            value={password}
-            placeholder="Password"
+            value={otp}
+            onChange={(e) =>
+              setOtp(e.target.value.replace(/[^\d]/g, "").slice(0, 6))
+            }
           />
-          <InputGroupText>{showPassWord ? <Eye /> : <EyeOff />}</InputGroupText>
-        </InputGroup>
-      </FormGroup>
+        </FormGroup>
+      )}
       {/* <div className="form-terms">
         <div className="custom-control custom-checkbox me-sm-2">
           <Label className="d-block">
