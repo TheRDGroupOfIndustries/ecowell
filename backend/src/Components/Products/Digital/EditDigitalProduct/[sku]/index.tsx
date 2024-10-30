@@ -13,7 +13,7 @@ interface Variant {
   images: string[];
   stock: number;
   form: "tablet" | "powder" | "liquid";
-  netQuantity: number;
+  netQuantity: string;
   nutritionFacts: string[];
   allergens?: string[];
   servingSize: string;
@@ -42,7 +42,6 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
       slug: '',
     },
     brand: '',
-    sell_on_google_quantity: 0,
     isNew: false,
     bestBefore: '',
   });
@@ -61,7 +60,7 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
     images: [],
     stock: 0,
     form: "tablet",
-    netQuantity: 0,
+    netQuantity: "0",
     nutritionFacts: [],
     allergens: [],
     servingSize: "",
@@ -123,7 +122,6 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
           description: product.description,
           category: product.category,
           brand: product.brand,
-          sell_on_google_quantity: product.sell_on_google_quantity,
           isNew: product.isNew || false,
           bestBefore: product.bestBefore.toString(),
         });
@@ -141,7 +139,7 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
   const handleUpdate = async () => {
     // Validate required fields
     const requiredFields = [
-      'title', 'description', 'category.title', 'category.slug', 'brand', 'price', 'sell_on_google_quantity', 'bestBefore'
+      'title', 'description', 'category.title', 'category.slug', 'brand', 'price', 'bestBefore'
     ];
     const missingFields = requiredFields.filter(field => {
       const keys = field.split('.');

@@ -34,7 +34,6 @@ export const POST = async (request: NextRequest) => {
       price,
       salePrice,
       discount,
-      sell_on_google_quantity,
       isNew,
       variants,
       bestBefore,
@@ -51,14 +50,13 @@ export const POST = async (request: NextRequest) => {
       price: number;
       salePrice: number;
       discount?: number;
-      sell_on_google_quantity: number;
       isNew?: boolean;
       variants: [{
         flavor: string;
         images: string[];
         stock: number;
         form: "tablet" | "powder" | "liquid";
-        netQuantity: number;
+        netQuantity: string;
         nutritionFacts: string[];
         allergens?: string[];
         servingSize: string;
@@ -82,7 +80,10 @@ export const POST = async (request: NextRequest) => {
     const uniqueSlug = await generateUniqueSlug(slug);
 
     const sku = await generateSequentialSku(); // Use the sequential SKU
-
+let sell_on_google_quantity = 0;
+variants.map((variant) => {
+  sell_on_google_quantity += Number(variant.stock);
+} );
     const newProduct = new Products({
       sku,
       title,

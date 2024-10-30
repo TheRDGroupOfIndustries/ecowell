@@ -8,7 +8,7 @@ const MasterProductDetail = ({
   detailClass,
   title,
   des,
-  variantChangeByColor,
+  variantChangeByFlavor,
 }) => {
   let RatingStars = [];
   let rating = 5;
@@ -41,7 +41,7 @@ const MasterProductDetail = ({
         </h4>
 
         {product.variants.map((vari) => {
-          var findItem = uniqueTags.find((x) => x.color === vari.color);
+          var findItem = uniqueTags.find((x) => x.flavor === vari.flavor);
           if (!findItem) uniqueTags.push(vari);
         })}
 
@@ -55,18 +55,26 @@ const MasterProductDetail = ({
           ""
         ) : (
           <>
-            {title !== "Product style 4" && uniqueTags[0].color ? (
-              <ul className="color-variant">
+            {title !== "Product style 4" && uniqueTags[0].flavor ? (
+              <ul className="mt-2 d-flex flex-row gap-2 flavourItems">
                 {uniqueTags.map((vari, i) => {
                   return (
-                    <li
-                      className={vari.color}
+                    <li style={{
+                        // padding: "0.3rem 0.5rem";
+                        // border: "0.5px solid #5b5b5b";
+                        // borderRadius: "5px";
+                        transition: "all 0.3s ease",
+                        cursor: "pointer",
+                        padding: "0.3rem 0.5rem",
+                        border: "0.5px solid #5b5b5b",
+                        borderRadius: "5px",
+                    }}
                       key={i}
-                      title={vari.color}
-                      onClick={() =>
-                        variantChangeByColor(vari.image_id, product.images)
-                      }
-                    ></li>
+                      title={vari.flavor}
+                      onClick={() => variantChangeByFlavor(vari.flavor)}
+                    >
+                      {vari.flavor}
+                    </li>
                   );
                 })}
               </ul>

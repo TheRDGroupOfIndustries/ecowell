@@ -4,7 +4,6 @@ import logo from "../../../../public/assets/images/icon/bigLogo.png";
 
 
 const MasterBanner = ({ img, ecoSubtitle, link, classes, btn, btnClass }) => {
-  console.log("logo: ", ecoSubtitle);
   return (
     <div>
       <div className={`home ${img} ${classes ? classes : "text-center"}`}>

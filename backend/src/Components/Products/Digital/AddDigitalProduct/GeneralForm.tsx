@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import CommonCardHeader from "@/CommonComponents/CommonCardHeader";
-import MyUploader from "@/CommonComponents/CommonDropzone";
 import { Card, CardBody, FormGroup, Input, Label } from "reactstrap";
 import MultiInputField from './MultiInputField';
 import FaqInputField from './FaqInputField';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import { fetchCategories } from '@/lib/utils';
 
 
 const GeneralForm = ({ generalFormState, handleGeneralForm }: {
@@ -21,13 +19,13 @@ const GeneralForm = ({ generalFormState, handleGeneralForm }: {
     description: string,
     category: { title: string, slug: string },
     brand: string,
-    sell_on_google_quantity: number,
+    // sell_on_google_quantity: number,
     isNew: boolean,
     bestBefore: string,
   },
   handleGeneralForm: (field: string, value: any) => void
 }) => {
-  const { price, salePrice, discount, directions, ingredients, benefits, faqs, title, description, category, brand, sell_on_google_quantity, isNew, bestBefore } = generalFormState;
+  const { price, salePrice, discount, directions, ingredients, benefits, faqs, title, description, category, brand, isNew, bestBefore } = generalFormState;
   // const categories = [
   //   { title: "Fitness", slug: "fitness" },
   //   { title: "Health", slug: "health" },
@@ -44,24 +42,16 @@ const GeneralForm = ({ generalFormState, handleGeneralForm }: {
   }, [price, salePrice]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchCategoriesData = async () => {
       try {
-        const response = await axios.get('/api/categories/all-categories');
-        console.log("Fetched Categories:", response.data);
-        //only title, image_link and slug to show 
-        let categoriesToShow = response.data.map((category: any) => {
-          return { title: category.title,slug: category.slug };
-        });
-        setCategories(categoriesToShow);
+        const fetchedCategories = await fetchCategories();
+        setCategories(fetchedCategories);
       } catch (error) {
-        console.error("Error fetching categories:", error);
-        toast.error("Failed to fetch categories");
-      } finally {
-        
+        console.error('Error fetching categories:', error);
       }
     };
 
-    fetchCategories();
+    fetchCategoriesData();
   }, []);
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = categories.find(cat => cat.slug === e.target.value);
@@ -157,7 +147,7 @@ const GeneralForm = ({ generalFormState, handleGeneralForm }: {
             <Label className="col-form-label pt-0">Discount</Label>
             <Input id="discount" type="number" value={discount.toFixed(2)} disabled />
           </FormGroup>
-          <FormGroup>
+          {/* <FormGroup>
             <Label className="col-form-label pt-0">
               <span>*</span> Sell on Google Quantity
             </Label>
@@ -168,7 +158,7 @@ const GeneralForm = ({ generalFormState, handleGeneralForm }: {
               onChange={(e) => handleGeneralForm('sell_on_google_quantity', parseFloat(e.target.value))}
               required
             />
-          </FormGroup>
+          </FormGroup> */}
           <FormGroup>
             <Label className="col-form-label pt-0">Is New</Label>
             <div className="m-checkbox-inline mb-0 custom-radio-ml d-flex radio-animated">

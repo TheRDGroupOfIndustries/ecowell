@@ -84,6 +84,7 @@ export const WishlistContextProvider = (props) => {
   const { data: session, status } = useSession();
 
   useEffect(() => {
+    console.log('session:', session);
     if (session) {
       fetchWishlist(session.user._id);
     }

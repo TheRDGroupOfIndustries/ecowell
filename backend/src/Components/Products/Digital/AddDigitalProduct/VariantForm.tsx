@@ -14,7 +14,7 @@ interface Variant {
   images: string[];
   stock: number;
   form: "tablet" | "powder" | "liquid";
-  netQuantity: number;
+  netQuantity: string;
   nutritionFacts: string[];
   allergens?: string[];
   servingSize: string;
@@ -52,7 +52,7 @@ const VariantForm = ({ variantProps, handleVariantChange }: {
       images: [],
       stock: 0,
       form: "tablet",
-      netQuantity: 0,
+      netQuantity: "0",
       nutritionFacts: [],
       allergens: [],
       servingSize: "",
@@ -170,7 +170,7 @@ const VariantForm = ({ variantProps, handleVariantChange }: {
           <FormGroup>
             <Label className="col-form-label pt-0">Net Quantity</Label>
             <Input
-              type="number"
+              type="text"
               name="netQuantity"
               value={newVariant.netQuantity}
               onChange={(e) => handleVariantChange("netQuantity", e.target.value)}

@@ -1,4 +1,4 @@
-import connectToMongoDB from "../../../utils/db";
+import {connectToMongoDB} from "../../../utils/db";
 import Product from "../../../models/Products";
 
 export default async function handler(req, res) {

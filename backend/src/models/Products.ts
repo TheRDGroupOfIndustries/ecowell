@@ -5,7 +5,7 @@ const VariantSchema = new Schema({
   images: { type: [String], required: true },
   stock: { type: Number, required: true },
   form: { type: String, enum: ['tablet', 'powder', 'liquid'], required: true },
-  netQuantity: { type: Number, required: true },
+  netQuantity: { type: String, required: true },
   nutritionFacts: { type: [String], required: true }, // E.g., ["Calories: 150", "Protein: 30g"]
   allergens: { type: [String], required: false }, // E.g., ["Peanuts", "Soy"]
   servingSize: { type: String, required: true }, // E.g., "30g scoop"

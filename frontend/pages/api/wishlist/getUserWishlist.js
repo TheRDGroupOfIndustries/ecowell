@@ -1,13 +1,17 @@
-import connectToMongoDB from "../../../utils/db";
+import {connectToMongoDB} from "../../../utils/db";
 import Wishlist from "../../../models/Wishlist";
 
 export default async function handler(req, res) {
+    console.log("Connect to mongodb: ", connectToMongoDB);
     try {
         await connectToMongoDB();
 
         if (req.method === 'GET') {
             const { userId } = req.query; // Assuming userId is passed as a query parameter
 
+            if(!userId) {
+                return res.status(400).json({ message: "userId is required." });
+            }
             try {
                 const wishlist = await Wishlist.findOne({ userId }).populate("products", "name price description image"); // Customize fields as needed
 

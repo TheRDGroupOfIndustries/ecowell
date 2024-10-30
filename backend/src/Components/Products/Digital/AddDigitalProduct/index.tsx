@@ -14,7 +14,7 @@ interface Variant {
   images: string[];
   stock: number;
   form: "tablet" | "powder" | "liquid";
-  netQuantity: number;
+  netQuantity: string;
   nutritionFacts: string[];
   allergens?: string[];
   servingSize: string;
@@ -39,7 +39,6 @@ const AddDigitalProduct = () => {
       slug: '',
     },
     brand: '',
-    sell_on_google_quantity: 0,
     isNew: false,
     bestBefore: '',
   });
@@ -58,7 +57,7 @@ const AddDigitalProduct = () => {
     images: [],
     stock: 0,
     form: "tablet",
-    netQuantity: 0,
+    netQuantity: "0",
     nutritionFacts: [],
     allergens: [],
     servingSize: "",
@@ -106,7 +105,7 @@ const AddDigitalProduct = () => {
   const handleSave = async () => {
     // Validate required fields
     const requiredFields = [
-      'title', 'description', 'category.title', 'category.slug', 'brand', 'price', 'sell_on_google_quantity', 'bestBefore'
+      'title', 'description', 'category.title', 'category.slug', 'brand', 'price', 'bestBefore'
     ];
     const missingFields = requiredFields.filter(field => {
       const keys = field.split('.');
@@ -158,7 +157,6 @@ const AddDigitalProduct = () => {
           slug: '',
         },
         brand: '',
-        sell_on_google_quantity: 0,
         isNew: false,
         bestBefore: '',
       });
@@ -196,7 +194,6 @@ const AddDigitalProduct = () => {
         slug: '',
       },
       brand: '',
-      sell_on_google_quantity: 0,
       isNew: false,
       bestBefore: '',
     });

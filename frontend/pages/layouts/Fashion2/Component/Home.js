@@ -22,7 +22,6 @@ const Data = [
 ];
 
 const HomeSlider = () => {
-  console.log("ecoSubtitle1: ", ecoSubtitle1);
   return (
     <section className="p-0">
       <Slider className="slide-1 home-slider">
