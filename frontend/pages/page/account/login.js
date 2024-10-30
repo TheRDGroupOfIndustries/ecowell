@@ -130,7 +130,7 @@ const Login = () => {
           otp,
           password,
         });
-        // console.log("res:", res);
+        console.log("res:", res);
 
         if (res?.error) {
           if (res.error === "OTP_SENT") {
@@ -140,31 +140,36 @@ const Login = () => {
             setDisableBtn(false);
             return;
           }
-          console.log(res.error);
-          setSubmitting(false);
-          throw new Error("User doesn't exist or Invalid e-mail or password!");
+
+          throw new Error(res.error);
         }
 
         if (res?.url) {
           console.log(res?.url);
 
-          setSubmitting(true);
+          // setSubmitting(true);
           setSuccess(true);
           router.replace("/");
           return "Logged in successfully!";
-        } else {
-          setSubmitting(false);
-          throw new Error("Something went wrong, please try again!");
         }
       } catch (error) {
+        // console.error("Something went wrong, please try again!");
+        console.log("error:", error.message);
+
+        throw new Error(error.message + "");
+      } finally {
         setSubmitting(false);
-        throw error;
       }
     };
     toast.promise(login(), {
       pending: "Logging in...",
       success: "Logged in successfully!",
-      error: "Something went wrong, please try again!",
+      error: {
+        render({ data }) {
+          // `data` contains the error object
+          return data.message || "Something went wrong, please try again!";
+        },
+      },
     });
   };
 

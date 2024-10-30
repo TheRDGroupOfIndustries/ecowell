@@ -51,10 +51,10 @@ export const authOptions = {
               }
             } else {
               console.error(
-                "User not found with phone number:",
+                "User doesn't exist with phone number:",
                 credentials.phone_number
               );
-              throw new Error("User not found");
+              throw new Error("User doesn't exist");
             }
           } else if (credentials.email !== "") {
             const user = await User.findOne({ email: credentials.email });
@@ -74,10 +74,10 @@ export const authOptions = {
               }
             } else {
               console.error(
-                "User not found or password missing for email:",
+                "User doesn't exist or password missing for email:",
                 credentials.email
               );
-              throw new Error("User not found or password missing");
+              throw new Error("User doesn't exist or password missing");
             }
           }
         } catch (error) {
@@ -95,8 +95,8 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account }) {
-      console.log("user:", user);
-      console.log("account:", account);
+      // console.log("user:", user);
+      // console.log("account:", account);
 
       if (account?.provider === "credentials") return true;
 
@@ -139,6 +139,8 @@ export const authOptions = {
             authUser: token.user,
             user: userExists,
           };
+          console.log("session.user:", session.user);
+
           return session.user;
         } else {
           session.user = { user: token.user };
