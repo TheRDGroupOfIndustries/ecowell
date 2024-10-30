@@ -29,7 +29,6 @@
 //         localStorage.setItem('wishlist', JSON.stringify(wishlistItems))
 //     }, [wishlistItems])
 
-
 //     // Add Product To Wishlist
 //     const addToWish = (item) => {
 //         const index = wishlistItems.findIndex(wish => wish.id === item.id)
@@ -65,17 +64,14 @@
 //   Provider as WishlistContextProvider,
 // } from "./WishlistContext";
 
-
-
-
-import React, { createContext, useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import React, { createContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 
 export const WishlistContext = createContext({
   wishlistItems: [],
-  addToWish: () => { },
-  removeFromWish: () => { },
+  addToWish: () => {},
+  removeFromWish: () => {},
 });
 
 export const WishlistContextProvider = (props) => {
@@ -84,72 +80,81 @@ export const WishlistContextProvider = (props) => {
   const { data: session, status } = useSession();
   console.log("wishlist", session?.user._id);
 
+  const fetchWishlist = async (userId) => {
+    try {
+      const response = await fetch(
+        `/api/wishlist/getUserWishlist?userId=${userId}`,
+        { method: "GET", headers: { "Content-Type": "application/json" } }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setWishlistItems(data.products);
+      } else {
+        console.error("Error fetching wishlist:", response.status);
+        // toast.error("Failed to fetch wishlist");
+      }
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+      toast.error("Failed to fetch wishlist");
+    }
+  };
+
   useEffect(() => {
-    console.log('session:', session);
+    console.log("session:", session);
     if (session) {
       fetchWishlist(session.user._id);
     }
   }, [session]);
 
-  const fetchWishlist = async (userId) => {
-    try {
-      const response = await fetch(`/api/wishlist/getWishlist?userId=${userId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setWishlistItems(data.products);
-      } else {
-        console.error('Error fetching wishlist:', response.status);
-        toast.error('Failed to fetch wishlist');
-      }
-    } catch (error) {
-      console.error('Error fetching wishlist:', error);
-      toast.error('Failed to fetch wishlist');
-    }
-  };
-
   const addToWish = async (product) => {
     try {
-      const response = await fetch('/api/wishlist/addToWishlist', {
-        method: 'POST',
+      const response = await fetch("/api/wishlist/addToWishlist", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId: session.user._id, productId: product.id }),
+        body: JSON.stringify({
+          userId: session.user._id,
+          productId: product.id,
+        }),
       });
       if (response.ok) {
         const data = await response.json();
         setWishlistItems(data.wishlist.products);
-        toast.success('Product added to wishlist');
+        toast.success("Product added to wishlist");
       } else {
-        console.error('Error adding product to wishlist:', response.status);
-        toast.error('Failed to add product to wishlist');
+        console.error("Error adding product to wishlist:", response.status);
+        toast.error("Failed to add product to wishlist");
       }
     } catch (error) {
-      console.error('Error adding product to wishlist:', error);
-      toast.error('Failed to add product to wishlist');
+      console.error("Error adding product to wishlist:", error);
+      toast.error("Failed to add product to wishlist");
     }
   };
 
   const removeFromWish = async (product) => {
     try {
-      const response = await fetch('/api/wishlist/removeFromWishlist', {
-        method: 'DELETE',
+      const response = await fetch("/api/wishlist/removeFromWishlist", {
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId: session.user._id, productId: product.id }),
+        body: JSON.stringify({
+          userId: session.user._id,
+          productId: product.id,
+        }),
       });
       if (response.ok) {
         const data = await response.json();
         setWishlistItems(data.wishlist.products);
-        toast.error('Product removed from wishlist');
+        toast.error("Product removed from wishlist");
       } else {
-        console.error('Error removing product from wishlist:', response.status);
-        toast.error('Failed to remove product from wishlist');
+        console.error("Error removing product from wishlist:", response.status);
+        toast.error("Failed to remove product from wishlist");
       }
     } catch (error) {
-      console.error('Error removing product from wishlist:', error);
-      toast.error('Failed to remove product from wishlist');
+      console.error("Error removing product from wishlist:", error);
+      toast.error("Failed to remove product from wishlist");
     }
   };
 

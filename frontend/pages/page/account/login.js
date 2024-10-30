@@ -149,7 +149,9 @@ const Login = () => {
 
           // setSubmitting(true);
           setSuccess(true);
+
           router.replace("/");
+          router.refresh();
           return "Logged in successfully!";
         }
       } catch (error) {

@@ -139,7 +139,7 @@ export const authOptions = {
             authUser: token.user,
             user: userExists,
           };
-          console.log("session.user:", session.user);
+          // console.log("session.user:", session.user);
 
           return session.user;
         } else {
