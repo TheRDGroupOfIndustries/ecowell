@@ -77,30 +77,30 @@ export const WishlistContext = createContext({
 export const WishlistContextProvider = (props) => {
   const [wishlistItems, setWishlistItems] = useState([]);
 
-  const { data: session, status } = useSession();
-  console.log("wishlist", session?.user._id);
+  const { data: session } = useSession();
+  // console.log("wishlist", session?.user._id);
 
   const fetchWishlist = async (userId) => {
     try {
       const response = await fetch(
-        `/api/wishlist/getUserWishlist?userId=${userId}`,
+        `/api/wishlist/get-user-wishlist?userId=${userId}`,
         { method: "GET", headers: { "Content-Type": "application/json" } }
       );
       if (response.ok) {
         const data = await response.json();
         setWishlistItems(data.products);
-      } else {
-        console.error("Error fetching wishlist:", response.status);
-        // toast.error("Failed to fetch wishlist");
-      }
+      } // else {
+      //   console.error("Error fetching wishlist:", response.status);
+      //   toast.error("Failed to fetch wishlist");
+      // }
     } catch (error) {
       console.error("Error fetching wishlist:", error);
-      toast.error("Failed to fetch wishlist");
+      // toast.error("Failed to fetch wishlist");
     }
   };
 
   useEffect(() => {
-    console.log("session:", session);
+    // console.log("session:", session);
     if (session) {
       fetchWishlist(session.user._id);
     }
@@ -108,14 +108,12 @@ export const WishlistContextProvider = (props) => {
 
   const addToWish = async (product) => {
     try {
-      const response = await fetch("/api/wishlist/addToWishlist", {
+      const response = await fetch("/api/wishlist/add-to-user-wishlist", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: session.user._id,
-          productId: product.id,
+          productId: product._id,
         }),
       });
       if (response.ok) {
@@ -134,20 +132,19 @@ export const WishlistContextProvider = (props) => {
 
   const removeFromWish = async (product) => {
     try {
-      const response = await fetch("/api/wishlist/removeFromWishlist", {
+      const response = await fetch("/api/wishlist/remove-from-user-wishlist", {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: session.user._id,
-          productId: product.id,
+          productId: product._id,
         }),
       });
+
       if (response.ok) {
         const data = await response.json();
         setWishlistItems(data.wishlist.products);
-        toast.error("Product removed from wishlist");
+        toast.error("Product removed from wishlist!");
       } else {
         console.error("Error removing product from wishlist:", response.status);
         toast.error("Failed to remove product from wishlist");
