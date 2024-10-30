@@ -5,7 +5,7 @@ const AdminSchema = new Schema(
     name: { type: String, required: true },
     email: {
       type: String,
-      unique: true,
+      // unique: true,
       required: false,
       trim: true,
       lowercase: true,
@@ -18,7 +18,11 @@ const AdminSchema = new Schema(
       required: true,
       default: "/assets/images/admin.png",
     },
-    phone_number: { type: String, required: false, unique: true },
+    phone_number: {
+      type: String,
+      required: false,
+      // unique: true
+    },
   },
   { timestamps: true }
 );
