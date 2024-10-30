@@ -1,62 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import Slider from "react-slick";
-import { useQuery } from "@apollo/client";
-import { gql } from "@apollo/client";
 import ProductItems from "../product-box/ProductBox1";
 import { Row, Col, Container, Media } from "reactstrap";
 import CartContext from "../../../helpers/cart";
 import { WishlistContext } from "../../../helpers/wishlist/WishlistContext";
 import PostLoader from "../PostLoader";
 import { CompareContext } from "../../../helpers/Compare/CompareContext";
-import search from "../../../public/assets/images/empty-search.jpg";
 
-const GET_PRODUCTS = gql`
-  query products($type: _CategoryType!, $indexFrom: Int!, $limit: Int!) {
-    products(type: $type, indexFrom: $indexFrom, limit: $limit) {
-      items {
-        id
-        title
-        description
-        type
-        brand
-        category
-        price
-        new
-        stock
-        sale
-        discount
-        variants {
-          id
-          sku
-          size
-          color
-          image_id
-        }
-        images {
-          image_id
-          id
-          alt
-          src
-        }
-      }
-    }
-  }
-`;
-
-const TopCollection = ({ type, title, subtitle, designClass, noSlider, cartClass, productSlider, titleClass, noTitle, innerClass, inner, backImage }) => {
+const TopCollection = ({ title, subtitle, designClass, noSlider, cartClass, productSlider, titleClass, noTitle, innerClass, inner, backImage, loading, data }) => {
   const context = useContext(CartContext);
   const contextWishlist = useContext(WishlistContext);
   const comapreList = useContext(CompareContext);
   const quantity = context.quantity;
   const [delayProduct, setDelayProduct] = useState(true);
-
-  var { loading, data } = useQuery(GET_PRODUCTS, {
-    variables: {
-      type: type,
-      indexFrom: 0,
-      limit: 8,
-    },
-  });
+// console.log("ProductItems product:", data);
 
   useEffect(() => {
     if (data === undefined) {
@@ -110,7 +67,7 @@ const TopCollection = ({ type, title, subtitle, designClass, noSlider, cartClass
                 ) : (
                   <Slider {...productSlider} className="product-m no-arrow">
                     {data &&
-                      data.products.items.map((product, i) => (
+                      data.map((product, i) => (
                         <div key={i}>
                           <ProductItems product={product} title={title} addWishlist={() => contextWishlist.addToWish(product)} addCart={() => context.addToCart(product, quantity)} addCompare={() => comapreList.addToCompare(product)} cartClass={cartClass} backImage={backImage} />
                         </div>
@@ -150,7 +107,7 @@ const TopCollection = ({ type, title, subtitle, designClass, noSlider, cartClass
                   </div>
                 ) : (
                   data &&
-                  data.products.items.slice(0, 8).map((product, index) => (
+                  data.slice(0, 8).map((product, index) => (
                     <Col xl="3" sm="6" key={index}>
                       <div>
                         <ProductItems product={product} backImage={backImage} addCompare={() => comapreList.addToCompare(product)} addWishlist={() => contextWishlist.addToWish(product)} title={title} cartClass={cartClass} addCart={() => context.addToCart(product, quantity)} key={index} />

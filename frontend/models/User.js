@@ -11,7 +11,7 @@ const UserSchema = new Schema(
       type: String,
       required: false,
       trim: true,
-      unique: true,
+      // unique: true,
       lowercase: true,
       match: [/.+\@.+\..+/, "Please fill a valid email address"],
     },
@@ -23,7 +23,7 @@ const UserSchema = new Schema(
       type: String,
       maxLength: 10,
       required: false,
-      unique: true,
+      // unique: true,
     },
     first_name: {
       type: String,

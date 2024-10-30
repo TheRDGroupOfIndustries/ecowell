@@ -28,7 +28,6 @@ export const PUT = async (request: NextRequest, { params }: { params: { sku: str
         price,
         salePrice,
         discount,
-        sell_on_google_quantity,
         isNew,
         variants,
         bestBefore,
@@ -45,14 +44,13 @@ export const PUT = async (request: NextRequest, { params }: { params: { sku: str
         price?: number;
         salePrice?: number;
         discount?: number;
-        sell_on_google_quantity?: number;
         isNew?: boolean;
         variants?: [{
           flavor: string;
           images: string[];
           stock: number;
           form: "tablet" | "powder" | "liquid";
-          netQuantity: number;
+          netQuantity: string;
           nutritionFacts: string[];
           allergens?: string[];
           servingSize: string;
@@ -86,14 +84,16 @@ export const PUT = async (request: NextRequest, { params }: { params: { sku: str
         product.category.slug = uniqueSlug;
         product.category.title = category.title;
       }
-  
+  if(variants){
+      const sell_on_google_quantity = variants.reduce((acc, variant) => acc + Number(variant.stock), 0);
+      product.sell_on_google_quantity = sell_on_google_quantity
+    }
       if (title) product.title = title;
       if (description) product.description = description;
       if (brand) product.brand = brand;
       if (price) product.price = price;
       if (salePrice) product.salePrice = salePrice;
       if (discount) product.discount = discount;
-      if (sell_on_google_quantity) product.sell_on_google_quantity = sell_on_google_quantity;
       if (isNew !== undefined) product.new = isNew;
       if (variants) product.variants = variants;
       if (bestBefore) product.bestBefore = bestBefore;
@@ -102,6 +102,7 @@ export const PUT = async (request: NextRequest, { params }: { params: { sku: str
       if (benefits) product.benefits = benefits;
       if (faqs) product.faqs = faqs;
       if (additionalInfo) product.additionalInfo = additionalInfo;
+      
   
       await product.save();
   

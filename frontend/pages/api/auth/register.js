@@ -78,7 +78,18 @@ export default async function handler(req, res) {
 
     if (otp) {
       let newUser;
-      if (isEmail && otp == checkOtpCode) {
+      if (!isEmail) {
+        const isOtpValid = await verifyOtpFromPhone(phone_number, otp);
+
+        if (!isOtpValid) {
+          return res.status(400).json({ error: "Invalid OTP" });
+        }
+        newUser = new User({
+          first_name,
+          last_name,
+          phone_number,
+        });
+      } else if (otp === checkOtpCode + "") {
         const hashPassword = await bcrypt.hash(password, 5);
 
         newUser = new User({
@@ -88,17 +99,7 @@ export default async function handler(req, res) {
           password: hashPassword,
         });
       } else {
-        const isOtpValid = await verifyOtpFromPhone(phone_number, otp);
-
-        if (isOtpValid) {
-          newUser = new User({
-            first_name,
-            last_name,
-            phone_number,
-          });
-        } else {
-          return res.status(400).json({ error: "Invalid OTP" });
-        }
+        return res.status(400).json({ error: "Invalid OTP" });
       }
       try {
         await newUser.save();
@@ -106,7 +107,12 @@ export default async function handler(req, res) {
           .status(200)
           .json({ message: "User Registered successfully!" });
       } catch (error) {
+<<<<<<< HEAD
         console.log(error)
+=======
+        console.log(error);
+
+>>>>>>> 4d864c6b34e70c9025dcc7b53850cf163a5fb39d
         return res
           .status(500)
           .json({ error: "Internal Server Error: " + error });

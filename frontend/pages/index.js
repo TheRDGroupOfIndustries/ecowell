@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Banner from "./layouts/Fashion/Components/Banner";
-import CollectionBanner from "./layouts/Fashion/Components/Collection-Banner";
 import TopCollection from "../components/common/Collections/Collection3";
 import Parallax from "./layouts/Fashion/Components/Parallax";
 import SpecialProducts from "../components/common/Collections/TabCollection1";
@@ -14,12 +13,36 @@ import Paragraph from "../components/common/Paragraph";
 import ModalComponent from "../components/common/Modal";
 import Helmet from "react-helmet";
 import MasterFooter from "../components/footers/common/MasterFooter";
+import ShoesCategoryTwo from './layouts/Shoes/components/Category-two';
+import { toast } from "react-toastify";
 
 const Fashion = () => {
   const logoName = document.body.classList.contains("dark")
     ? "logo.png"
     : "logo-dark.png";
-
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    useEffect(() => {
+      const fetchCategories = async () => {
+        try {
+          setLoading(true);
+          const response = await fetch('/api/products/getAllProducts');
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const dataTemp = await response.json();
+          console.log("Fetched Products:", dataTemp);
+          setData(dataTemp);
+        } catch (error) {
+          console.error("Error fetching categories:", error);
+          toast.error("Failed to fetch categories");
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchCategories();
+    }, []);
   return (
     <>
       <Helmet>
@@ -33,22 +56,30 @@ const Fashion = () => {
       <ModalComponent />
       <HeaderOne topClass="top-header" />
       <Banner />
-      <CollectionBanner />
+      <div className=" mt-5">
+      <ShoesCategoryTwo title={"Categories"} />
+      </div>
       <Paragraph
         title="title1 section-t-space"
         inner="title-inner1"
         hrClass={false}
+        headingName="Featured Products"
+        subHeadingName="special offer"
+        paragraph="See all of our amazing featured products in one place. We have a fine selection of products that are sure to impress.
+        "
       />
       <TopCollection
         noTitle="null"
         backImage={true}
         type="fashion"
-        title="top collection"
+        title="Featured Products"
         subtitle="special offer"
         productSlider={Product4}
         designClass="section-b-space p-t-0 ratio_asos px-2"
         noSlider="false"
         cartClass="cart-info cart-wrap"
+        loading={loading}
+        data={data}
       />
       <Parallax />
       <SpecialProducts

@@ -1,3 +1,17 @@
-.shopNowPosition{
-    
+.slick-next:before  , .slick-prev:before {
+    font-size: 40px;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.flavourItems li:hover {
+    background-color: #f5f5f5d6;
+    color: #000
+}
+.product-box .product-detail{
+    & h6{
+    line-height: 1.5;
+} & h4{
+    margin-top: 10px;
+}
 }

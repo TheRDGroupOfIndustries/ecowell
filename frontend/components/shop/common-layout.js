@@ -4,8 +4,14 @@ import Breadcrubs from "../common/widgets/breadcrubs";
 import Helmet from "react-helmet";
 import favicon from "../../public/assets/images/favicon/1.png";
 import MasterFooter from "../footers/common/MasterFooter";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const CommonLayout = ({ children, title, parent, subTitle }) => {
+  const { status } = useSession();
+  const router = useRouter();
+
+  if (status === "authenticated") return router.push("/");
   return (
     <>
       {/* <Helmet>
