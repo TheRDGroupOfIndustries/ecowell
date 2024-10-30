@@ -2,29 +2,33 @@ import { connectToMongoDB } from "../../../utils/db";
 import Wishlist from "../../../models/Wishlist";
 
 export default async function handler(req, res) {
-  console.log("Connect to mongodb: ", connectToMongoDB);
   const { method, query } = req;
-  console.log("wishlist req:", method, query);
-  if (method === "GET") {
-    try {
-      const { userId } = query;
+  // console.log("wishlist req:", method, query);
 
-      if (!userId) {
-        return res.status(400).json({ message: "userId is required." });
-      }
+  if (method !== "GET") {
+    return res.status(405).json({ message: "Method not allowed." });
+  }
 
-      await connectToMongoDB();
+  try {
+    const { userId } = query;
 
-      const wishlist = await Wishlist.findOne({ userId }).populate(
-        "products",
-        "name price description image"
-      );
-      if (wishlist) return res.status(200).json(wishlist);
-
-      // return res.status(404).json({ message: "Wishlist not found for this user." });
-    } catch (error) {
-      console.error("Fetching wishlist error:", error);
-      return res.status(500).json({ error: "Failed to fetch wishlist." });
+    if (!userId) {
+      return res.status(400).json({ message: "userId is required." });
     }
+
+    await connectToMongoDB();
+
+    const wishlist = await Wishlist.findOne({ userId }).populate(
+      "products",
+      "_id sku title price description images"
+    );
+
+    console.log("wishlist:", wishlist);
+    if (wishlist) return res.status(200).json(wishlist.products);
+
+    // return res.status(404).json({ message: "Wishlist not found for this user." });
+  } catch (error) {
+    console.error("Fetching wishlist error:", error);
+    return res.status(500).json({ error: "Failed to fetch wishlist." });
   }
 }

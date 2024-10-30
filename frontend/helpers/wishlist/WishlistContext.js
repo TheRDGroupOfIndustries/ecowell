@@ -77,8 +77,9 @@ export const WishlistContext = createContext({
 export const WishlistContextProvider = (props) => {
   const [wishlistItems, setWishlistItems] = useState([]);
 
+  // console.log("wishlist items", wishlistItems);
+
   const { data: session } = useSession();
-  // console.log("wishlist", session?.user._id);
 
   const fetchWishlist = async (userId) => {
     try {
@@ -88,7 +89,7 @@ export const WishlistContextProvider = (props) => {
       );
       if (response.ok) {
         const data = await response.json();
-        setWishlistItems(data.products);
+        setWishlistItems(data);
       } // else {
       //   console.error("Error fetching wishlist:", response.status);
       //   toast.error("Failed to fetch wishlist");
@@ -107,6 +108,8 @@ export const WishlistContextProvider = (props) => {
   }, [session]);
 
   const addToWish = async (product) => {
+    console.log("addToWish product:", product);
+
     try {
       const response = await fetch("/api/wishlist/add-to-user-wishlist", {
         method: "POST",
@@ -116,14 +119,12 @@ export const WishlistContextProvider = (props) => {
           productId: product._id,
         }),
       });
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
-        setWishlistItems(data.wishlist.products);
+        console.log("addToWish data:", data);
+        setWishlistItems(data.wishlist);
         toast.success("Product added to wishlist");
-      } else {
-        console.error("Error adding product to wishlist:", response.status);
-        toast.error("Failed to add product to wishlist");
-      }
+      } else toast.error(data.message);
     } catch (error) {
       console.error("Error adding product to wishlist:", error);
       toast.error("Failed to add product to wishlist");
