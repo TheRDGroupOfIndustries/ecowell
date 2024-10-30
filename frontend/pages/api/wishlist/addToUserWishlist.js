@@ -1,34 +1,24 @@
-import connectToMongoDB from "../../../utils/db";
-import Wishlist from "../../../models/Wishlist";
+// addToUser Wishlist.js
+import User from "./models/User";
 
-export default async function handler(req, res) {
-    await connectToMongoDB();
+export default async function addToUserWishlist(req, res) {
+    const { userId, productId } = req.body; // Assuming you send userId and productId in the body
 
-    if (req.method === 'POST') {
-        const { userId, productId } = req.body;
-
-        try {
-            let wishlist = await Wishlist.findOne({ userId });
-
-            // If no wishlist exists, create a new one for the user
-            if (!wishlist) {
-                wishlist = new Wishlist({ userId, products: [] });
-            }
-
-            // Check if product is already in the wishlist
-            if (!wishlist.products.includes(productId)) {
-                wishlist.products.push(productId);
-            } else {
-                return res.status(400).json({ message: "Product already in wishlist." });
-            }
-
-            await wishlist.save();
-            res.status(200).json({ message: "Product added to wishlist", wishlist });
-        } catch (error) {
-            res.status(500).json({ error: "Failed to add product to wishlist." });
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User  not found" });
         }
-    } else {
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+
+        // Check if the product is already in the wishlist
+        if (!user.wishlist_products.includes(productId)) {
+            user.wishlist_products.push(productId);
+            await user.save();
+            return res.status(200).json({ message: "Product added to wishlist", wishlist: user.wishlist_products });
+        } else {
+            return res.status(400).json({ message: "Product already in wishlist" });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: "Error adding to wishlist", error: error.message });
     }
 }
