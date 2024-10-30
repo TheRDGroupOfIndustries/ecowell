@@ -1,5 +1,5 @@
-import connectToMongoDB from "./connectToMongoDB"; // Make sure to import your MongoDB connection function
-import User from "./models/User"; // Import the User model
+import connectToMongoDB from "../../../utils/db"; // Make sure to import your MongoDB connection function
+// import User from "../../../models/User"; // Import the User model
 
 // Import your specific actions
 import getUserWishlist from "./getUserWishlist"; // Function to get user's wishlist

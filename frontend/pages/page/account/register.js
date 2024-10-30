@@ -181,7 +181,7 @@ const Register = () => {
             phone_number: emailOrPhone,
             isEmail,
             otp,
-            checkOtpCode,
+            checkOtpCode: checkOtpCode + "",
           }),
         });
 

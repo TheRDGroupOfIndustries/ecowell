@@ -1,5 +1,5 @@
 // addToUser Wishlist.js
-import User from "./models/User";
+import User from "../../../models/User";
 
 export default async function addToUserWishlist(req, res) {
     const { userId, productId } = req.body; // Assuming you send userId and productId in the body

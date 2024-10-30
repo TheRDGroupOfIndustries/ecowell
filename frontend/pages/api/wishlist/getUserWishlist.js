@@ -1,24 +1,28 @@
 import connectToMongoDB from "../../../utils/db";
-import Wishlist from "../../../models/Wishlist";
+import User from "../../../models/User";
 
 export default async function handler(req, res) {
     try {
         await connectToMongoDB();
 
         if (req.method === 'GET') {
-            const { userId } = req.query; // Assuming userId is passed as a query parameter
+            const { userId } = req.query;
 
             try {
-                const wishlist = await Wishlist.findOne({ userId }).populate("products", "name price description image"); // Customize fields as needed
+                const user = await User.findById(userId)
+                    .populate('wishlist_products', 'name price description image'); // Customize fields as needed
 
-                if (!wishlist) {
-                    return res.status(404).json({ message: "Wishlist not found for this user." });
+                if (!user) {
+                    return res.status(404).json({ message: "User not found." });
                 }
 
-                res.status(200).json(wishlist);
+                // Return only the wishlist products array
+                res.status(200).json({
+                    wishlist_products: user.wishlist_products || []
+                });
             } catch (error) {
-                console.error('Error retrieving wishlist:', error);
-                res.status(500).json({ error: "Failed to retrieve wishlist." });
+                console.error('Error retrieving wishlist products:', error);
+                res.status(500).json({ error: "Failed to retrieve wishlist products." });
             }
         } else {
             res.setHeader('Allow', ['GET']);
