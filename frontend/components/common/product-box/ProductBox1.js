@@ -6,17 +6,34 @@ import CartContext from "../../../helpers/cart";
 import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
 import MasterProductDetail from "./MasterProductDetail";
 
-const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass, productDetail, addCompare, title }) => {
+const ProductItem = ({
+  product,
+  addCart,
+  backImage,
+  des,
+  addWishlist,
+  cartClass,
+  productDetail,
+  addCompare,
+  title,
+}) => {
   const router = useRouter();
   const cartContext = useContext(CartContext);
+  // console.log("cartContext:", cartContext, product);
+
   const curContext = useContext(CurrencyContext);
   const currency = curContext.state;
   const plusQty = cartContext.plusQty;
   const minusQty = cartContext.minusQty;
   const quantity = cartContext.quantity;
   const setQuantity = cartContext.setQuantity;
-  
-  const [image, setImage] = useState((product.variants && product.variants[0].images && product.variants[0].images[0])?? "");
+
+  const [image, setImage] = useState(
+    (product.variants &&
+      product.variants[0].images &&
+      product.variants[0].images[0]) ??
+      ""
+  );
   const [modal, setModal] = useState(false);
   const [modalCompare, setModalCompare] = useState(false);
   const toggleCompare = () => setModalCompare(!modalCompare);
@@ -37,13 +54,15 @@ const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass,
   };
 
   const variantChangeByFlavor = (flavor) => {
-    const selectedVariant = product.variants.find(variant => variant.flavor === flavor);
+    const selectedVariant = product.variants.find(
+      (variant) => variant.flavor === flavor
+    );
     if (selectedVariant) {
       setImage(selectedVariant.images[0]);
     }
   };
 
-  if(!product.variants || !product.variants[0].images) {
+  if (!product.variants || !product.variants[0].images) {
     return null;
   }
 
@@ -82,7 +101,12 @@ const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass,
           <a href={null} title="Compare" onClick={toggleCompare}>
             <i className="fa fa-refresh" aria-hidden="true"></i>
           </a>
-          <Modal isOpen={modalCompare} toggle={toggleCompare} size="lg" centered>
+          <Modal
+            isOpen={modalCompare}
+            toggle={toggleCompare}
+            size="lg"
+            centered
+          >
             <ModalBody>
               <Row className="compare-modal">
                 <Col lg="12">
@@ -90,12 +114,16 @@ const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass,
                     <Media src={image} alt="" className="img-fluid" />
                     <div className="media-body align-self-center text-center">
                       <h5>
-                        <i className="fa fa-check"></i>Item <span>{product.title} </span>
+                        <i className="fa fa-check"></i>Item{" "}
+                        <span>{product.title} </span>
                         <span> successfully added to your Compare list</span>
                       </h5>
                       <div className="buttons d-flex justify-content-center">
                         <Link href="/page/compare">
-                          <button className="btn-sm btn-solid" onClick={addCompare}>
+                          <button
+                            className="btn-sm btn-solid"
+                            onClick={addCompare}
+                          >
                             View Compare list
                           </button>
                         </Link>
@@ -110,8 +138,17 @@ const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass,
         {product.variants ? (
           <ul className="product-thumb-list">
             {product.variants.map((variant, i) => (
-              <li className={`grid_thumb_img ${variant.images[0] === image ? "active" : ""}`} key={i}>
-                <a href={null} title={variant.flavor} onClick={() => variantChangeByFlavor(variant.flavor)}>
+              <li
+                className={`grid_thumb_img ${
+                  variant.images[0] === image ? "active" : ""
+                }`}
+                key={i}
+              >
+                <a
+                  href={null}
+                  title={variant.flavor}
+                  onClick={() => variantChangeByFlavor(variant.flavor)}
+                >
                   <Media src={variant.images[0]} alt={variant.flavor} />
                 </a>
               </li>
@@ -121,8 +158,21 @@ const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass,
           ""
         )}
       </div>
-      <MasterProductDetail product={product} productDetail={productDetail} currency={currency} uniqueTags={uniqueTags} title={title} des={des} variantChangeByFlavor={variantChangeByFlavor} />
-      <Modal isOpen={modal} toggle={toggle} className="modal-lg quickview-modal" centered>
+      <MasterProductDetail
+        product={product}
+        productDetail={productDetail}
+        currency={currency}
+        uniqueTags={uniqueTags}
+        title={title}
+        des={des}
+        variantChangeByFlavor={variantChangeByFlavor}
+      />
+      <Modal
+        isOpen={modal}
+        toggle={toggle}
+        className="modal-lg quickview-modal"
+        centered
+      >
         <ModalBody>
           <Row>
             <Col lg="6" xs="12">
@@ -132,7 +182,13 @@ const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass,
             </Col>
             <Col lg="6" className="rtl-text">
               <div className="product-right">
-                <button type="button" data-dismiss="modal" className="btn-close btn btn-secondary" aria-label="Close" onClick={toggle}></button>
+                <button
+                  type="button"
+                  data-dismiss="modal"
+                  className="btn-close btn btn-secondary"
+                  aria-label="Close"
+                  onClick={toggle}
+                ></button>
                 <h2> {product.title} </h2>
                 <h3>
                   {currency.symbol}
@@ -141,7 +197,11 @@ const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass,
                 {product.variants ? (
                   <ul className="color-variant">
                     {product.variants.map((variant, i) => (
-                      <li key={i} title={variant.flavor} onClick={() => variantChangeByFlavor(variant.flavor)}>
+                      <li
+                        key={i}
+                        title={variant.flavor}
+                        onClick={() => variantChangeByFlavor(variant.flavor)}
+                      >
                         {variant.flavor}
                       </li>
                     ))}
@@ -173,13 +233,31 @@ const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass,
                   <div className="qty-box">
                     <div className="input-group">
                       <span className="input-group-prepend">
-                        <button type="button" className="btn quantity-left-minus" onClick={minusQty} data-type="minus" data-field="">
+                        <button
+                          type="button"
+                          className="btn quantity-left-minus"
+                          onClick={minusQty}
+                          data-type="minus"
+                          data-field=""
+                        >
                           <i className="fa fa-angle-left"></i>
                         </button>
                       </span>
-                      <input type="text" name="quantity" value={quantity} onChange={changeQty} className="form-control input-number" />
+                      <input
+                        type="text"
+                        name="quantity"
+                        value={quantity}
+                        onChange={changeQty}
+                        className="form-control input-number"
+                      />
                       <span className="input-group-prepend">
-                        <button type="button" className="btn quantity-right-plus" onClick={() => plusQty(product)} data-type="plus" data-field="">
+                        <button
+                          type="button"
+                          className="btn quantity-right-plus"
+                          onClick={() => plusQty(product)}
+                          data-type="plus"
+                          data-field=""
+                        >
                           <i className="fa fa-angle-right"></i>
                         </button>
                       </span>
@@ -187,10 +265,16 @@ const ProductItem = ({ product, addCart, backImage, des, addWishlist, cartClass,
                   </div>
                 </div>
                 <div className="product-buttons">
-                  <button className="btn btn-solid" onClick={() => addCart(product)}>
+                  <button
+                    className="btn btn-solid"
+                    onClick={() => addCart(product)}
+                  >
                     add to cart
                   </button>
-                  <button className="btn btn-solid" onClick={clickProductDetail}>
+                  <button
+                    className="btn btn-solid"
+                    onClick={clickProductDetail}
+                  >
                     View detail
                   </button>
                 </div>

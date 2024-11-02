@@ -28,6 +28,7 @@ const  MasterCategory = ({ img, title, link }) => {
 
 const CategoryTwo = () => {
   const [categories, setCategories] = useState([]);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -53,6 +54,7 @@ const CategoryTwo = () => {
       },
     ],
   };
+  
    useEffect(() => {
       const fetchCategories = async () => {
         try {

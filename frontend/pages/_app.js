@@ -1,19 +1,30 @@
+import { getServerSession } from "next-auth"; // Import getServerSession
 import React, { useEffect, useState } from "react";
-import ThemeSettings from "../components/customizer/theme-settings";
-import "../public/assets/scss/app.scss";
+import Helmet from "react-helmet";
+import { SessionProvider } from "next-auth/react";
+import { ApolloProvider } from "@apollo/client";
 import { ToastContainer } from "react-toastify";
-import TapTop from "../components/common/widgets/Tap-Top";
-// import MessengerCustomerChat from "react-messenger-customer-chat";
-import CartContextProvider from "../helpers/cart/CartContext";
+import { useApollo } from "../helpers/apollo";
 import { WishlistContextProvider } from "../helpers/wishlist/WishlistContext";
-import FilterProvider from "../helpers/filter/FilterProvider";
-import SettingProvider from "../helpers/theme-setting/SettingProvider";
 import { CompareContextProvider } from "../helpers/Compare/CompareContext";
 import { CurrencyContextProvider } from "../helpers/Currency/CurrencyContext";
-import Helmet from "react-helmet";
-import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../helpers/apollo";
-import { SessionProvider } from "next-auth/react";
+// import MessengerCustomerChat from "react-messenger-customer-chat";
+import TapTop from "../components/common/widgets/Tap-Top";
+import ThemeSettings from "../components/customizer/theme-settings";
+import CartContextProvider from "../helpers/cart/CartContext";
+import FilterProvider from "../helpers/filter/FilterProvider";
+import SettingProvider from "../helpers/theme-setting/SettingProvider";
+import "../public/assets/scss/app.scss";
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res);
+  // console.log("session: ", session);
+  return {
+    props: {
+      session,
+    },
+  };
+}
 
 export default function MyApp({
   Component,
@@ -31,10 +42,12 @@ export default function MyApp({
     let timer = setTimeout(function () {
       setIsLoading(false);
     }, 1000);
+
     return () => {
       clearTimeout(timer);
     };
   }, []);
+
   return (
     <>
       <SessionProvider session={session}>

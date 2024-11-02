@@ -100,7 +100,7 @@ export const authOptions = {
 
       if (account?.provider === "credentials") return true;
 
-      if (account.provider === "google") {
+      if (account?.provider === "google") {
         try {
           await connectToMongoDB();
           const userExists = await User.findOne({ email: user?.email });
@@ -136,18 +136,17 @@ export const authOptions = {
 
         if (userExists) {
           session.user = {
-            authUser: token.user,
+            authUser: token?.user,
             user: userExists,
           };
-          // console.log("session.user:", session.user);
 
-          return session.user;
+          return { ...session, user: session?.user };
         } else {
-          session.user = { user: token.user };
-          return session.user;
+          session.user = { user: token?.user };
+          return { ...session, user: session?.user };
         }
       }
-      return session.user;
+      return session;
     },
   },
 };

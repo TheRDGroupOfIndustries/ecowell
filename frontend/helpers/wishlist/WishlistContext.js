@@ -100,10 +100,10 @@ export const WishlistContextProvider = (props) => {
     }
   };
 
+  // console.log("session:", session);
   useEffect(() => {
-    // console.log("session:", session);
     if (session) {
-      fetchWishlist(session.user._id);
+      fetchWishlist(session?.user?.user?._id);
     }
   }, [session]);
 
