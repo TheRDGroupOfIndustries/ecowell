@@ -63,7 +63,7 @@ const CategoryTwo = () => {
             throw new Error('Network response was not ok');
           }
           const data = await response.json();
-          console.log("Fetched Categories:", data);
+          // console.log("Fetched Categories:", data);
           //only title, image_link and slug to show 
           let categoriesToShow = data.map((category) => {
             return { title: category.title, slug: category.slug, image_link: category.image_link };

@@ -1,10 +1,11 @@
-import { useSession } from "next-auth/react";
+"use client";
+// import { useSession } from "next-auth/react";
 import React from "react";
 import { Container, Row, Form, Input, Label, Col } from "reactstrap";
 
 const ProfilePage = () => {
-  const { data: session } = useSession();
-  const user = session?.user?.user;
+  // const { data: session } = useSession();
+  // const user = session?.user?.user;
   // console.log("user: ", user, session);
   return (
     <>
@@ -24,7 +25,7 @@ const ProfilePage = () => {
                       className="form-control"
                       id="name"
                       placeholder="Enter Your name"
-                      value={user?.first_name}
+                      // value={user?.first_name}
                     />
                   </Col>
                   <Col md="6">
@@ -36,7 +37,7 @@ const ProfilePage = () => {
                       className="form-control"
                       id="last-name"
                       placeholder="Enter your last name"
-                      value={user?.last_name}
+                      // value={user?.last_name}
                     />
                   </Col>
                   <Col md="6">
@@ -48,7 +49,7 @@ const ProfilePage = () => {
                       className="form-control"
                       id="review"
                       placeholder="Enter your number"
-                      value={user?.phone_number}
+                      // value={user?.phone_number}
                     />
                   </Col>
                   <Col md="6">
@@ -60,7 +61,7 @@ const ProfilePage = () => {
                       className="form-control"
                       id="email"
                       placeholder="Email"
-                      value={user?.email}
+                      // value={user?.email}
                     />
                   </Col>
                   {/* <Col md="12">

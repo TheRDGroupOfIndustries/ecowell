@@ -95,14 +95,14 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account }) {
-      // console.log("user:", user);
-      // console.log("account:", account);
+      console.log("user:", user);
+      console.log("account:", account);
+      await connectToMongoDB();
 
       if (account?.provider === "credentials") return true;
 
       if (account?.provider === "google") {
         try {
-          await connectToMongoDB();
           const userExists = await User.findOne({ email: user?.email });
 
           if (!userExists) {
@@ -133,22 +133,21 @@ export const authOptions = {
 
       if (typeof token?.user !== "undefined") {
         const userExists = await User.findOne({ email: token?.user?.email });
-
         if (userExists) {
-          session.user = {
-            authUser: token?.user,
-            user: userExists,
-          };
-
-          return { ...session, user: session?.user };
+          session.user = { authUser: token?.user, user: userExists };
         } else {
           session.user = { user: token?.user };
-          return { ...session, user: session?.user };
         }
       }
-      return session;
+      console.log("session.user:", session.user);
+      return session; //.user;
     },
+  },
+  pages: {
+    signIn: "/page/account/login",
   },
 };
 
 export default NextAuth(authOptions);
+// export const handler = NextAuth(authOptions);
+// export { handler as GET, handler as POST };

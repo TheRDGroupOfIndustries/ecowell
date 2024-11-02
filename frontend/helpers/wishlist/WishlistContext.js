@@ -64,6 +64,8 @@
 //   Provider as WishlistContextProvider,
 // } from "./WishlistContext";
 
+"use client";
+
 import React, { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
@@ -77,9 +79,9 @@ export const WishlistContext = createContext({
 export const WishlistContextProvider = (props) => {
   const [wishlistItems, setWishlistItems] = useState([]);
 
-  // console.log("wishlist items", wishlistItems);
-
   const { data: session } = useSession();
+  const userId = session && session?.user?._id;
+  console.log("session:", session);
 
   const fetchWishlist = async (userId) => {
     try {
@@ -100,12 +102,11 @@ export const WishlistContextProvider = (props) => {
     }
   };
 
-  // console.log("session:", session);
   useEffect(() => {
-    if (session) {
-      fetchWishlist(session?.user?.user?._id);
+    if (session && userId) {
+      fetchWishlist(userId);
     }
-  }, [session]);
+  }, [session, userId]);
 
   const addToWish = async (product) => {
     console.log("addToWish product:", product);
@@ -115,7 +116,7 @@ export const WishlistContextProvider = (props) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: session.user._id,
+          userId,
           productId: product._id,
         }),
       });
@@ -137,7 +138,7 @@ export const WishlistContextProvider = (props) => {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: session.user._id,
+          userId,
           productId: product._id,
         }),
       });

@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth"; // Import getServerSession
+import { authOptions } from "./api/auth/[...nextauth]";
 import React, { useEffect, useState } from "react";
 import Helmet from "react-helmet";
 import { SessionProvider } from "next-auth/react";
@@ -17,8 +18,8 @@ import SettingProvider from "../helpers/theme-setting/SettingProvider";
 import "../public/assets/scss/app.scss";
 
 export async function getServerSideProps(context) {
-  const session = await getServerSession(context.req, context.res);
-  // console.log("session: ", session);
+  const session = await getServerSession(context.req, context.res, authOptions);
+  console.log("session: ", session);
   return {
     props: {
       session,
@@ -50,26 +51,26 @@ export default function MyApp({
 
   return (
     <>
-      <SessionProvider session={session}>
-        <ApolloProvider client={apolloClient}>
-          {isLoading ? (
-            <div className="loader-wrapper">
-              {url === "Christmas" ? (
-                <div id="preloader"></div>
-              ) : (
-                <div className="loader"></div>
-              )}
-            </div>
-          ) : (
-            <>
-              <Helmet>
-                <meta
-                  name="viewport"
-                  content="width=device-width, initial-scale=1"
-                />
-                {/* <Head><link rel="icon" type="image/x-icon" href={favicon} /></Head> */}
-                <title>EcoWel - Get yourself some protiens</title>
-              </Helmet>
+      <ApolloProvider client={apolloClient}>
+        {isLoading ? (
+          <div className="loader-wrapper">
+            {url === "Christmas" ? (
+              <div id="preloader"></div>
+            ) : (
+              <div className="loader"></div>
+            )}
+          </div>
+        ) : (
+          <>
+            <Helmet>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1"
+              />
+              {/* <Head><link rel="icon" type="image/x-icon" href={favicon} /></Head> */}
+              <title>EcoWel - Get yourself some protiens</title>
+            </Helmet>
+            <SessionProvider session={session}>
               <div>
                 <SettingProvider>
                   <CompareContextProvider>
@@ -88,10 +89,10 @@ export default function MyApp({
                 <ToastContainer />
                 <TapTop />
               </div>
-            </>
-          )}
-        </ApolloProvider>
-      </SessionProvider>
+            </SessionProvider>
+          </>
+        )}
+      </ApolloProvider>
     </>
   );
 }
