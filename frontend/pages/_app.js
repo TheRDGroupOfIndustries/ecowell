@@ -68,7 +68,7 @@ export default function MyApp({
                 content="width=device-width, initial-scale=1"
               />
               {/* <Head><link rel="icon" type="image/x-icon" href={favicon} /></Head> */}
-              <title>EcoWel - Get yourself some protiens</title>
+              <title>EcoWell - Get yourself some protiens</title>
             </Helmet>
             <SessionProvider session={session}>
               <div>
