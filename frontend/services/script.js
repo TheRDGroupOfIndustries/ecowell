@@ -1,28 +1,3 @@
-export const Product3 = {
-  infinite: true,
-  speed: 300,
-  slidesToShow: 3,
-  slidesToScroll: 3,
-  autoplay: false,
-  arrows: false,
-  autoplaySpeed: 3000,
-  responsive: [
-    {
-      breakpoint: 1200,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 4,
-      },
-    },
-    {
-      breakpoint: 991,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
-      },
-    },
-  ],
-};
 export const tools_product_4 = {
   infinite: true,
   speed: 300,
@@ -49,6 +24,31 @@ export const tools_product_4 = {
   ],
 };
 
+export const Product3 = {
+  infinite: true,
+  speed: 300,
+  slidesToShow: 3,
+  slidesToScroll: 3,
+  autoplay: false,
+  arrows: false,
+  autoplaySpeed: 3000,
+  responsive: [
+    {
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4,
+      },
+    },
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+      },
+    },
+  ],
+};
 export const Product4 = {
   infinite: true,
   speed: 300,
@@ -81,7 +81,6 @@ export const Product4 = {
     },
   ],
 };
-
 export const Product7 = {
   infinite: true,
   speed: 300,
@@ -107,7 +106,6 @@ export const Product7 = {
     },
   ],
 };
-
 export const Product5 = {
   dots: false,
   infinite: true,
@@ -146,7 +144,6 @@ export const Product5 = {
     },
   ],
 };
-
 export const Product6 = {
   infinite: true,
   speed: 300,
@@ -220,7 +217,6 @@ export const Slider2 = {
     },
   ],
 };
-
 export const Slider3 = {
   infinite: true,
   speed: 300,
@@ -307,7 +303,6 @@ export const Slider5 = {
     },
   ],
 };
-
 export const Slider6 = {
   dots: false,
   infinite: true,
@@ -348,7 +343,6 @@ export const Slider6 = {
     },
   ],
 };
-
 export const Slider7 = {
   dots: false,
   infinite: true,

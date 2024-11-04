@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Col,
   Media,
@@ -13,9 +13,22 @@ import {
 import offerBanner from "../../public/assets/images/Offer-banner.png";
 
 const ModalComponent = () => {
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
+
+  useEffect(() => {
+    const isSubscribedModalShown = localStorage.getItem(
+      "isSubscribedModalShown"
+    );
+    // console.log("isSubscribedModalShown", isSubscribedModalShown);
+    if (!isSubscribedModalShown) {
+      setTimeout(() => {
+        setModal(true);
+        localStorage.setItem("isSubmodalShown", true);
+      }, 6000);
+    }
+  }, []);
 
   return (
     <Modal
@@ -35,8 +48,7 @@ const ModalComponent = () => {
                   data-dismiss="modal"
                   aria-label="Close"
                   onClick={toggle}
-                >
-                </Button>
+                ></Button>
                 <div className="offer-content">
                   <Media
                     src={offerBanner.src}

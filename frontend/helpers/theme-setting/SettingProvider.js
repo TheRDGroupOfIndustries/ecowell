@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SettingContext from "./SettingContext";
 import config from "../../components/customizer/config.json";
+
 const SettingProvider = (props) => {
   const [layoutState, setLayoutState] = useState("RTL");
   const [layoutColor, setLayoutColor] = useState("#399B2E");
@@ -16,10 +17,13 @@ const SettingProvider = (props) => {
     }
   };
 
-  console.log("layoutState",layoutState)
+  // console.log("layoutState",layoutState)
 
   const layoutColorFun = (item) => {
-    document.documentElement.style.setProperty("--theme-deafult", item.target.value);
+    document.documentElement.style.setProperty(
+      "--theme-deafult",
+      item.target.value
+    );
     config.color = item.target.value;
     localStorage.setItem("color", item.target.value);
     setLayoutColor(item.target.value);
@@ -33,7 +37,8 @@ const SettingProvider = (props) => {
         layoutColor,
         layoutFun: layoutFun,
         layoutColorFun: layoutColorFun,
-      }}>
+      }}
+    >
       {props.children}
     </SettingContext.Provider>
   );

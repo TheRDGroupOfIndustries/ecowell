@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       "_id sku title price description images"
     );
 
-    console.log("wishlist:", wishlist);
+    // console.log("wishlist:", wishlist);
     if (wishlist) return res.status(200).json(wishlist.products);
 
     // return res.status(404).json({ message: "Wishlist not found for this user." });
