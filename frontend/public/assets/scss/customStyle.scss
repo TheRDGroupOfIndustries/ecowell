@@ -15,3 +15,13 @@
     margin-top: 10px;
 }
 }
+
+.product-tabs{
+    margin-top: 10px;
+
+    & ul li{
+        display: list-item;
+        padding: 5px 0;
+        font-size: 1rem;
+    }
+}

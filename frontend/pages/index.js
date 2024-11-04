@@ -24,7 +24,7 @@ const Fashion = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchProducts = async () => {
       try {
         setLoading(true);
         const response = await fetch("/api/products/getAllProducts");
@@ -32,7 +32,7 @@ const Fashion = () => {
           throw new Error("Network response was not ok");
         }
         const dataTemp = await response.json();
-        // console.log("Fetched Products:", dataTemp);
+        console.log("Fetched Products:", dataTemp);
         setData(dataTemp);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -42,7 +42,7 @@ const Fashion = () => {
       }
     };
 
-    fetchCategories();
+    fetchProducts();
   }, []);
 
   return (
@@ -65,7 +65,7 @@ const Fashion = () => {
         title="title1 section-t-space"
         inner="title-inner1"
         hrClass={false}
-        headingName="Featured Products"
+        headingName="See Our Products"
         subHeadingName="special offer"
         paragraph="See all of our amazing featured products in one place. We have a fine selection of products that are sure to impress.
         "
@@ -74,8 +74,8 @@ const Fashion = () => {
         noTitle="null"
         backImage={true}
         type="fashion"
-        title="Featured Products"
-        subtitle="special offer"
+        title="See Our Products"
+        subtitle="special cdoffer"
         productSlider={Product4}
         designClass="section-b-space p-t-0 ratio_asos px-2"
         noSlider="false"
@@ -85,7 +85,7 @@ const Fashion = () => {
       />
       <Parallax />
       <SpecialProducts
-        type="fashion"
+        type="featured"
         backImage={true}
         productSlider={Product4}
         line={true}
@@ -94,10 +94,11 @@ const Fashion = () => {
         designClass="section-b-space p-t-0 ratio_asos"
         noSlider="true"
         cartClass="cart-info cart-wrap"
+        data={data}
       />
       <ServiceLayout sectionClass="border-section small-section" />
-      <Blog type="fashion" title="title1" inner="title-inner1" />
-      <Instagram type="fashion" />
+      {/* <Blog type="fashion" title="title1" inner="title-inner1" /> */}
+      {/* <Instagram type="fashion" /> */}
       <div className="section-b-space">
         <LogoBlock />
       </div>

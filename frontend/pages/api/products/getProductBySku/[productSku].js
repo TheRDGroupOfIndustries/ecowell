@@ -3,22 +3,23 @@ import Product from "../../../../models/Products";
 
 export default async function handler(req, res) {
     const { method, query } = req;
-console.log("Query: ",query);
+    console.log("Query: ", query);
+
     if (method !== "GET") {
         return res.status(405).json({ message: "Method not allowed." });
     }
 
     try {
-        const { productId } = query;
+        const { productSku } = query;
 
-        if (!productId) {
-            return res.status(400).json({ message: "productId is required." });
+        if (!productSku) {
+            return res.status(400).json({ message: "productSku is required." });
         }
 
         await connectToMongoDB();
 
-        // Fetch the product details
-        const product = await Product.findById(productId);
+        // Fetch the product details by SKU
+        const product = await Product.findOne({ sku: productSku });
 
         if (!product) {
             return res.status(404).json({
