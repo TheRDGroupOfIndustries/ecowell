@@ -1,55 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import ProductTab from "../common/product-tab";
 import Service from "../common/service";
 import NewProduct from "../../shop/common/newProduct";
 import Slider from "react-slick";
-import { useQuery } from "@apollo/client";
-import { gql } from "@apollo/client";
 import ImageZoom from "../common/image-zoom";
 import DetailsWithPrice from "../common/detail-price";
 import Filter from "../common/filter";
 import { Container, Row, Col, Media } from "reactstrap";
 
-const GET_SINGLE_PRODUCTS = gql`
-  query product($id: Int!) {
-    product(id: $id) {
-      id
-      title
-      description
-      type
-      brand
-      category
-      price
-      new
-      sale
-      discount
-      stock
-      variants {
-        id
-        sku
-        size
-        color
-        image_id
-      }
-      images {
-        alt
-        src
-      }
-    }
-  }
-`;
-
-const LeftSidebarPage = ({ pathId }) => {
-  var { loading, data } = useQuery(GET_SINGLE_PRODUCTS, {
-    variables: {
-      id: parseInt(pathId),
-    },
-  });
-
-  // const [state, setState] = useState({ nav1: null, nav2: null });
-  // const slider1 = useRef();
-  // const slider2 = useRef();
-
+const LeftSidebarPage = ({ selectedProduct: data, wholeProduct, setSelectedProduct }) => {
   var products = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -59,7 +18,7 @@ const LeftSidebarPage = ({ pathId }) => {
   };
 
   const sliderNav = {
-    slidesToShow: data?.product?.images?.length,
+    slidesToShow: data?.images?.length,
     slidesToScroll: 1,
     arrows: false,
     dots: false,
@@ -81,11 +40,17 @@ const LeftSidebarPage = ({ pathId }) => {
     document.getElementById("filter").style.left = "-15px";
   };
 
-  const changeColorVar = (img_id) => {
-    slider2.current?.slickGoTo(img_id);
+  const changeColorVar = (variantIndex) => {
+    console.log("Changing color variant to:", wholeProduct.variants[variantIndex]);
+    setSelectedProduct(wholeProduct.variants[variantIndex]);
+    slider2.current?.slickGoTo(0);
   };
 
-  console.log("data.product.images", data?.product?.images?.length);
+  if (!data) {
+    return <p>Loading...</p>;
+  }
+
+  const selectedVariant = data || wholeProduct.variants[0];
 
   return (
     <section className="">
@@ -95,9 +60,7 @@ const LeftSidebarPage = ({ pathId }) => {
             <Col sm="3" className="collection-filter" id="filter">
               <Filter />
               <Service />
-              {/* <!-- side-bar single product slider start --> */}
               <NewProduct />
-              {/* <!-- side-bar single product slider end --> */}
             </Col>
             <Col lg="9" sm="12" xs="12">
               <Container fluid={true}>
@@ -105,40 +68,40 @@ const LeftSidebarPage = ({ pathId }) => {
                   <Col xl="12" className="filter-col">
                     <div className="filter-main-btn mb-2">
                       <span onClick={filterClick} className="filter-btn">
-                        <i className="fa fa-filter" aria-hidden="true"></i> filter
+                        <i className="fa fa-filter"></i> filter
                       </span>
                     </div>
                   </Col>
                 </Row>
-                {!data || !data.product || data.product.length === 0 || loading ? (
+                {!data ? (
                   "loading"
                 ) : (
                   <Row>
                     <Col lg="6" className="product-thumbnail">
                       <Slider {...products} asNavFor={nav2} ref={(slider) => setSlider1(slider)} className="product-slick">
-                        {data.product.images.map((vari, index) => (
+                        {selectedVariant.images.map((vari, index) => (
                           <div key={index}>
                             <ImageZoom image={vari} />
                           </div>
                         ))}
                       </Slider>
-                      {data.product.variants.length > 1 && (
+                      {selectedVariant.images.length > 1 && (
                         <Slider className="slider-nav" {...sliderNav} asNavFor={nav1} ref={(slider) => setSlider2(slider)}>
-                          {data.product.images.map((item, i) => (
+                          {selectedVariant.images.map((item, i) => (
                             <div key={i}>
-                              <Media src={item.src} key={i} alt={item.alt} className="img-fluid" />
+                              <Media src={item} key={i} alt={`variant-${i}`} className="img-fluid" />
                             </div>
                           ))}
                         </Slider>
                       )}
                     </Col>
                     <Col lg="6" className="rtl-text product-ps">
-                      <DetailsWithPrice item={data.product} changeColorVar={changeColorVar} />
+                      <DetailsWithPrice item={wholeProduct} changeColorVar={changeColorVar} />
                     </Col>
                   </Row>
                 )}
               </Container>
-              <ProductTab />
+              <ProductTab wholeProduct={wholeProduct} />
             </Col>
           </Row>
         </Container>

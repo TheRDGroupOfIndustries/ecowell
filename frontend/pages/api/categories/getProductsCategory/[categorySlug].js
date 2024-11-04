@@ -3,40 +3,40 @@ import Product from "../../../../models/Products";
 
 export default async function handler(req, res) {
     const { method, query } = req;
-console.log("Query: ",query);
+
     if (method !== "GET") {
         return res.status(405).json({ message: "Method not allowed." });
     }
 
     try {
-        const { productId } = query;
-
-        if (!productId) {
-            return res.status(400).json({ message: "productId is required." });
+        const { categorySlug } = query;
+      console.log("Category Slug provided: ",categorySlug)
+        if (!categorySlug) {
+            return res.status(400).json({ message: "categorySlug is required." });
         }
 
         await connectToMongoDB();
 
-        // Fetch the product details
-        const product = await Product.findById(productId);
+        // Fetch the products in the category
+        const categoryProducts = await Product.find({ "category.slug": categorySlug });
 
-        if (!product) {
+        if (!categoryProducts || categoryProducts.length === 0) {
             return res.status(404).json({
                 success: false,
-                message: "Product not found."
+                message: "No products found in this category."
             });
         }
 
-        // Return the product details
+        // Return the products in the category
         return res.status(200).json({
             success: true,
-            product: product
+            products: categoryProducts
         });
     } catch (error) {
-        console.error("Fetching product error:", error);
+        console.error("Error fetching categories:", error);
         return res.status(500).json({
             success: false,
-            message: "Failed to fetch product details.",
+            message: "Failed to fetch categories.",
             error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }

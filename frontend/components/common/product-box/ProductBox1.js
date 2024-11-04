@@ -49,8 +49,8 @@ const ProductItem = ({
   };
 
   const clickProductDetail = () => {
-    const titleProps = product.title.split(" ").join("");
-    router.push(`/product-details/${product.id}` + "-" + `${titleProps}`);
+    console.log("product: ", product);
+    router.push(`/product-details/${product.sku}`);
   };
 
   const variantChangeByFlavor = (flavor) => {
@@ -68,7 +68,9 @@ const ProductItem = ({
 
   return (
     <div className="product-box product-wrap">
-      <div className="img-wrapper">
+      <div className="img-wrapper" style={{
+        cursor: "pointer"
+      }}>
         <div className="lable-block">
           {product.new === true ? <span className="lable3">new</span> : ""}
           {product.sale === true ? <span className="lable4">on sale</span> : ""}
