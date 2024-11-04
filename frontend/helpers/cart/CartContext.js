@@ -231,9 +231,40 @@ const CartProvider = (props) => {
     }
 };
 
+  // Update the removeFromCart function in your CartProvider
   const removeFromCart = async (item) => {
-    toast.error("Product Removed Successfully !");
-    setCartItems(cartItems.filter((e) => e.id !== item.id));
+    try {
+      if (!userId) {
+        toast.error("Please login to remove items from cart!");
+        return;
+      }
+
+      const response = await fetch('/api/cart/removeFromCart', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          productId: item._id  // Assuming item has _id property
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Update local state with the new cart data
+        setCartItems(data.cart.items);
+        setCartTotal(data.cart.totalPrice);
+        toast.success("Product removed successfully!");
+      } else {
+        console.log(userId,item._id)
+        toast.error(data.message || "Failed to remove product from cart.");
+      }
+    } catch (error) {
+      console.error("Error removing product:", error);
+      toast.error("An error occurred while removing the product.");
+    }
   };
 
   const minusQty = () => {
