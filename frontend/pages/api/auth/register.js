@@ -107,12 +107,7 @@ export default async function handler(req, res) {
           .status(200)
           .json({ message: "User Registered successfully!" });
       } catch (error) {
-<<<<<<< HEAD
         console.log(error)
-=======
-        console.log(error);
-
->>>>>>> 4d864c6b34e70c9025dcc7b53850cf163a5fb39d
         return res
           .status(500)
           .json({ error: "Internal Server Error: " + error });
