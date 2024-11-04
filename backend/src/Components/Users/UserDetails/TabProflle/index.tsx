@@ -1,11 +1,12 @@
-import { Settings, User } from "react-feather";
+import { User as UserType } from "@/Types/Layout";
+import { Settings, ShoppingCart, User } from "react-feather";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import DeactivateAccount from "./DeactivateAccount";
 import DeleteAccount from "./DeleteAccount";
 import Notifications from "./Notifications";
 import TabTable from "./TabTable";
 
-const TabProfile = () => {
+const TabProfile = ({ user }: { user: UserType }) => {
   return (
     <div>
       <Tabs>
@@ -14,19 +15,20 @@ const TabProfile = () => {
             <User className="me-2" />
             Profile
           </Tab>
-          {/* <Tab className="nav-link">
-            <Settings className="me-2" />
-            Contact
-          </Tab> */}
+          <Tab className="nav-link">
+            <ShoppingCart className="me-2" />
+            Orders
+          </Tab>
         </TabList>
         <TabPanel>
-          <TabTable />
+          <TabTable user={user} />
         </TabPanel>
-        {/* <TabPanel>
-          <Notifications />
+        <TabPanel>
+          none
+          {/* <Notifications />
           <DeactivateAccount />
-          <DeleteAccount />
-        </TabPanel> */}
+          <DeleteAccount /> */}
+        </TabPanel>
       </Tabs>
     </div>
   );
