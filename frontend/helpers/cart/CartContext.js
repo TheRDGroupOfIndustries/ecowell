@@ -119,19 +119,10 @@
 
 // export default CartProvider;
 
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect, useCallback } from "react";
+import { useSession } from "next-auth/react";
 import Context from "./index";
 import { toast } from "react-toastify";
-import { useSession } from "next-auth/react";
 
 const CartProvider = (props) => {
   const [cartItems, setCartItems] = useState([]);
@@ -141,7 +132,8 @@ const CartProvider = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
+  const userId = session && session?.user?._id;
 
   // Calculate Cart Total
   const calculateCartTotal = useCallback((items) => {
@@ -154,13 +146,13 @@ const CartProvider = (props) => {
     let mounted = true;
 
     const fetchCartItems = async () => {
-      if (!session?.user?._id) return;
+      if (!userId) return;
 
       try {
         const response = await fetch("/api/cart/getAllCartItems", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: session.user._id }),
+          body: JSON.stringify({ userId }),
         });
 
         if (!response.ok) throw new Error("Failed to fetch cart items");
@@ -208,20 +200,26 @@ const CartProvider = (props) => {
       product: item,
       quantity,
       price: item.sale ? item.price * (1 - item.discount / 100) : item.price,
-      total: (item.sale ? item.price * (1 - item.discount / 100) : item.price) * quantity,
-      stock: item.stock
+      total:
+        (item.sale ? item.price * (1 - item.discount / 100) : item.price) *
+        quantity,
+      stock: item.stock,
     };
 
     // Check if item already exists
-    const existingItem = cartItems.find(cartItem =>
-      cartItem.product._id === item._id
+    const existingItem = cartItems.find(
+      (cartItem) => cartItem.product._id === item._id
     );
 
     let updatedItems;
     if (existingItem) {
-      updatedItems = cartItems.map(cartItem =>
+      updatedItems = cartItems.map((cartItem) =>
         cartItem.product._id === item._id
-          ? { ...cartItem, quantity: cartItem.quantity + quantity, total: cartItem.price * (cartItem.quantity + quantity) }
+          ? {
+              ...cartItem,
+              quantity: cartItem.quantity + quantity,
+              total: cartItem.price * (cartItem.quantity + quantity),
+            }
           : cartItem
       );
     } else {
@@ -238,7 +236,7 @@ const CartProvider = (props) => {
         body: JSON.stringify({
           userId: session.user._id,
           item,
-          quantity
+          quantity,
         }),
       });
 
@@ -271,7 +269,9 @@ const CartProvider = (props) => {
     setIsLoading(true);
 
     // Optimistic update
-    const updatedItems = cartItems.filter(cartItem => cartItem.id !== item.id);
+    const updatedItems = cartItems.filter(
+      (cartItem) => cartItem.id !== item.id
+    );
     setCartItems(updatedItems);
     calculateCartTotal(updatedItems);
 
@@ -281,7 +281,7 @@ const CartProvider = (props) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: session.user._id,
-          id: item.id
+          id: item.id,
         }),
       });
 
@@ -324,9 +324,13 @@ const CartProvider = (props) => {
     setIsLoading(true);
 
     // Optimistic update
-    const updatedItems = cartItems.map(cartItem =>
+    const updatedItems = cartItems.map((cartItem) =>
       cartItem.id === item.id
-        ? { ...cartItem, quantity: newQuantity, total: cartItem.price * newQuantity }
+        ? {
+            ...cartItem,
+            quantity: newQuantity,
+            total: cartItem.price * newQuantity,
+          }
         : cartItem
     );
     setCartItems(updatedItems);
@@ -339,7 +343,7 @@ const CartProvider = (props) => {
         body: JSON.stringify({
           userId: session.user._id,
           itemId: item.id,
-          quantity: newQuantity
+          quantity: newQuantity,
         }),
       });
 
@@ -365,14 +369,14 @@ const CartProvider = (props) => {
   // Local quantity adjustments
   const minusQty = () => {
     if (quantity > 1) {
-      setQuantity(prev => prev - 1);
+      setQuantity((prev) => prev - 1);
       setStock("InStock");
     }
   };
 
   const plusQty = (item) => {
     if (item.stock > quantity) {
-      setQuantity(prev => prev + 1);
+      setQuantity((prev) => prev + 1);
     } else {
       setStock("Out of Stock!");
       toast.warning("Maximum available stock reached");
