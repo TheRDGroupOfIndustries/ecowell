@@ -127,7 +127,7 @@ import { useSession } from "next-auth/react"; // Import useSession
 const CartProvider = (props) => {
   const { data: session } = useSession(); // Use the useSession hook
   const userId = session?.user?.user?._id; // Get userId from session
-  console.log("User  ID from session:", userId); // Log the userId
+  // console.log("User  ID from session:", userId); // Log the userId
 
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
