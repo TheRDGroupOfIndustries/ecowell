@@ -1,19 +1,33 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Row, Col, Container, Media } from "reactstrap";
+import { WishlistContext } from "../../../helpers/wishlist/WishlistContext";
+import { CompareContext } from "../../../helpers/Compare/CompareContext";
 import Slider from "react-slick";
 import ProductItems from "../product-box/ProductBox1";
-import { Row, Col, Container, Media } from "reactstrap";
 import CartContext from "../../../helpers/cart";
-import { WishlistContext } from "../../../helpers/wishlist/WishlistContext";
 import PostLoader from "../PostLoader";
-import { CompareContext } from "../../../helpers/Compare/CompareContext";
 
-const TopCollection = ({ title, subtitle, designClass, noSlider, cartClass, productSlider, titleClass, noTitle, innerClass, inner, backImage, loading, data }) => {
+const TopCollection = ({
+  title,
+  subtitle,
+  designClass,
+  noSlider,
+  cartClass,
+  productSlider,
+  titleClass,
+  noTitle,
+  innerClass,
+  inner,
+  backImage,
+  loading,
+  data,
+}) => {
   const context = useContext(CartContext);
   const contextWishlist = useContext(WishlistContext);
   const comapreList = useContext(CompareContext);
   const quantity = context.quantity;
   const [delayProduct, setDelayProduct] = useState(true);
-// console.log("ProductItems product:", data);
+  // console.log("ProductItems product:", data);
 
   useEffect(() => {
     if (data === undefined) {
@@ -69,7 +83,17 @@ const TopCollection = ({ title, subtitle, designClass, noSlider, cartClass, prod
                     {data &&
                       data.map((product, i) => (
                         <div key={i}>
-                          <ProductItems product={product} title={title} addWishlist={() => contextWishlist.addToWish(product)} addCart={() => context.addToCart(product, quantity)} addCompare={() => comapreList.addToCompare(product)} cartClass={cartClass} backImage={backImage} />
+                          <ProductItems
+                            product={product}
+                            title={title}
+                            addWishlist={() =>
+                              contextWishlist.addToWish(product)
+                            }
+                            addCart={() => context.addToCart(product, quantity)}
+                            addCompare={() => comapreList.addToCompare(product)}
+                            cartClass={cartClass}
+                            backImage={backImage}
+                          />
                         </div>
                       ))}
                   </Slider>
@@ -90,7 +114,11 @@ const TopCollection = ({ title, subtitle, designClass, noSlider, cartClass, prod
             )}
             <Container>
               <Row className="margin-default">
-                {!data || !data.products || !data.products.items || !data.products.items.length === 0 || loading ? (
+                {!data ||
+                !data.products ||
+                !data.products.items ||
+                !data.products.items.length === 0 ||
+                loading ? (
                   <div className="row margin-default">
                     <div className="col-xl-3 col-lg-4 col-6">
                       <PostLoader />
@@ -110,7 +138,16 @@ const TopCollection = ({ title, subtitle, designClass, noSlider, cartClass, prod
                   data.slice(0, 8).map((product, index) => (
                     <Col xl="3" sm="6" key={index}>
                       <div>
-                        <ProductItems product={product} backImage={backImage} addCompare={() => comapreList.addToCompare(product)} addWishlist={() => contextWishlist.addToWish(product)} title={title} cartClass={cartClass} addCart={() => context.addToCart(product, quantity)} key={index} />
+                        <ProductItems
+                          product={product}
+                          backImage={backImage}
+                          addCompare={() => comapreList.addToCompare(product)}
+                          addWishlist={() => contextWishlist.addToWish(product)}
+                          title={title}
+                          cartClass={cartClass}
+                          addCart={() => context.addToCart(product, quantity)}
+                          key={index}
+                        />
                       </div>
                     </Col>
                   ))

@@ -13,36 +13,38 @@ import Paragraph from "../components/common/Paragraph";
 import ModalComponent from "../components/common/Modal";
 import Helmet from "react-helmet";
 import MasterFooter from "../components/footers/common/MasterFooter";
-import ShoesCategoryTwo from './layouts/Shoes/components/Category-two';
+import ShoesCategoryTwo from "./layouts/Shoes/components/Category-two";
 import { toast } from "react-toastify";
 
 const Fashion = () => {
   const logoName = document.body.classList.contains("dark")
     ? "logo.png"
     : "logo-dark.png";
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
-    useEffect(() => {
-      const fetchCategories = async () => {
-        try {
-          setLoading(true);
-          const response = await fetch('/api/products/getAllProducts');
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const dataTemp = await response.json();
-          console.log("Fetched Products:", dataTemp);
-          setData(dataTemp);
-        } catch (error) {
-          console.error("Error fetching categories:", error);
-          toast.error("Failed to fetch categories");
-        } finally {
-          setLoading(false);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/products/getAllProducts");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      };
-  
-      fetchCategories();
-    }, []);
+        const dataTemp = await response.json();
+        // console.log("Fetched Products:", dataTemp);
+        setData(dataTemp);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        toast.error("Failed to fetch categories");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -57,7 +59,7 @@ const Fashion = () => {
       <HeaderOne topClass="top-header" />
       <Banner />
       <div className=" mt-5">
-      <ShoesCategoryTwo title={"Categories"} />
+        <ShoesCategoryTwo title={"Categories"} />
       </div>
       <Paragraph
         title="title1 section-t-space"

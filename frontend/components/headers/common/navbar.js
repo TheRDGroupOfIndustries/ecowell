@@ -3,7 +3,7 @@ import Link from "next/link";
 import { MENUITEMS } from "../../constant/menu";
 import { Container, Row } from "reactstrap";
 import { useTranslation } from "react-i18next";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
   const { t } = useTranslation();

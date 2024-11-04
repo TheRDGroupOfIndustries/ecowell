@@ -60,7 +60,7 @@
 
 
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const VariantSchema = new mongoose.Schema({
   id: { type: String, required: true },

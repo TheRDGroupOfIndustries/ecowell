@@ -5,13 +5,13 @@ import Helmet from "react-helmet";
 import favicon from "../../public/assets/images/favicon/1.png";
 import MasterFooter from "../footers/common/MasterFooter";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const CommonLayout = ({ children, title, parent, subTitle }) => {
-  const { status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
 
-  if (status === "authenticated") return router.push("/");
+  if (!session) return router.push("/");
   return (
     <>
       {/* <Helmet>

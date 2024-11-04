@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Container, Row, Col, Table } from "reactstrap";
 import { WishlistContext } from "../../../../helpers/wishlist/WishlistContext";
 import CartContext from "../../../../helpers/cart/index";
-import { useRouter } from "next/router";
-import Link from "next/link";
 
 const WishlistPage = () => {
   const router = useRouter();
@@ -11,17 +11,17 @@ const WishlistPage = () => {
   const cartContext = useContext(CartContext);
 
   const wishlist = context.wishlistItems;
+  // console.log("wishlist:", wishlist);
   const removeFromWish = context.removeFromWish;
   const addCart = cartContext.addToCart;
 
   const checkOut = () => {
     router.push("/page/account/checkout");
   };
-
   return (
     <>
-      {wishlist.length >= 0 ? (
-        <section className="wishlist-section section-b-space">
+      <section className="wishlist-section section-b-space">
+        {wishlist.length > 0 ? (
           <Container>
             <Row>
               <Col sm="12">
@@ -74,13 +74,15 @@ const WishlistPage = () => {
                           <a
                             href={null}
                             className="icon me-3"
-                            onClick={() => removeFromWish(item)}>
+                            onClick={() => removeFromWish(item)}
+                          >
                             <i className="fa fa-times"></i>
                           </a>
                           <a
                             href={null}
                             className="cart"
-                            onClick={() => addCart(item)}>
+                            onClick={() => addCart(item)}
+                          >
                             <i className="fa fa-shopping-cart"></i>
                           </a>
                         </td>
@@ -101,10 +103,10 @@ const WishlistPage = () => {
               </Col>
             </Row>
           </Container>
-        </section>
-      ) : (
-        ""
-      )}
+        ) : (
+          <Container>No wishlist products found!</Container>
+        )}
+      </section>
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Modal, ModalHeader, Media, ModalBody, Row, Col } from "reactstrap";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
 import CartContext from "../../../helpers/cart";
 

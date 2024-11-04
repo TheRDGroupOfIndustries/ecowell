@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { connect } from "mongoose";
 
 let cachedConnection = null;
 
@@ -15,7 +15,7 @@ export async function connectToMongoDB() {
   }
 
   try {
-    const cnx = await mongoose.connect(process.env.MONGODB_URI, {
+    const cnx = await connect(process.env.MONGODB_URI, {
       dbName: "Ecowell",
       socketTimeoutMS: 30000,
       serverSelectionTimeoutMS: 30000, // increasing timeout to 30 seconds

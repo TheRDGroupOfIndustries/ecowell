@@ -6,7 +6,7 @@ import paypal from "../../../../public/assets/images/paypal.png";
 import { PayPalScriptProvider, BraintreePayPalButtons, PayPalButtons } from "@paypal/react-paypal-js";
 
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { CurrencyContext } from "../../../../helpers/Currency/CurrencyContext";
 
 const CheckoutPage = () => {

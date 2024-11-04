@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   Media,

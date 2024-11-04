@@ -1,19 +1,31 @@
+import { getServerSession } from "next-auth"; // Import getServerSession
+import { authOptions } from "./api/auth/[...nextauth]";
 import React, { useEffect, useState } from "react";
-import ThemeSettings from "../components/customizer/theme-settings";
-import "../public/assets/scss/app.scss";
+import Helmet from "react-helmet";
+import { SessionProvider } from "next-auth/react";
+import { ApolloProvider } from "@apollo/client";
 import { ToastContainer } from "react-toastify";
-import TapTop from "../components/common/widgets/Tap-Top";
-// import MessengerCustomerChat from "react-messenger-customer-chat";
-import CartContextProvider from "../helpers/cart/CartContext";
+import { useApollo } from "../helpers/apollo";
 import { WishlistContextProvider } from "../helpers/wishlist/WishlistContext";
-import FilterProvider from "../helpers/filter/FilterProvider";
-import SettingProvider from "../helpers/theme-setting/SettingProvider";
 import { CompareContextProvider } from "../helpers/Compare/CompareContext";
 import { CurrencyContextProvider } from "../helpers/Currency/CurrencyContext";
-import Helmet from "react-helmet";
-import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../helpers/apollo";
-import { SessionProvider } from "next-auth/react";
+// import MessengerCustomerChat from "react-messenger-customer-chat";
+import TapTop from "../components/common/widgets/Tap-Top";
+import ThemeSettings from "../components/customizer/theme-settings";
+import CartContextProvider from "../helpers/cart/CartContext";
+import FilterProvider from "../helpers/filter/FilterProvider";
+import SettingProvider from "../helpers/theme-setting/SettingProvider";
+import "../public/assets/scss/app.scss";
+
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  console.log("session: ", session);
+  return {
+    props: {
+      session,
+    },
+  };
+}
 
 export default function MyApp({
   Component,
@@ -31,32 +43,34 @@ export default function MyApp({
     let timer = setTimeout(function () {
       setIsLoading(false);
     }, 1000);
+
     return () => {
       clearTimeout(timer);
     };
   }, []);
+
   return (
     <>
-      <SessionProvider session={session}>
-        <ApolloProvider client={apolloClient}>
-          {isLoading ? (
-            <div className="loader-wrapper">
-              {url === "Christmas" ? (
-                <div id="preloader"></div>
-              ) : (
-                <div className="loader"></div>
-              )}
-            </div>
-          ) : (
-            <>
-              <Helmet>
-                <meta
-                  name="viewport"
-                  content="width=device-width, initial-scale=1"
-                />
-                {/* <Head><link rel="icon" type="image/x-icon" href={favicon} /></Head> */}
-                <title>EcoWel - Get yourself some protiens</title>
-              </Helmet>
+      <ApolloProvider client={apolloClient}>
+        {isLoading ? (
+          <div className="loader-wrapper">
+            {url === "Christmas" ? (
+              <div id="preloader"></div>
+            ) : (
+              <div className="loader"></div>
+            )}
+          </div>
+        ) : (
+          <>
+            <Helmet>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1"
+              />
+              {/* <Head><link rel="icon" type="image/x-icon" href={favicon} /></Head> */}
+              <title>EcoWell - Get yourself some protiens</title>
+            </Helmet>
+            <SessionProvider session={session}>
               <div>
                 <SettingProvider>
                   <CompareContextProvider>
@@ -75,10 +89,10 @@ export default function MyApp({
                 <ToastContainer />
                 <TapTop />
               </div>
-            </>
-          )}
-        </ApolloProvider>
-      </SessionProvider>
+            </SessionProvider>
+          </>
+        )}
+      </ApolloProvider>
     </>
   );
 }

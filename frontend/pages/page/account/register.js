@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import CommonLayout from "../../../components/shop/common-layout";
 import { Input, Container, Row, Form, Label, Col } from "reactstrap";
 import { emailPattern, passwordPattern } from "./login";
@@ -181,7 +181,7 @@ const Register = () => {
             phone_number: emailOrPhone,
             isEmail,
             otp,
-            checkOtpCode,
+            checkOtpCode: checkOtpCode + "",
           }),
         });
 

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Container, Row, Col } from "reactstrap";
 
 const TopBarDark = ({ topClass, fluid }) => {
-  const { data: session, status } = useSession();
-  console.log(session, status);
+  const { status } = useSession();
+  // console.log(session, status);
 
   return (
     <div className={topClass}>
