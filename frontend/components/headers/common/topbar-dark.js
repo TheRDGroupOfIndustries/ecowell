@@ -1,10 +1,12 @@
-import React from "react";
 import { signOut, useSession } from "next-auth/react";
+import React from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Container, Row, Col } from "reactstrap";
 
 const TopBarDark = ({ topClass, fluid }) => {
   const { status } = useSession();
+  const router = useRouter();
   // console.log(session, status);
 
   return (
@@ -34,9 +36,14 @@ const TopBarDark = ({ topClass, fluid }) => {
                 {status === "authenticated" ? "My Account" : "Login now"}
                 <ul className="onhover-show-div">
                   {status === "authenticated" ? (
-                    <li onClick={() => signOut()}>
-                      <a>Logout</a>
-                    </li>
+                    <>
+                      <li onClick={() => router.push("/page/account/profile")}>
+                        <a>Profile</a>
+                      </li>
+                      <li onClick={() => signOut()}>
+                        <a>Logout</a>
+                      </li>
+                    </>
                   ) : (
                     <>
                       <li>

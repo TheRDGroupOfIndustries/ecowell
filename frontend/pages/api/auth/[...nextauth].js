@@ -4,7 +4,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToMongoDB } from "../../../utils/db";
 import User from "../../../models/User";
 import bcrypt from "bcryptjs";
-import { sendOtpToPhone, verifyOtpFromPhone } from "../../../lib/utils";
+import {
+  capitalizeFirstLetter,
+  sendOtpToPhone,
+  verifyOtpFromPhone,
+} from "../../../lib/utils";
 
 export const authOptions = {
   providers: [
@@ -95,8 +99,8 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account }) {
-      console.log("user:", user);
-      console.log("account:", account);
+      // console.log("user:", user);
+      // console.log("account:", account);
       await connectToMongoDB();
 
       if (account?.provider === "credentials") return true;
@@ -107,8 +111,8 @@ export const authOptions = {
 
           if (!userExists) {
             const newUser = new User({
-              first_name: user?.name.split(" ")[0],
-              last_name: user?.name.split(" ")[1],
+              first_name: capitalizeFirstLetter(user?.name.split(" ")[0]),
+              last_name: capitalizeFirstLetter(user?.name.split(" ")[1]),
               email: user?.email,
               profile_image: user?.image,
             });
@@ -139,8 +143,7 @@ export const authOptions = {
           session.user = { user: token?.user };
         }
       }
-      console.log("session.user:", session.user);
-      return session; //.user;
+      return session.user;
     },
   },
   pages: {

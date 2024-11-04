@@ -45,3 +45,7 @@ export const verifyOtpFromPhone = async (phone_number, otp) => {
   if (verificationCheck.status === "approved") return true;
   return false;
 };
+
+export const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};

@@ -81,7 +81,7 @@ export const WishlistContextProvider = (props) => {
 
   const { data: session } = useSession();
   const userId = session && session?.user?._id;
-  console.log("session:", session);
+  // console.log("session:", session);
 
   const fetchWishlist = async (userId) => {
     try {

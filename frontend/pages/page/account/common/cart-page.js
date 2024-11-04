@@ -114,7 +114,8 @@ const CartPage = () => {
                                   <a href="#" className="icon">
                                     <i
                                       className="fa fa-times"
-                                      onClick={() => removeFromCart(item)}></i>
+                                      onClick={() => removeFromCart(item)}
+                                    ></i>
                                   </a>
                                 </h2>
                               </div>
@@ -148,7 +149,8 @@ const CartPage = () => {
                           <td>
                             <i
                               className="fa fa-times"
-                              onClick={() => removeFromCart(item)}></i>
+                              onClick={() => removeFromCart(item)}
+                            ></i>
                           </td>
                           <td>
                             <h2 className="td-color">

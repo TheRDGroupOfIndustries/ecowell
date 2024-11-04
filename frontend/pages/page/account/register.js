@@ -1,13 +1,15 @@
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { emailPattern, passwordPattern } from "./login";
 import CommonLayout from "../../../components/shop/common-layout";
 import { Input, Container, Row, Form, Label, Col } from "reactstrap";
-import { emailPattern, passwordPattern } from "./login";
 import { toast } from "react-toastify";
-import Link from "next/link";
 
 const Register = () => {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [first_name, setFirst_name] = useState("");
   const [last_name, setLast_name] = useState("");
@@ -215,6 +217,8 @@ const Register = () => {
       // error: (error: any) => error.message || 'An error occurred.',
     });
   };
+
+  if (session) return router.replace("/");
 
   return (
     <CommonLayout parent="home" title="register">

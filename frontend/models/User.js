@@ -49,6 +49,32 @@ const UserSchema = new Schema(
       enum: ["male", "female", "others"],
       required: false,
     },
+    flat_plot: {
+      type: String,
+      required: false,
+    },
+    address: {
+      type: String,
+      required: false,
+    },
+    country: {
+      type: String,
+      required: true,
+      default: "India",
+    },
+    region_state: {
+      type: String,
+      required: false,
+      // default: "Delhi",
+    },
+    city: {
+      type: String,
+      required: false,
+    },
+    zip_code: {
+      type: String,
+      required: false,
+    },
     wishlist_products: [
       {
         type: Schema.Types.ObjectId,
