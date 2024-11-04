@@ -22,7 +22,7 @@ const UserMenu = () => {
 
   // console.log(session);
   if (status === "unauthenticated") {
-    return router.push(`/${i18LangStatus}/auth/login`);
+    router.replace(`/${i18LangStatus}/auth/login`);
   }
 
   return (
