@@ -3,7 +3,7 @@ import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
 import { Media, Modal, ModalHeader, ModalBody, Row, Col } from "reactstrap";
 import Link from "next/link";
 import CartContext from "../../../helpers/cart";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import MasterProductDetail from "./MasterProductDetail";
 
 const ProductSection = ({ product, addToComapre, addWishlist, addCart }) => {

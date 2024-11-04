@@ -1,56 +1,22 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+
+// Assuming User schema is defined elsewhere and imported
+// import User from './User '; // Uncomment this line if you have a User schema
 
 const CartItemSchema = new mongoose.Schema({
-    product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true
-    },
-    variant: {
-        id: String,
-        sku: String,
-        size: String,
-        color: String
-    },
-    quantity: {
-        type: Number,
-        required: true,
-        min: 1
-    },
-    price: {
-        type: Number,
-        required: true
-    }
-});
+    product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+    quantity: { type: Number, required: true, min: 1 }, // Minimum quantity of 1
+    variant: { type: mongoose.Schema.Types.ObjectId, ref: "Variant" } // Optional, if the product has variants
+}, { _id: false }); // We don't need an _id for items in the cart
 
 const CartSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User ", required: true, unique: true },
     items: [CartItemSchema],
-    total: {
-        type: Number,
-        default: 0
-    },
-    status: {
-        type: String,
-        enum: ['active', 'abandoned', 'completed'],
-        default: 'active'
-    }
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
-});
+    totalQuantity: { type: Number, default: 0 },
+    totalPrice: { type: Number, default: 0 }
+}, { timestamps: true });
 
-// Calculate total before saving
-CartSchema.pre('save', function (next) {
-    this.total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    next();
-});
-
+// Check if the model is already defined to avoid OverwriteModelError
 const Cart = mongoose.models.Cart || mongoose.model("Cart", CartSchema);
 
-module.exports = Cart;
+export default Cart;

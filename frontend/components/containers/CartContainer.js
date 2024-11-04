@@ -12,6 +12,8 @@ const CartContainer = ({ icon }) => {
   const cartList = context.state;
   const total = context.cartTotal;
 
+  console.log("cartlist",cartList)
+
   return (
     <Fragment>
       <li className="onhover-div mobile-cart">

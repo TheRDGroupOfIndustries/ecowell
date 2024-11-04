@@ -6,7 +6,7 @@ import { WishlistContext } from '../../../../helpers/wishlist/WishlistContext';
 import { CompareContext } from '../../../../helpers/Compare/CompareContext';
 import { CurrencyContext } from '../../../../helpers/Currency/CurrencyContext';
 import { useQuery } from '@apollo/client';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 const GET_PRODUCTS = gql`
     query  products($type:_CategoryType!,$indexFrom:Int! ,$limit:Int!) {
         products (type: $type,indexFrom:$indexFrom ,limit:$limit){

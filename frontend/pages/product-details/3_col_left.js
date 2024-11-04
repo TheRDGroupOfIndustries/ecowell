@@ -1,5 +1,5 @@
 import React from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import CommonLayout from "../../components/shop/common-layout";
 import ProductSection from "./common/product_section";
 // import { withApollo } from "../../helpers/apollo/apollo";

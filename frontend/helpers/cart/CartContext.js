@@ -119,278 +119,152 @@
 
 // export default CartProvider;
 
-import React, { useState, useEffect, useCallback } from "react";
-import { useSession } from "next-auth/react";
+import React, { useState, useEffect } from "react";
 import Context from "./index";
 import { toast } from "react-toastify";
+import { useSession } from "next-auth/react"; // Import useSession
 
 const CartProvider = (props) => {
+  const { data: session } = useSession(); // Use the useSession hook
+  const userId = session?.user?.user?._id; // Get userId from session
+  console.log("User  ID from session:", userId); // Log the userId
+
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [stock, setStock] = useState("InStock");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
-  const { data: session } = useSession();
-  const userId = session && session?.user?._id;
-
-  // Calculate Cart Total
-  const calculateCartTotal = useCallback((items) => {
-    const total = items.reduce((acc, item) => acc + item.total, 0);
-    setCartTotal(total);
-  }, []);
-
-  // Fetch Cart Items from API on Mount
   useEffect(() => {
-    let mounted = true;
+    if (userId) {
+      // Fetch cart items from the database when the component mounts
+      const fetchCart = async () => {
+        try {
+          const response = await fetch(`/api/cart/getCart?userId=${userId}`, {
+            method: "GET",
+            headers: {
+              "Cache-Control": "no-cache", // Prevent caching
+            },
+          });
+          const data = await response.json();
+          if (response.ok) {
+            setCartItems(data.items || []);
+            setCartTotal(data.totalPrice || 0);
+          } else {
+            toast.error(data.message || "Failed to fetch cart items.");
+          }
+        } catch (error) {
+          console.error("Error fetching cart:", error);
+          toast.error("An error occurred while fetching the cart.");
+        }
+      };
 
-    const fetchCartItems = async () => {
-      if (!userId) return;
+      fetchCart();
+    }
+  }, [userId]); // Only run when userId changes
 
-      try {
-        const response = await fetch("/api/cart/getAllCartItems", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId }),
+  useEffect(() => {
+    const Total = cartItems.reduce((a, b) => a + b.total, 0);
+    setCartTotal(Total);
+
+    // Save cart items to the database when they change
+    const saveCart = async () => {
+      if (userId) {
+        await fetch(`/api/cart/${userId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            items: cartItems,
+            totalPrice: Total,
+          }),
         });
-
-        if (!response.ok) throw new Error("Failed to fetch cart items");
-
-        const data = await response.json();
-        if (mounted) {
-          setCartItems(data.items);
-          calculateCartTotal(data.items);
-        }
-      } catch (error) {
-        console.error("Failed to fetch cart items:", error);
-        toast.error("Failed to load cart items");
-      } finally {
-        if (mounted) {
-          setIsInitialLoading(false);
-        }
       }
     };
 
-    fetchCartItems();
-
-    return () => {
-      mounted = false;
-    };
-  }, [session, calculateCartTotal]);
+    saveCart();
+  }, [cartItems, userId]);
 
   // Add Product To Cart
   const addToCart = async (item, quantity) => {
-    if (!session?.user?._id) {
-      toast.error("Please log in to add items to cart");
-      return;
-    }
+    toast.success("Product Added Successfully!");
+    console.log(userId);
 
-    // Validate stock before optimistic update
-    if (item.stock < quantity) {
-      toast.error("Not enough stock available");
-      return;
-    }
-
-    setIsLoading(true);
-
-    // Optimistic update
-    const newItem = {
-      id: Date.now().toString(), // temporary ID
-      product: item,
+    // Prepare the product data
+    const productData = {
+      userId, // Get userId from session
+      productId: item._id, // Assuming item has an _id field
       quantity,
-      price: item.sale ? item.price * (1 - item.discount / 100) : item.price,
-      total:
-        (item.sale ? item.price * (1 - item.discount / 100) : item.price) *
-        quantity,
-      stock: item.stock,
+      variant: item.variant || null, // Include variant if applicable
     };
 
-    // Check if item already exists
-    const existingItem = cartItems.find(
-      (cartItem) => cartItem.product._id === item._id
-    );
+    // Call the API to add the product to the cart
+    const response = await fetch("/api/cart/addToCart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(productData),
+    });
 
-    let updatedItems;
-    if (existingItem) {
-      updatedItems = cartItems.map((cartItem) =>
-        cartItem.product._id === item._id
-          ? {
-              ...cartItem,
-              quantity: cartItem.quantity + quantity,
-              total: cartItem.price * (cartItem.quantity + quantity),
-            }
-          : cartItem
-      );
+    const data = await response.json();
+
+    if (response.ok) {
+      // Update the local state with the new cart items from the API response
+      setCartItems(data.cart.items); // Set cart items from the response
+      setCartTotal(data.cart.totalPrice); // Update the total price from the response
     } else {
-      updatedItems = [...cartItems, newItem];
-    }
-
-    setCartItems(updatedItems);
-    calculateCartTotal(updatedItems);
-
-    try {
-      const response = await fetch("/api/cart/addToUserCart", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: session.user._id,
-          item,
-          quantity,
-        }),
-      });
-
-      if (!response.ok) {
-        // Revert optimistic update on error
-        setCartItems(cartItems);
-        calculateCartTotal(cartItems);
-        throw new Error("Failed to add product to cart");
-      }
-
-      const data = await response.json();
-      setCartItems(data.items);
-      calculateCartTotal(data.items);
-      toast.success("Product Added Successfully!");
-    } catch (error) {
-      console.log("Failed to add product to cart:", error);
-      toast.error("Failed to add product");
-    } finally {
-      setIsLoading(false);
+      // Handle error response
+      toast.error(data.message || "Failed to add product to cart.");
     }
   };
 
-  // Remove Product From Cart
   const removeFromCart = async (item) => {
-    if (!session?.user?._id) {
-      toast.error("Please log in to remove items from cart");
-      return;
-    }
-
-    setIsLoading(true);
-
-    // Optimistic update
-    const updatedItems = cartItems.filter(
-      (cartItem) => cartItem.id !== item.id
-    );
-    setCartItems(updatedItems);
-    calculateCartTotal(updatedItems);
-
-    try {
-      const response = await fetch("/api/cart/removeFromUserCart", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: session.user._id,
-          id: item.id,
-        }),
-      });
-
-      if (!response.ok) {
-        // Revert optimistic update on error
-        setCartItems(cartItems);
-        calculateCartTotal(cartItems);
-        throw new Error("Failed to remove product from cart");
-      }
-
-      const data = await response.json();
-      setCartItems(data.items);
-      calculateCartTotal(data.items);
-      toast.success("Product Removed Successfully!");
-    } catch (error) {
-      console.error("Failed to remove product from cart:", error);
-      toast.error("Failed to remove product");
-    } finally {
-      setIsLoading(false);
-    }
+    toast.error("Product Removed Successfully !");
+    setCartItems(cartItems.filter((e) => e.id !== item.id));
   };
 
-  // Update Product Quantity in Cart
-  const updateQty = async (item, newQuantity) => {
-    if (!session?.user?._id) {
-      toast.error("Please log in to update cart");
-      return;
-    }
-
-    if (newQuantity < 1) {
-      toast.error("Enter Valid Quantity!");
-      return;
-    }
-
-    if (item.product.stock < newQuantity) {
-      toast.error("Not enough stock available");
-      return;
-    }
-
-    setIsLoading(true);
-
-    // Optimistic update
-    const updatedItems = cartItems.map((cartItem) =>
-      cartItem.id === item.id
-        ? {
-            ...cartItem,
-            quantity: newQuantity,
-            total: cartItem.price * newQuantity,
-          }
-        : cartItem
-    );
-    setCartItems(updatedItems);
-    calculateCartTotal(updatedItems);
-
-    try {
-      const response = await fetch("/api/cart/updateCartItemQuantity", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: session.user._id,
-          itemId: item.id,
-          quantity: newQuantity,
-        }),
-      });
-
-      if (!response.ok) {
-        // Revert optimistic update on error
-        setCartItems(cartItems);
-        calculateCartTotal(cartItems);
-        throw new Error("Failed to update quantity");
-      }
-
-      const data = await response.json();
-      setCartItems(data.items);
-      calculateCartTotal(data.items);
-      toast.success("Quantity Updated Successfully!");
-    } catch (error) {
-      console.error("Failed to update quantity:", error);
-      toast.error("Failed to update quantity");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Local quantity adjustments
   const minusQty = () => {
     if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
+      setQuantity(quantity - 1);
       setStock("InStock");
     }
   };
 
   const plusQty = (item) => {
-    if (item.stock > quantity) {
-      setQuantity((prev) => prev + 1);
+    if (item.stock >= quantity) {
+      setQuantity(quantity + 1);
     } else {
-      setStock("Out of Stock!");
-      toast.warning("Maximum available stock reached");
+      setStock("Out of Stock !");
     }
   };
 
-  // Clear cart
-  const clearCart = useCallback(async () => {
-    if (!session?.user?._id) return;
-
-    setCartItems([]);
-    setCartTotal(0);
-    // You might want to add an API endpoint to clear the cart in the database as well
-  }, [session]);
+  // Update Product Quantity
+  const updateQty = async (item, quantity) => {
+    if (quantity >= 1) {
+      const index = cartItems.findIndex((itm) => itm.id === item.id);
+      if (index !== -1) {
+        cartItems[index] = {
+          ...item,
+          qty: quantity,
+          total: item.price * quantity,
+        };
+        setCartItems([...cartItems]);
+        toast.info("Product Quantity Updated !");
+      } else {
+        const product = {
+          ...item,
+          qty: quantity,
+          total: (item.price - (item.price * item.discount) / 100) * quantity,
+        };
+        setCartItems([...cartItems, product]);
+        toast.success("Product Added Updated !");
+      }
+    } else {
+      toast.error("Enter Valid Quantity !");
+    }
+  };
 
   return (
     <Context.Provider
@@ -401,14 +275,11 @@ const CartProvider = (props) => {
         setQuantity,
         quantity,
         stock,
-        isLoading,
-        isInitialLoading,
-        addToCart,
-        removeFromCart,
-        plusQty,
-        minusQty,
-        updateQty,
-        clearCart,
+        addToCart: addToCart,
+        removeFromCart: removeFromCart,
+        plusQty: plusQty,
+        minusQty: minusQty,
+        updateQty: updateQty,
       }}
     >
       {props.children}

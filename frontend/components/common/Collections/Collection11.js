@@ -7,7 +7,7 @@ import CartContext from '../../../helpers/cart';
 import { WishlistContext } from '../../../helpers/wishlist/WishlistContext';
 import { CompareContext } from '../../../helpers/Compare/CompareContext';
 import PostLoader from '../PostLoader';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { CurrencyContext } from '../../../helpers/Currency/CurrencyContext';
 
 const GET_PRODUCTS = gql`

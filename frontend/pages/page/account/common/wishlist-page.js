@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Container, Row, Col, Table } from "reactstrap";
 import { WishlistContext } from "../../../../helpers/wishlist/WishlistContext";
