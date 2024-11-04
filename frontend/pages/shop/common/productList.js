@@ -6,7 +6,7 @@ import { gql } from "@apollo/client";
 import FilterContext from "../../../helpers/filter/FilterContext";
 import ProductItem from "../../../components/common/product-box/ProductBox1";
 import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import PostLoader from "../../../components/common/PostLoader";
 import CartContext from "../../../helpers/cart";
 import { WishlistContext } from "../../../helpers/wishlist/WishlistContext";

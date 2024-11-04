@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Row, Col, Media, Modal, ModalBody, ModalHeader } from "reactstrap";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
 import CartContext from "../../../helpers/cart";

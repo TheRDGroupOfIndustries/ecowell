@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Container, Row, Col, TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 
-const ProductTab = () => {
+const ProductTab = ({ wholeProduct }) => {
   const [activeTab, setActiveTab] = useState("1");
+
+  if (!wholeProduct) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <section className="tab-product m-0">
@@ -13,40 +17,54 @@ const ProductTab = () => {
               <Nav tabs className="nav-material">
                 <NavItem className="nav nav-tabs" id="myTab" role="tablist">
                   <NavLink className={activeTab === "1" ? "active" : ""} onClick={() => setActiveTab("1")}>
-                    Description
+                    Benefits
                   </NavLink>
                 </NavItem>
                 <NavItem className="nav nav-tabs" id="myTab" role="tablist">
                   <NavLink className={activeTab === "2" ? "active" : ""} onClick={() => setActiveTab("2")}>
-                    Details
+                    Directions
                   </NavLink>
                 </NavItem>
                 <NavItem className="nav nav-tabs" id="myTab" role="tablist">
                   <NavLink className={activeTab === "3" ? "active" : ""} onClick={() => setActiveTab("3")}>
-                    video
+                    Ingredients
                   </NavLink>
                 </NavItem>
                 <NavItem className="nav nav-tabs" id="myTab" role="tablist">
                   <NavLink className={activeTab === "4" ? "active" : ""} onClick={() => setActiveTab("4")}>
-                    Write Review
+                    Additional Info
                   </NavLink>
                 </NavItem>
               </Nav>
-              <TabContent activeTab={activeTab} className="nav-material">
+              <TabContent activeTab={activeTab} className="nav-material product-tabs">
                 <TabPane tabId="1">
-                  <p className="mb-0 pb-0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." sed do eiusmod tempor incididunt
-                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                  </p>
+                  <ul>
+                    {wholeProduct.benefits.map((benefit, index) => (
+                      <li key={index}>{benefit}</li>
+                    ))}
+                  </ul>
                 </TabPane>
                 <TabPane tabId="2">
-                  <p className="mb-0 pb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                  <ul>
+                    {wholeProduct.directions.map((direction, index) => (
+                      <li key={index}>{direction}</li>
+                    ))}
+                  </ul>
                 </TabPane>
                 <TabPane tabId="3">
-                  <p className="mb-0 pb-0"> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                  <ul>
+                    {wholeProduct.ingredients.map((ingredient, index) => (
+                      <li key={index}>{ingredient}</li>
+                    ))}
+                  </ul>
                 </TabPane>
                 <TabPane tabId="4">
-                  <p className="mb-0 pb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                  <ul>
+                    <li>Manufactured By: {wholeProduct.additionalInfo.manufacturedBy}</li>
+                    <li>Country of Origin: {wholeProduct.additionalInfo.countryOfOrigin}</li>
+                    <li>Phone: {wholeProduct.additionalInfo.phone}</li>
+                    <li>Email: {wholeProduct.additionalInfo.email}</li>
+                  </ul>
                 </TabPane>
               </TabContent>
             </Row>

@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 import { gql } from '@apollo/client';
 import PostLoader from "../PostLoader";
 import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 const GET_PRODUCTS = gql`
   query products($type: _CategoryType!, $indexFrom: Int!, $limit: Int!) {
     products(type: $type, indexFrom: $indexFrom, limit: $limit) {

@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from "react";
 import Slider from "react-slick";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Media, Container, Col, Row } from "reactstrap";
 import { useQuery } from "@apollo/client";
 import { gql } from "@apollo/client";

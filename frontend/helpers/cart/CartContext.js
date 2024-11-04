@@ -119,18 +119,6 @@
 
 // export default CartProvider;
 
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect } from "react";
 import Context from "./index";
 import { toast } from "react-toastify";
@@ -138,8 +126,8 @@ import { useSession } from "next-auth/react"; // Import useSession
 
 const CartProvider = (props) => {
   const { data: session } = useSession(); // Use the useSession hook
-  const userId = session?.user?.authUser?._id; // Get userId from session
-  console.log("User  ID from session:", userId); // Log the userId
+  const userId = session?.user?.user?._id; // Get userId from session
+  // console.log("User  ID from session:", userId); // Log the userId
 
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
@@ -152,9 +140,9 @@ const CartProvider = (props) => {
       const fetchCart = async () => {
         try {
           const response = await fetch(`/api/cart/getCart?userId=${userId}`, {
-            method: 'GET',
+            method: "GET",
             headers: {
-              'Cache-Control': 'no-cache', // Prevent caching
+              "Cache-Control": "no-cache", // Prevent caching
             },
           });
           const data = await response.json();
@@ -201,35 +189,36 @@ const CartProvider = (props) => {
   // Add Product To Cart
   const addToCart = async (item, quantity) => {
     toast.success("Product Added Successfully!");
+    console.log(userId);
 
     // Prepare the product data
     const productData = {
-        userId, // Get userId from session
-        productId: item._id, // Assuming item has an _id field
-        quantity,
-        variant: item.variant || null, // Include variant if applicable
+      userId, // Get userId from session
+      productId: item._id, // Assuming item has an _id field
+      quantity,
+      variant: item.variant || null, // Include variant if applicable
     };
 
     // Call the API to add the product to the cart
-    const response = await fetch('/api/cart/addToCart', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(productData),
+    const response = await fetch("/api/cart/addToCart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(productData),
     });
 
     const data = await response.json();
 
     if (response.ok) {
-        // Update the local state with the new cart items from the API response
-        setCartItems(data.cart.items); // Set cart items from the response
-        setCartTotal(data.cart.totalPrice); // Update the total price from the response
+      // Update the local state with the new cart items from the API response
+      setCartItems(data.cart.items); // Set cart items from the response
+      setCartTotal(data.cart.totalPrice); // Update the total price from the response
     } else {
-        // Handle error response
-        toast.error(data.message || "Failed to add product to cart.");
+      // Handle error response
+      toast.error(data.message || "Failed to add product to cart.");
     }
-};
+  };
 
   // Update the removeFromCart function in your CartProvider
   const removeFromCart = async (item) => {

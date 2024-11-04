@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import CommonLayout from "../../../components/shop/common-layout";
 import { Container, Row, Form, Label, Input, Col } from "reactstrap";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ export const passwordPattern =
 
 const Login = () => {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [email, setEmail] = useState("");
   const [isEmail, setIsEmail] = useState(false);
@@ -175,6 +176,7 @@ const Login = () => {
     });
   };
 
+  if (session) return router.replace("/");
   return (
     <CommonLayout parent="home" title="login">
       <section className="login-page section-b-space">

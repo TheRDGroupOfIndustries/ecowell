@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Link from "next/link";
 import sizeChart from "../../../public/assets/images/size-chart.jpg";
 import { Modal, ModalBody, ModalHeader, Media, Input } from "reactstrap";
@@ -12,18 +12,24 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
   const CurContect = useContext(CurrencyContext);
   const symbol = CurContect.state.symbol;
   const toggle = () => setModal(!modal);
-  const product = item;
+  const [product, setProduct] = useState(item);
+  useEffect(() => {
+    setProduct(item);
+  }, [item]);
   const context = useContext(CartContext);
   const stock = context.stock;
   const plusQty = context.plusQty;
   const minusQty = context.minusQty;
   const quantity = context.quantity;
-  const uniqueColor = [];
-  const uniqueSize = [];
+  const uniqueFlavors = [];
 
   const changeQty = (e) => {
     setQuantity(parseInt(e.target.value));
   };
+
+  if (!product || !product.variants) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -31,27 +37,34 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
         <h2> {product.title} </h2>
         <h4>
           <del>
-            {symbol}
+            {/* ruppees entitu */}
+            {symbol}|
             {product.price}
           </del>
-          <span>{product.discount}% off</span>
+          <span>{product.discount.toFixed(2)}% off</span>
         </h4>
         <h3>
           {symbol}
-          {product.price - (product.price * product.discount) / 100}
+          {(product.price - (product.price * product.discount) / 100).toFixed(2)}
         </h3>
         {product.variants.map((vari) => {
-          var findItem = uniqueColor.find((x) => x.color === vari.color);
-          if (!findItem) uniqueColor.push(vari);
-          var findItemSize = uniqueSize.find((x) => x === vari.size);
-          if (!findItemSize) uniqueSize.push(vari.size);
+          var findItem = uniqueFlavors.find((x) => x.flavor === vari.flavor);
+          if (!findItem) uniqueFlavors.push(vari);
         })}
         {changeColorVar === undefined ? (
           <>
-            {uniqueColor.some((vari) => vari.color) ? (
-              <ul className="color-variant">
-                {uniqueColor.map((vari, i) => {
-                  return <li className={vari.color} key={i} title={vari.color}></li>;
+            {uniqueFlavors.some((vari) => vari.flavor) ? (
+              <ul>
+                {uniqueFlavors.map((vari, i) => {
+                  return <li className={vari.flavor} key={i} title={vari.flavor} style={{
+                    padding: "10px",
+                    border: '1px solid #fff',
+                    marginRight: "10px",
+                    borderRadius:"5px",
+                    cursor: "pointer"
+                  }}>{
+                    vari.flavor
+                  }</li>;
                 })}
               </ul>
             ) : (
@@ -60,10 +73,18 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
           </>
         ) : (
           <>
-            {uniqueColor.some((vari) => vari.color) ? (
-              <ul className="color-variant">
-                {uniqueColor.map((vari, i) => {
-                  return <li className={vari.color} key={i} title={vari.color} onClick={() => changeColorVar(i)}></li>;
+            {uniqueFlavors.some((vari) => vari.flavor) ? (
+              <ul>
+                {uniqueFlavors.map((vari, i) => {
+                  return <li className={vari.flavor} key={i} title={vari.flavor} onClick={() => changeColorVar(i)} style={{
+                    padding: "10px",
+                    border: '1px solid #fff',
+                    marginRight: "10px",
+                    borderRadius:"5px",
+                    cursor: "pointer"
+                  }}>{
+                    vari.flavor
+                  }</li>;
                 })}
               </ul>
             ) : (
@@ -72,12 +93,12 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
           </>
         )}
         <div className="product-description border-product">
-          {product.variants ? (
+          {/* {product.variants ? (
             <div>
-              {uniqueSize.some((size) => size) ? (
+              {uniqueFlavors.some((flavor) => flavor) ? (
                 <>
                   <h6 className="product-title size-text">
-                    select size
+                    select flavor
                     <span>
                       <a href={null} data-toggle="modal" data-target="#sizemodal" onClick={toggle}>
                         size chart
@@ -92,10 +113,10 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
                   </Modal>
                   <div className="size-box">
                     <ul>
-                      {uniqueSize.map((data, i) => {
+                      {uniqueFlavors.map((data, i) => {
                         return (
                           <li key={i}>
-                            <a href={null}>{data}</a>
+                            <a href={null}>{data.flavor}</a>
                           </li>
                         );
                       })}
@@ -108,7 +129,7 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
             </div>
           ) : (
             ""
-          )}
+          )} */}
           <span className="instock-cls">{stock}</span>
           <h6 className="product-title">quantity</h6>
           <div className="qty-box">
@@ -140,15 +161,15 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
           <p>{product.description}</p>
         </div>
         <div className="border-product">
-          <h6 className="product-title">share it</h6>
+          {/* <h6 className="product-title">share it</h6>
           <div className="product-icon">
             <MasterSocial />
-          </div>
+          </div> */}
         </div>
-        <div className="border-product">
+        {/* <div className="border-product">
           <h6 className="product-title">Time Reminder</h6>
           <CountdownComponent />
-        </div>
+        </div> */}
       </div>
     </>
   );
