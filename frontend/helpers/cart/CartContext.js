@@ -9,6 +9,7 @@ const CartProvider = (props) => {
   // console.log("User  ID from session:", userId); // Log the userId
 
   const [cartItems, setCartItems] = useState([]);
+  // console.log("cartItems:", cartItems);
   const [cartTotal, setCartTotal] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [stock, setStock] = useState("InStock");
@@ -24,7 +25,7 @@ const CartProvider = (props) => {
           });
           const data = await response.json();
           if (response.ok) {
-            console.log("data:", data);
+            // console.log("data:", data);
             setCartItems(data.items || []);
             setCartTotal(data.totalPrice || 0);
           } else {
@@ -111,8 +112,31 @@ const CartProvider = (props) => {
   };
 
   const removeFromCart = async (item) => {
-    toast.error("Product Removed Successfully !");
-    setCartItems(cartItems.filter((e) => e.id !== item.id));
+    try {
+      const response = await fetch(`/api/cart/remove-from-cart`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          productId: item._id,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        toast.error("Product Removed Successfully !");
+        setCartItems(data.cart.items);
+        setCartTotal(data.cart.totalPrice);
+      } else {
+        toast.error(
+          data.message ||
+            "An error occurred while removing the product from cart."
+        );
+      }
+    } catch (error) {
+      toast.error("An error occurred while removing the product from cart.");
+    }
   };
 
   const minusQty = () => {
@@ -156,6 +180,10 @@ const CartProvider = (props) => {
     }
   };
 
+  const productExistsInCart = (productId) => {
+    return cartItems.some((item) => item.productId._id === productId);
+  };
+
   return (
     <Context.Provider
       value={{
@@ -170,6 +198,7 @@ const CartProvider = (props) => {
         plusQty: plusQty,
         minusQty: minusQty,
         updateQty: updateQty,
+        productExistsInCart: productExistsInCart,
       }}
     >
       {props.children}

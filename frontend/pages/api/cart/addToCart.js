@@ -4,7 +4,7 @@ import Product from "../../../models/Products";
 
 export default async function handler(req, res) {
   const { method, body } = req;
-  console.log("body:", body);
+  // console.log("body:", body);
 
   if (method !== "POST") {
     return res.status(400).json({ message: "Invalid request method" });
@@ -22,14 +22,14 @@ export default async function handler(req, res) {
     if (!cart) {
       cart = new Cart({
         userId,
-        items: [{ product: productId, quantity, variant }],
+        items: [{ productId, quantity, variant }],
         totalQuantity: quantity,
         totalPrice: 0, // This will be calculated later
       });
     } else {
       // Check if the product already exists in the cart
       const existingItemIndex = cart.items.findIndex(
-        (item) => item.product.toString() === productId
+        (item) => item.productId.toString() === productId
       );
 
       if (existingItemIndex > -1) {
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
         cart.items[existingItemIndex].quantity += quantity;
       } else {
         // Product does not exist, add to cart
-        cart.items.push({ product: productId, quantity, variant });
+        cart.items.push({ productId, quantity, variant });
       }
     }
 
@@ -50,9 +50,13 @@ export default async function handler(req, res) {
 
     await cart.save();
 
+    const updatedCart = await Cart.findOne({ userId }).populate(
+      "items.productId",
+      "_id title price"
+    );
     return res.status(200).json({
       message: "Product added to cart successfully",
-      cart,
+      cart: updatedCart,
     });
   } catch (error) {
     console.error("Error adding to cart:", error);

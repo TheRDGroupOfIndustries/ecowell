@@ -7,11 +7,8 @@ import cart from "../../../../public/assets/images/icon-empty-cart.png";
 
 const CartPage = () => {
   const context = useContext(CartContext);
-  console.log("context:", context);
-
   const cartItems = context.state;
   const cartTotal = context.cartTotal;
-  // const total = context.cartTotal;
   const curContext = useContext(CurrencyContext);
   const symbol = curContext.state.symbol;
   const removeFromCart = context.removeFromCart;
@@ -77,7 +74,7 @@ const CartPage = () => {
                           </td>
                           <td>
                             <Link href={`/left-sidebar/product/` + item.id}>
-                              {item.product.title}
+                              {item?.productId?.title}
                             </Link>
                             <div className="mobile-cart-content row">
                               <div className="col-xs-3">
@@ -104,7 +101,7 @@ const CartPage = () => {
                               <div className="col-xs-3">
                                 <h2 className="td-color">
                                   {symbol}
-                                  {item.product.price}
+                                  {item?.productId?.price}
                                 </h2>
                               </div>
                               <div className="col-xs-3">
@@ -122,7 +119,7 @@ const CartPage = () => {
                           <td>
                             <h2>
                               {symbol}
-                              {item.product.price}
+                              {item?.productId?.price}
                             </h2>
                           </td>
                           <td>

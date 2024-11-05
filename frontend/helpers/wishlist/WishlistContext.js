@@ -8,6 +8,7 @@ export const WishlistContext = createContext({
   wishlistItems: [],
   addToWish: () => {},
   removeFromWish: () => {},
+  productExistsInWishlist: () => {},
 });
 
 export const WishlistContextProvider = (props) => {
@@ -86,12 +87,17 @@ export const WishlistContextProvider = (props) => {
     }
   };
 
+  const productExistsInWishlist = (productId) => {
+    return wishlistItems.some((product) => product._id === productId);
+  };
+
   return (
     <WishlistContext.Provider
       value={{
         wishlistItems,
         addToWish,
         removeFromWish,
+        productExistsInWishlist,
       }}
     >
       {props.children}
