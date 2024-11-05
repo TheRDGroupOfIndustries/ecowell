@@ -147,6 +147,7 @@ const Datatable = ({
           );
         }
         if (key === onClickField) {
+          console.log("row[key]: ", row);
           return (
             <div
               style={{
@@ -154,7 +155,7 @@ const Datatable = ({
                 color: "blue",
                 textDecorationLine: "underline",
               }}
-              onClick={() => handleOnClick(row[key])}
+              onClick={() => handleOnClick(row)}
             >
               {row[key]}
             </div>

@@ -79,8 +79,8 @@ const UserList = () => {
                 pagination={true}
                 class="-striped -highlight"
                 onClickField="_id"
-                handleOnClick={(key: string) =>
-                  router.push(`/en/users/user-detail/${key}`)
+                handleOnClick={(row:any) =>
+                  router.push(`/en/users/user-detail/${row._id}`)
                 }
               />
             </div>
