@@ -92,7 +92,7 @@ const CollectionTen = ({ type, cartClass, title }) => {
                                     {data && data.products.items.slice(0, 5).map((product, index) =>
                                         <ProductItem product={product}
                                             addToComapre={() => compareContext.addToCompare(product)}
-                                            addCart={() => context.addToCart(product, quantity)} key={index}
+                                            addCart={() =>context.addToCart(product, quantity, product.variants[0])} key={index}
                                             addWishlist={() => contextWishlist.addToWish(product)}
                                             cartclassName={cartClass} />
                                     )}
