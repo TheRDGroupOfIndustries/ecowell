@@ -7,13 +7,17 @@ import cart from "../../../../public/assets/images/icon-empty-cart.png";
 
 const CartPage = () => {
   const context = useContext(CartContext);
+  console.log("context:", context);
+
   const cartItems = context.state;
+  const cartTotal = context.cartTotal;
+  // const total = context.cartTotal;
   const curContext = useContext(CurrencyContext);
   const symbol = curContext.state.symbol;
-  const total = context.cartTotal;
   const removeFromCart = context.removeFromCart;
   const [quantity, setQty] = useState(1);
   const [quantityError, setQuantityError] = useState(false);
+  const [stockStatus, setStockStatus] = useState("InStock");
   const updateQty = context.updateQty;
 
   const handleQtyUpdate = (item, quantity) => {
@@ -26,21 +30,21 @@ const CartPage = () => {
   };
 
   const changeQty = (e) => {
-    setQuantity(parseInt(e.target.value));
+    setQty(parseInt(e.target.value));
   };
 
   const minusQty = () => {
     if (quantity > 1) {
-      setStock("InStock");
+      setStockStatus("InStock");
       setQty(quantity - 1);
     }
   };
 
   const plusQty = (product) => {
-    if (product.stock >= quantity) {
+    if (product.variant.stock >= quantity) {
       setQty(quantity + 1);
     } else {
-      setStock("Out of Stock !");
+      setStockStatus("Out of Stock !");
     }
   };
 
@@ -51,15 +55,15 @@ const CartPage = () => {
           <Container>
             <Row>
               <Col sm="12">
-                <table className="table cart-table table-responsive-xs">
+                <table className="table cart-tabl table-responsive-xs">
                   <thead>
                     <tr className="table-head">
-                      <th scope="col">image</th>
-                      <th scope="col">product name</th>
-                      <th scope="col">price</th>
-                      <th scope="col">quantity</th>
-                      <th scope="col">action</th>
-                      <th scope="col">total</th>
+                      <th scope="col">Image</th>
+                      <th scope="col">Product Name</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Action</th>
+                      <th scope="col">Total</th>
                     </tr>
                   </thead>
                   {cartItems.map((item, index) => {
@@ -68,19 +72,12 @@ const CartPage = () => {
                         <tr>
                           <td>
                             <Link href={`/left-sidebar/product/` + item.id}>
-                              <Media
-                                src={
-                                  item.images
-                                    ? item.images[0].src
-                                    : item.images[0].src
-                                }
-                                alt=""
-                              />
+                              <Media src={item.variant.image_link} alt="" />
                             </Link>
                           </td>
                           <td>
                             <Link href={`/left-sidebar/product/` + item.id}>
-                              {item.title}
+                              {item.product.title}
                             </Link>
                             <div className="mobile-cart-content row">
                               <div className="col-xs-3">
@@ -93,20 +90,21 @@ const CartPage = () => {
                                         handleQtyUpdate(item, e.target.value)
                                       }
                                       className="form-control input-number"
-                                      value={item.qty}
+                                      value={item.quantity}
                                       style={{
                                         borderColor: quantityError && "red",
                                       }}
                                     />
                                   </div>
                                 </div>
-                                {item.qty >= item.stock ? "out of Stock" : ""}
+                                {item.quantity >= item.variant.stock
+                                  ? "out of Stock"
+                                  : ""}
                               </div>
                               <div className="col-xs-3">
                                 <h2 className="td-color">
                                   {symbol}
-                                  {item.price -
-                                    (item.price * item.discount) / 100}
+                                  {item.product.price}
                                 </h2>
                               </div>
                               <div className="col-xs-3">
@@ -124,7 +122,7 @@ const CartPage = () => {
                           <td>
                             <h2>
                               {symbol}
-                              {item.price - (item.price * item.discount) / 100}
+                              {item.product.price}
                             </h2>
                           </td>
                           <td>
@@ -137,14 +135,16 @@ const CartPage = () => {
                                     handleQtyUpdate(item, e.target.value)
                                   }
                                   className="form-control input-number"
-                                  value={item.qty}
+                                  value={item.quantity}
                                   style={{
                                     borderColor: quantityError && "red",
                                   }}
                                 />
                               </div>
                             </div>
-                            {item.qty >= item.stock ? "out of Stock" : ""}
+                            {item.quantity >= item.variant.stock
+                              ? "out of Stock"
+                              : ""}
                           </td>
                           <td>
                             <i
@@ -169,9 +169,11 @@ const CartPage = () => {
                       <td>total price :</td>
                       <td>
                         <h2>
-                          {symbol} {total}{" "}
+                          {symbol}
+                          {cartTotal}
                         </h2>
                       </td>
+                      ₹
                     </tr>
                   </tfoot>
                 </table>

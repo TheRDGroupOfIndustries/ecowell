@@ -12,8 +12,6 @@ export default async function handler(req, res) {
 
   const { userId, productId, quantity, variant } = body;
 
-  console.log("variant:", variant);
-
   try {
     await connectToMongoDB();
 

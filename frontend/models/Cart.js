@@ -20,9 +20,8 @@ const CartSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: "User ",
+      ref: "User",
       required: true,
-      unique: true,
     },
     items: [CartItemSchema],
     totalQuantity: { type: Number, default: 0 },
@@ -31,7 +30,6 @@ const CartSchema = new Schema(
   { timestamps: true }
 );
 
-// Check if the model is already defined to avoid OverwriteModelError
 const Cart = models.Cart || model("Cart", CartSchema);
 
 export default Cart;
