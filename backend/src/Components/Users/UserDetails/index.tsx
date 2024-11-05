@@ -1,23 +1,32 @@
-import CommonBreadcrumb from "@/CommonComponents/CommonBreadcrumb";
-import { ImagePath } from "@/Constants";
+"use client";
+
 import { useRouter } from "next/navigation";
-import { Fragment } from "react";
-import { Card, CardBody, Col, Container, FormGroup, Row } from "reactstrap";
-import ProfileStatus from "./ProfileStatus";
+import { User } from "@/Types/Layout";
+import { Fragment, useEffect, useState } from "react";
+import { Card, CardBody, Col, Container, Row } from "reactstrap";
+import CommonBreadcrumb from "@/CommonComponents/CommonBreadcrumb";
 import TabProfile from "./TabProflle";
-import { useSession } from "next-auth/react";
 
-const Profile = () => {
-  const router = useRouter();
-  const { data: session } = useSession();
-  // console.log(session);
-  const user = session?.user;
+const UserDetail = ({ _id }: { _id: string }) => {
+  const [user, setUser] = useState<User | null>(null);
 
-  if (!user) router.push(`/en/auth/login`);
-
+  useEffect(() => {
+    const getUserDetail = async () => {
+      try {
+        const res = await fetch(`/api/user/${_id}`);
+        const data = await res.json();
+        setUser(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUserDetail();
+  }, [_id]);
+  // console.log(user);
+  if (!user) return null;
   return (
     <Fragment>
-      <CommonBreadcrumb title="Profile" parent="Settings" />
+      <CommonBreadcrumb title="User Detail" parent="Users" />
       <Container fluid>
         <Row>
           <Col xl="4">
@@ -25,11 +34,13 @@ const Profile = () => {
               <CardBody>
                 <div className="profile-details text-center">
                   <img
-                    src={user?.image || ""}
+                    src={user?.profile_image || ""}
                     alt=""
                     className="img-fluid img-90 rounded-circle blur-up lazyloaded"
                   />
-                  <h5 className="f-w-600 f-16 mb-0">{user?.name}</h5>
+                  <h5 className="f-w-600 f-16 mb-0">
+                    {user?.first_name + " " + user?.last_name}
+                  </h5>
                   <span>{user?.email}</span>
                   {/* <div className="social">
                     <FormGroup className=" btn-showcase">
@@ -58,14 +69,13 @@ const Profile = () => {
                   </div> */}
                 </div>
                 <hr />
-                <ProfileStatus />
               </CardBody>
             </Card>
           </Col>
           <Col xl="8">
             <Card className="profile-card">
               <CardBody>
-                <TabProfile />
+                <TabProfile user={user} />
               </CardBody>
             </Card>
           </Col>
@@ -75,4 +85,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UserDetail;

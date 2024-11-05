@@ -1,16 +1,43 @@
 //@ts-nocheck
+import { capitalizeHeader } from "@/lib/utils";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { Fragment, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-const DataTable = dynamic(() => import("react-data-table-component"), { ssr: false });
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "reactstrap";
+const DataTable = dynamic(() => import("react-data-table-component"), {
+  ssr: false,
+});
 
-const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable, isDelete, handleOnClick, onClickField, loading, onDelete,handleOpenEditModal }: any) => {
+const Datatable = ({
+  myData,
+  myClass,
+  multiSelectOption,
+  pagination,
+  isEditable,
+  isDelete,
+  handleOnClick,
+  onClickField,
+  loading,
+  onDelete,
+  handleOpenEditModal,
+}: any) => {
   useEffect(() => {
     setData(myData);
-    console.log("myData", myData);
+    // console.log("myData", myData);
   }, [myData]);
+
   // const [open, setOpen] = useState(false);
   const [checkedValues, setCheckedValues] = useState([]);
   const [data, setData] = useState(myData);
@@ -48,17 +75,16 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
     );
   };
 
-  const handleDelete = async(index: number, row:any) => {
+  const handleDelete = async (index: number, row: any) => {
     if (window.confirm("Are you sure you wish to delete this item?")) {
       const del = data;
       del.splice(index, 1);
-      if(onDelete){
+      if (onDelete) {
         const hasDeleted = await onDelete(row);
         console.log("hasDeleted: ", hasDeleted);
-        if (hasDeleted)
-        setData([...del]);
-      } else{
-         toast.error("On Delete function is not defined!");
+        if (hasDeleted) setData([...del]);
+      } else {
+        toast.error("On Delete function is not defined!");
       }
     }
     // toast.success("Successfully Deleted !");
@@ -87,6 +113,9 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
     if (key === "avtar") {
       editable = null;
     }
+    if (key === "profile_image") {
+      editable = null;
+    }
     if (key === "vendor") {
       editable = null;
     }
@@ -95,33 +124,43 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
     }
 
     columns.push({
-      name: <b>{Capitalize(key.toString())}</b>,
-      header: <b>{Capitalize(key.toString())}</b>,
+      name: <b>{capitalizeHeader(key.toString())}</b>,
+      header: <b>{capitalizeHeader(key.toString())}</b>,
       selector: (row) => {
-        if (typeof row[key] === 'object' && row[key] !== null) {
+        if (typeof row[key] === "object" && row[key] !== null) {
           return JSON.stringify(row[key]);
         }
         return row[key];
       },
       cell: (row) => {
-        if (key === "image_link") {
+        if (key === "image_link" || key === "profile_image") {
           return (
             <div style={{ textAlign: "center" }}>
-              <img src={row[key]} alt="Product Image" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+              <Image
+                src={row[key]}
+                alt="Product Image"
+                width={100}
+                height={80}
+                style={{ width: "60px", height: "60px", objectFit: "cover" }}
+              />
             </div>
           );
         }
         if (key === onClickField) {
           return (
             <div
-              style={{ cursor: "pointer", color: "blue", textDecorationLine: "underline" }}
-              onClick={() => handleOnClick(row)}
+              style={{
+                cursor: "pointer",
+                color: "blue",
+                textDecorationLine: "underline",
+              }}
+              onClick={() => handleOnClick(row[key])}
             >
               {row[key]}
             </div>
           );
         }
-        return row[key];
+        return row[key] || "-";
       },
       Cell: editable,
       style: {
@@ -138,7 +177,8 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
           size="sm"
           className=" btn-delete mb-0 b-r-4"
           onClick={(e) => {
-            if (window.confirm("Are you sure you wish to delete this item?")) handleRemoveRow();
+            if (window.confirm("Are you sure you wish to delete this item?"))
+              handleRemoveRow();
           }}
         >
           Delete
@@ -149,7 +189,12 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
       cell: (row) => (
         <div>
           <span>
-            <Input type="checkbox" name={row.id} defaultChecked={checkedValues.includes(row.id)} onChange={(e) => selectRow(e, row.id)} />
+            <Input
+              type="checkbox"
+              name={row.id}
+              defaultChecked={checkedValues.includes(row.id)}
+              onChange={(e) => selectRow(e, row.id)}
+            />
           </span>
         </div>
       ),
@@ -182,15 +227,18 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
           {isEditable && (
             <span>
               <i
-                onClick={()=>{
-                  if(handleOpenEditModal){
-                    if(window.confirm("Are you sure you wish to edit this item? You will be redirect to its edit page."))
-                    handleOpenEditModal(row)
-                  }else{
+                onClick={() => {
+                  if (handleOpenEditModal) {
+                    if (
+                      window.confirm(
+                        "Are you sure you wish to edit this item? You will be redirect to its edit page."
+                      )
+                    )
+                      handleOpenEditModal(row);
+                  } else {
                     toast.error("Edit function is not defined!");
                   }
-                }
-                }
+                }}
                 className="fa fa-pencil"
                 style={{
                   width: 35,
@@ -248,8 +296,18 @@ const Datatable = ({ myData, myClass, multiSelectOption, pagination, isEditable,
   return (
     <div>
       <Fragment>
-        {loading ? <div>Loading...</div> :
-          <DataTable data={data} columns={columns} className={myClass} pagination={pagination} striped={true} center={true} />}
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <DataTable
+            data={data}
+            columns={columns}
+            className={myClass}
+            pagination={pagination}
+            striped={true}
+            center={true}
+          />
+        )}
 
         <ToastContainer />
       </Fragment>

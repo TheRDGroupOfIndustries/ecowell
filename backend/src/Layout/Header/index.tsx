@@ -1,7 +1,8 @@
+"use client";
+
 import { Href, ImagePath } from "@/Constants";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import { setOpenCloseSidebar, setRightSidebar } from "@/Redux/LayoutReducer";
-import Image from "next/image";
 import { Fragment, useState } from "react";
 import {
   AlignLeft,
@@ -11,10 +12,10 @@ import {
   MoreHorizontal,
 } from "react-feather";
 import { Badge, Col, Row } from "reactstrap";
-import Language from "./Language";
-import Notification from "./Notification";
-import SearchHeader from "./SearchHeader";
 import UserMenu from "./UserMenu";
+import Notification from "./Notification";
+import Language from "./Language";
+import SearchHeader from "./SearchHeader";
 
 const Header = () => {
   const { sidebar, rightSidebar } = useAppSelector(

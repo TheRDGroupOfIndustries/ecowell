@@ -1,6 +1,12 @@
+import { AdminValues } from "@/Types/Layout";
+import { useSession } from "next-auth/react";
 import { Table } from "reactstrap";
 
 const TabTable = () => {
+  const { data: session } = useSession();
+  const user = session?.user as AdminValues;
+
+  if (!user) return null;
   return (
     <div className="tab-pane fade show active">
       <h5 className="f-w-600 f-16">Profile</h5>
@@ -9,32 +15,32 @@ const TabTable = () => {
           <tbody>
             <tr>
               <td>First Name:</td>
-              <td>John</td>
+              <td>{user?.name?.split(" ")[0]}</td>
             </tr>
             <tr>
               <td>Last Name:</td>
-              <td>Deo</td>
+              <td>{user?.name?.split(" ")[1]}</td>
             </tr>
             <tr>
               <td>Email:</td>
-              <td>johndeo@gmail.com</td>
+              <td>{user?.email}</td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>Gender:</td>
               <td>Male</td>
-            </tr>
+            </tr> */}
             <tr>
               <td>Mobile Number:</td>
-              <td>2124821463</td>
+              <td>{user?.phone_number || "-"}</td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>DOB:</td>
               <td>Dec, 15 1993</td>
-            </tr>
-            <tr>
+            </tr> 
+             <tr>
               <td>Location:</td>
               <td>USA</td>
-            </tr>
+            </tr> */}
           </tbody>
         </Table>
       </div>

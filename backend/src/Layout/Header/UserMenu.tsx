@@ -22,7 +22,7 @@ const UserMenu = () => {
 
   // console.log(session);
   if (status === "unauthenticated") {
-    return router.push(`/${i18LangStatus}/auth/login`);
+    router.replace(`/${i18LangStatus}/auth/login`);
   }
 
   return (
@@ -44,7 +44,7 @@ const UserMenu = () => {
         </div>
         <ul className="profile-dropdown onhover-show-div p-20 profile-dropdown-hover">
           <li>
-            <Link href={`/settings/profile`}>
+            <Link href={`/${i18LangStatus}/settings/profile`}>
               <i data-feather="user"></i>Edit Profile
             </Link>
           </li>
