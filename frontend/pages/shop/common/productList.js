@@ -1,8 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Col, Row, Media, Button, Spinner } from "reactstrap";
-import Menu2 from "../../../public/assets/images/mega-menu/2.jpg";
-import { useQuery } from "@apollo/client";
-import { gql } from "@apollo/client";
 import FilterContext from "../../../helpers/filter/FilterContext";
 import ProductItem from "../../../components/common/product-box/ProductBox1";
 import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
@@ -12,66 +9,13 @@ import CartContext from "../../../helpers/cart";
 import { WishlistContext } from "../../../helpers/wishlist/WishlistContext";
 import { CompareContext } from "../../../helpers/Compare/CompareContext";
 
-const GET_PRODUCTS = gql`
-  query products(
-    $type: _CategoryType!
-    $indexFrom: Int!
-    $limit: Int!
-    $color: String!
-    $brand: [String!]!
-    $sortBy: _SortBy!
-    $priceMax: Int!
-    $priceMin: Int!
-  ) {
-    products(
-      type: $type
-      indexFrom: $indexFrom
-      limit: $limit
-      color: $color
-      brand: $brand
-      sortBy: $sortBy
-      priceMax: $priceMax
-      priceMin: $priceMin
-    ) {
-      total
-      hasMore
-      items {
-        id
-        title
-        description
-        type
-        brand
-        category
-        price
-        new
-        sale
-        stock
-        discount
-        variants {
-          id
-          sku
-          size
-          color
-          image_id
-        }
-        images {
-          image_id
-          id
-          alt
-          src
-        }
-      }
-    }
-  }
-`;
-
 const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
   const cartContext = useContext(CartContext);
   const quantity = cartContext.quantity;
   const wishlistContext = useContext(WishlistContext);
   const compareContext = useContext(CompareContext);
   const router = useRouter();
-  const [limit, setLimit] = useState(8);
+  const [limit, setLimit] = useState(10);
   const curContext = useContext(CurrencyContext);
   const [grid, setGrid] = useState(colClass);
   const symbol = curContext.state.symbol;
@@ -94,45 +38,41 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
     );
   }, [selectedBrands, selectedColor, selectedSize, selectedPrice]);
 
-  var { loading, data, fetchMore } = useQuery(GET_PRODUCTS, {
-    variables: {
-      type: selectedCategory,
-      priceMax: selectedPrice.max,
-      priceMin: selectedPrice.min,
-      color: selectedColor,
-      brand: selectedBrands,
-      sortBy: sortBy,
-      indexFrom: 0,
-      limit: limit,
-    },
-  });
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [visibleProducts, setVisibleProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/products/getAllProducts");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const dataTemp = await response.json();
+        console.log("Fetched Products:", dataTemp);
+        let dataTemp1 = [...dataTemp, ...dataTemp, ...dataTemp, ...dataTemp, ...dataTemp];
+        setData(dataTemp1);
+        setVisibleProducts(dataTemp1.slice(0, limit));
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        toast.error("Failed to fetch categories");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handlePagination = () => {
     setIsLoading(true);
-    setTimeout(
-      () =>
-        fetchMore({
-          variables: {
-            indexFrom: data.products.items.length,
-          },
-          updateQuery: (prev, { fetchMoreResult }) => {
-            if (!fetchMoreResult) return prev;
-            setIsLoading(false);
-            return {
-              products: {
-                __typename: prev.products.__typename,
-                total: prev.products.total,
-                items: [
-                  ...prev.products.items,
-                  ...fetchMoreResult.products.items,
-                ],
-                hasMore: fetchMoreResult.products.hasMore,
-              },
-            };
-          },
-        }),
-      1000
-    );
+    setTimeout(() => {
+      const newLimit = visibleProducts.length + 10;
+      setVisibleProducts(data.slice(0, newLimit));
+      setIsLoading(false);
+    }, 1000);
   };
 
   const removeBrand = (val) => {
@@ -151,39 +91,16 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
     filterContext.setSelectedColor("");
   };
 
+  const startProduct = visibleProducts.length > 0 ? 1 : 0;
+  const endProduct = visibleProducts.length;
+  const totalProducts = data.length;
+  const totalPages = Math.ceil(totalProducts / limit);
+
   return (
     <Col className="collection-content">
       <div className="page-main-content">
         <Row>
           <Col sm="12">
-            <div className="top-banner-wrapper">
-              <a href={null}>
-                <Media
-                  src={Menu2.src}
-                  className="img-fluid blur-up lazyload"
-                  alt=""
-                />
-              </a>
-              <div className="top-banner-content small-section">
-                <h4>fashion</h4>
-                <h5>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </h5>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum.
-                </p>
-              </div>
-            </div>
             <Row>
               <Col xs="12">
                 <ul className="product-filter-tags">
@@ -254,7 +171,7 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
                       <div className="search-count">
                         <h5>
                           {data
-                            ? `Showing Products 1-${data.products.items.length} of ${data.products.total}`
+                            ? `Showing Products ${startProduct}-${endProduct} of ${totalProducts} Result`
                             : "loading"}{" "}
                           Result
                         </h5>
@@ -351,26 +268,22 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
                 <Row>
                   {/* Product Box */}
                   {!data ||
-                    !data.products ||
-                    !data.products.items ||
-                    data.products.items.length === 0 ||
-                    loading ? (
+                  data.length === 0 ||
+                  loading ? (
                     data &&
-                      data.products &&
-                      data.products.items &&
-                      data.products.items.length === 0 ? (
+                    data.length === 0 ? (
                       <Col xs="12">
                         <div>
                           <div className="col-sm-12 empty-cart-cls text-center">
                             <img
                               src={`/assets/images/empty-search.jpg`}
                               className="img-fluid mb-4 mx-auto"
-                              alt=""
+                              alt="Empty Search"
                             />
                             <h3>
-                              <strong>Your Cart is Empty</strong>
+                              <strong>No Products Found</strong>
                             </h3>
-                            <h4>Explore more shortlist some items.</h4>
+                            <h4>Explore more and shortlist some items.</h4>
                           </div>
                         </div>
                       </Col>
@@ -391,8 +304,8 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
                       </div>
                     )
                   ) : (
-                    data &&
-                    data.products.items.map((product, i) => (
+                    visibleProducts &&
+                    visibleProducts.map((product, i) => (
                       <div className={grid} key={i}>
                         <div className="product">
                           <div>
@@ -422,8 +335,9 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
                 <div className="text-center">
                   <Row>
                     <Col xl="12" md="12" sm="12">
-                      {data && data.products && data.products.hasMore && (
-                        <Button className="load-more" onClick={() => handlePagination()}>
+                      {data &&
+                      data.length > visibleProducts.length && (
+                        <Button className="load-more" onClick={handlePagination}>
                           {isLoading && (
                             <Spinner animation="border" variant="light" />
                           )}
