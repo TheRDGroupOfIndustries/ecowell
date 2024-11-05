@@ -1,27 +1,36 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Container, Media, Row } from "reactstrap";
 import Slider from "react-slick";
 import { toast } from "react-toastify";
+import FilterContext from "../../../../helpers/filter/FilterContext";
+import Link from "next/link";
 
-const  MasterCategory = ({ img, title, link }) => {
+const MasterCategory = ({ img, title, link, slug }) => {
+  const filterContext = useContext(FilterContext);
   return (
-    <div className="border-padding ">
-      <a href={link}>
-      <div className="category-banner">
-        <div>
-          <Media
-            src={img}
-            className="img-fluid blur-up lazyload bg-img"
-            alt=""
-          />
-        </div>
-        <div className="category-box cursor-pointer">
-
-            <h2>{title}</h2>
-          
-        </div>
-      </div>
-    </a>
+    <div
+      className="border-padding"
+      onClick={() => {
+        console.log("Selected Category:", slug);
+        filterContext.setSelectedCategory(slug);
+      }}
+    >
+      <Link href={link}>
+        {/* <a onClick={(e) => e.preventDefault()}> */}
+          <div className="category-banner">
+            <div>
+              <Media
+                src={img}
+                className="img-fluid blur-up lazyload bg-img"
+                alt=""
+              />
+            </div>
+            <div className="category-box cursor-pointer">
+              <h2>{title}</h2>
+            </div>
+          </div>
+        {/* </a> */}
+      </Link>
     </div>
   );
 };
@@ -54,31 +63,33 @@ const CategoryTwo = () => {
       },
     ],
   };
-  
-   useEffect(() => {
-      const fetchCategories = async () => {
-        try {
-          const response = await fetch('/api/categories/all-categories');
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const data = await response.json();
-          // console.log("Fetched Categories:", data);
-          //only title, image_link and slug to show 
-          let categoriesToShow = data.map((category) => {
-            return { title: category.title, slug: category.slug, image_link: category.image_link };
-          });
-          setCategories(categoriesToShow);
-        } catch (error) {
-          console.error("Error fetching categories:", error);
-          toast.error("Failed to fetch categories");
-        } finally {
-          
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("/api/categories/all-categories");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      };
-  
-      fetchCategories();
-    }, []);
+        const data = await response.json();
+        // Only title, image_link, and slug to show
+        let categoriesToShow = data.map((category) => {
+          return {
+            title: category.title,
+            slug: category.slug,
+            image_link: category.image_link,
+          };
+        });
+        setCategories(categoriesToShow);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        toast.error("Failed to fetch categories");
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
     <Fragment>
       <section className="p-0 ratio2_1">
@@ -88,19 +99,22 @@ const CategoryTwo = () => {
             <span></span>
           </div>
         </div>
-        <Container fluid={true} style={{
-          width: "95%",
-        }}>
+        <Container
+          fluid={true}
+          style={{
+            width: "95%",
+          }}
+        >
           <Row className="category-border">
-            <Slider {...settings}
-            arrows>
+            <Slider {...settings} arrows>
               {categories.map((data, i) => {
                 return (
                   <MasterCategory
                     key={i}
                     img={data.image_link}
                     title={data.title}
-                    link={"/category/" + data.slug}
+                    slug={data.slug}
+                    link={"/shop/left_sidebar"}
                   />
                 );
               })}

@@ -41,7 +41,7 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
             {symbol}|
             {product.price}
           </del>
-          <span>{product.discount.toFixed(2)}% off</span>
+          <span>{product.discount?(Number(product?.discount).toFixed(2)):"90"}% off</span>
         </h4>
         <h3>
           {symbol}

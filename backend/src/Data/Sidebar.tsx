@@ -141,7 +141,7 @@ export const MENUITEMS: any = [
     active: false,
     children: [
       { path: "/users/list-user", title: "User List", type: "link" },
-      { path: "/users/create-user", title: "Create User", type: "link" },
+      // { path: "/users/create-user", title: "Create User", type: "link" },
     ],
   },
   {
