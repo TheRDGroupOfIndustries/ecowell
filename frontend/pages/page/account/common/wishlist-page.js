@@ -4,9 +4,13 @@ import Link from "next/link";
 import { Container, Row, Col, Table } from "reactstrap";
 import { WishlistContext } from "../../../../helpers/wishlist/WishlistContext";
 import CartContext from "../../../../helpers/cart/index";
+import { CurrencyContext } from "../../../../helpers/Currency/CurrencyContext";
 
 const WishlistPage = () => {
   const router = useRouter();
+  const curContext = useContext(CurrencyContext);
+  const symbol = curContext.state.symbol;
+
   const context = useContext(WishlistContext);
   const cartContext = useContext(CartContext);
 
@@ -56,7 +60,10 @@ const WishlistPage = () => {
                               </p>
                             </div>
                             <div className="col-xs-3">
-                              <p className="td-colo">${item.price}</p>
+                              <p className="td-colo">
+                                {symbol}
+                                {item.price}
+                              </p>
                             </div>
                             <div className="col-xs-3">
                               <h2 className="td-color">
@@ -79,7 +86,10 @@ const WishlistPage = () => {
                           </Row>
                         </td>
                         <td>
-                          <p>₹{item.price}</p>
+                          <p>
+                            {symbol}
+                            {item.price}
+                          </p>
                         </td>
                         <td>
                           <p>
