@@ -100,7 +100,7 @@ const CategoryTwo = () => {
                     key={i}
                     img={data.image_link}
                     title={data.title}
-                    link={"/category/" + data.slug}
+                    link={"/shop/left_sidebar"}
                   />
                 );
               })}
