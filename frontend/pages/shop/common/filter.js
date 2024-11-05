@@ -4,9 +4,8 @@ import sideBanner from '../../../public/assets/images/side-banner.png';
 import NewProduct from './newProduct';
 import Category from './category';
 import Brand from './brand'
-import Color from './color'
-import Size from './size'
 import Price from './price';
+import Flavor from './flavor';
 
 const FilterPage = ({sm,sidebarView,closeSidebar}) => {
     return (
@@ -22,8 +21,8 @@ const FilterPage = ({sm,sidebarView,closeSidebar}) => {
                     </div>
                     <Category />
                     <Brand/>
-                    <Color/>
-                    <Size/>
+                    <Flavor/>
+                    {/* <Size/> */}
                     <Price />
                 </div>
                 {/* <!-- silde-bar colleps block end here -->*/}

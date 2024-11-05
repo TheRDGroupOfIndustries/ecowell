@@ -15,18 +15,18 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
   const wishlistContext = useContext(WishlistContext);
   const compareContext = useContext(CompareContext);
   const router = useRouter();
-  const [limit, setLimit] = useState(10);
+  
   const curContext = useContext(CurrencyContext);
   const [grid, setGrid] = useState(colClass);
   const symbol = curContext.state.symbol;
   const filterContext = useContext(FilterContext);
   const selectedBrands = filterContext.selectedBrands;
-  const selectedColor = filterContext.selectedColor;
+  const selectedFlavors = filterContext.selectedFlavors;
   const selectedPrice = filterContext.selectedPrice;
-  const selectedCategory = filterContext.state;
+  const selectedCategory = filterContext.selectedCategory;
+  const { data, loadingProduct, visibleProducts, setLimit, limit, handlePagination ,isLoading} = filterContext;
   const selectedSize = filterContext.selectedSize;
   const [sortBy, setSortBy] = useState("AscOrder");
-  const [isLoading, setIsLoading] = useState(false);
   const [layout, setLayout] = useState(layoutList);
   const [url, setUrl] = useState();
 
@@ -34,46 +34,9 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
     const pathname = window.location.pathname;
     setUrl(pathname);
     router.push(
-      `${pathname}?${filterContext.state}&brand=${selectedBrands}&color=${selectedColor}&size=${selectedSize}&minPrice=${selectedPrice.min}&maxPrice=${selectedPrice.max}`, undefined, { shallow: true }
+      `${pathname}?brand=${selectedBrands}&color=${selectedFlavors}&size=${selectedSize}&minPrice=${selectedPrice.min}&maxPrice=${selectedPrice.max}&category=${selectedCategory}`, undefined, { shallow: true }
     );
-  }, [selectedBrands, selectedColor, selectedSize, selectedPrice]);
-
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [visibleProducts, setVisibleProducts] = useState([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch("/api/products/getAllProducts");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const dataTemp = await response.json();
-        console.log("Fetched Products:", dataTemp);
-        let dataTemp1 = [...dataTemp, ...dataTemp, ...dataTemp, ...dataTemp, ...dataTemp];
-        setData(dataTemp1);
-        setVisibleProducts(dataTemp1.slice(0, limit));
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-        toast.error("Failed to fetch categories");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  const handlePagination = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      const newLimit = visibleProducts.length + 10;
-      setVisibleProducts(data.slice(0, newLimit));
-      setIsLoading(false);
-    }, 1000);
-  };
+  }, [selectedBrands, selectedFlavors, selectedSize, selectedPrice, selectedCategory]);
 
   const removeBrand = (val) => {
     const temp = [...selectedBrands];
@@ -87,8 +50,10 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
     filterContext.setSelectedSize(temp);
   };
 
-  const removeColor = () => {
-    filterContext.setSelectedColor("");
+  const removeFlavor = (val) => {
+    const temp = [...selectedFlavors];
+    temp.splice(selectedFlavors.indexOf(val), 1);
+    filterContext.setSelectedFlavors(temp);
   };
 
   const startProduct = visibleProducts.length > 0 ? 1 : 0;
@@ -115,16 +80,15 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
                       </a>
                     </li>
                   ))}
-                  {selectedColor ? (
-                    <li>
+                  {selectedFlavors.map((flavor, i) => (
+                    <li key={i}>
                       <a href={null} className="filter_tag">
-                        {selectedColor}
-                        <i className="fa fa-close" onClick={removeColor}></i>
-                      </a>
+                        {flavor}
+                        <i  className="fa fa-close" onClick={() => removeFlavor(flavor)}></i>
+                      </a>  
                     </li>
-                  ) : (
-                    ""
-                  )}
+                  ))}
+
                   {selectedSize.map((size, i) => (
                     <li key={i}>
                       <a href={null} className="filter_tag">
@@ -136,6 +100,18 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
                       </a>
                     </li>
                   ))}
+                  {selectedCategory ? (
+                    <li>
+                      <a href={null} className="filter_tag">
+                        {selectedCategory}
+                        <i className="fa fa-close" onClick={()=>{
+                          filterContext.setSelectedCategory("");
+                        }}></i>
+                      </a>
+                    </li>
+                  ) : (
+                    ""
+                  )}
                   {
                     <li>
                       <a href={null} className="filter_tag">
@@ -269,7 +245,7 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
                   {/* Product Box */}
                   {!data ||
                   data.length === 0 ||
-                  loading ? (
+                  loadingProduct ? (
                     data &&
                     data.length === 0 ? (
                       <Col xs="12">
@@ -310,6 +286,7 @@ const ProductList = ({ colClass, layoutList, openSidebar, noSidebar }) => {
                         <div className="product">
                           <div>
                             <ProductItem
+                              key={i} // Ensure unique key for each product
                               des={true}
                               product={product}
                               symbol={symbol}

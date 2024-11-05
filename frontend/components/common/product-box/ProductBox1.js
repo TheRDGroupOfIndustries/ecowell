@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Row, Col, Media, Modal, ModalBody, ModalHeader } from "reactstrap";
@@ -34,6 +34,9 @@ const ProductItem = ({
       product.variants[0].images[0]) ??
       ""
   );
+  useEffect(() => {
+    setImage( product.variants[0].images[0] );
+  }, [product]);
   const [modal, setModal] = useState(false);
   const [modalCompare, setModalCompare] = useState(false);
   const toggleCompare = () => setModalCompare(!modalCompare);
