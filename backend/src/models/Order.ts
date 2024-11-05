@@ -62,4 +62,4 @@ const orderSchema = new Schema<Order>({
   orders: [orderDetailsSchema],
 });
 
-export default models.Orders || model<Order>("Orders", orderSchema);
+export default models.Order || model<Order>("Order", orderSchema);

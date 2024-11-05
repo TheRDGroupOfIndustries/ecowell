@@ -28,9 +28,9 @@ const CartProvider = (props) => {
             // console.log("data:", data);
             setCartItems(data.items || []);
             setCartTotal(data.totalPrice || 0);
-          } else {
-            toast.error(data.message || "Failed to fetch cart items.");
-          }
+          } // else {
+          //   toast.error(data.message || "Failed to fetch cart items.");
+          // }
         } catch (error) {
           console.error("Error fetching cart:", error);
           toast.error("An error occurred while fetching the cart.");
@@ -72,7 +72,7 @@ const CartProvider = (props) => {
 
   // Add Product To Cart
   const addToCart = async (item, quantity, variant) => {
-    console.log("add to cart", userId, item, quantity, variant);
+    // console.log("add to cart", userId, item, quantity, variant);
 
     const updatedVariant = {
       flavor: variant.flavor,
@@ -87,7 +87,7 @@ const CartProvider = (props) => {
       quantity,
     };
 
-    console.log("productData", productData);
+    // console.log("productData", productData);
 
     // Call the API to add the product to the cart
     const response = await fetch("/api/cart/addToCart", {

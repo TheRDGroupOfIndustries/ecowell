@@ -6,7 +6,11 @@ import { WishlistContext } from "../../../helpers/wishlist/WishlistContext";
 import { CompareContext } from "../../../helpers/Compare/CompareContext";
 import { useRouter } from "next/router";
 
-const ProductSection = ({ product,setSelectedProduct }) => {
+const ProductSection = ({
+  product,
+  selectedVariantProduct,
+  setSelectedVariantProduct,
+}) => {
   const router = useRouter();
   const curContext = useContext(CurrencyContext);
   const wishlistContext = useContext(WishlistContext);
@@ -14,7 +18,7 @@ const ProductSection = ({ product,setSelectedProduct }) => {
   const symbol = curContext.state.symbol;
   const currency = curContext.state;
   const cartCtx = useContext(CartContext);
-  const addToCart = cartCtx.addToCart;
+  // const addToCart = cartCtx.addToCart;
   const quantity = cartCtx.quantity;
   const plusQty = cartCtx.plusQty;
   const minusQty = cartCtx.minusQty;
@@ -26,17 +30,18 @@ const ProductSection = ({ product,setSelectedProduct }) => {
   const changeQty = (e) => {
     setQuantity(parseInt(e.target.value));
   };
-useEffect(() => {
-  console.log("product: ", product);
-}, [product]);
+
+  useEffect(() => {
+    // console.log("product: ", product);
+  }, [product]);
+
   const clickProductDetail = () => {
-    console.log("product: ", product);
+    // console.log("product: ", product);
     router.push(`/product-details/${product.sku}`);
   };
 
-
   const getSelectedProduct = (item) => {
-    setSelectedProduct(item);
+    setSelectedVariantProduct(item);
     toggle();
   };
 
@@ -53,87 +58,95 @@ useEffect(() => {
             "loading"
           ) : (
             <>
-              {product?.variants?.map((variant, index) => (
-                <Col xl="2" md="4" sm="6" key={index}>
-                  <div className="product-box">
-                    <div className="img-wrapper">
-                      <div className="front">
-                        <a href={null}>
-                          <Media
-                            onClick={() => clickProductDetail()}
-                            src={variant.images[0]}
-                            className="img-fluid blur-up lazyload bg-img"
-                            alt=""
-                          />
-                        </a>
+              {product?.variants?.map((variant, index) => {
+                return (
+                  <Col xl="2" md="4" sm="6" key={index}>
+                    <div className="product-box">
+                      <div className="img-wrapper">
+                        <div className="front">
+                          <a href={null}>
+                            <Media
+                              onClick={() => clickProductDetail()}
+                              src={variant.images[0]}
+                              className="img-fluid blur-up lazyload bg-img"
+                              alt=""
+                            />
+                          </a>
+                        </div>
+                        <div className="back">
+                          <a href={null}>
+                            <Media
+                              src={variant.images[1]}
+                              className="img-fluid blur-up lazyload bg-img"
+                              alt=""
+                            />
+                          </a>
+                        </div>
+                        <div className="cart-info cart-wrap">
+                          <button
+                            data-toggle="modal"
+                            data-target="#addtocart"
+                            title="Add to cart"
+                            onClick={() =>
+                              cartCtx.addToCart(
+                                product,
+                                quantity,
+                                selectedVariantProduct
+                              )
+                            }
+                          >
+                            <i className="fa fa-shopping-cart"></i>
+                          </button>
+                          <a
+                            href="#"
+                            onClick={() => wishlistContext.addToWish(product)}
+                            title="Add to Wishlist"
+                          >
+                            <i className="fa fa-heart" aria-hidden="true"></i>
+                          </a>
+                          <a
+                            href="#"
+                            onClick={() => setSelectedVariantProduct(variant)}
+                            data-toggle="modal"
+                            data-target="#quick-view"
+                            title="Quick View"
+                          >
+                            <i className="fa fa-search" aria-hidden="true"></i>
+                          </a>
+                          <a
+                            href="#"
+                            onClick={() => compareContext.addToCompare(product)}
+                            title="Compare"
+                          >
+                            <i className="fa fa-refresh" aria-hidden="true"></i>
+                          </a>
+                        </div>
                       </div>
-                      <div className="back">
+                      <div className="product-detail">
+                        <div className="rating">
+                          <i className="fa fa-star"></i>{" "}
+                          <i className="fa fa-star"></i>{" "}
+                          <i className="fa fa-star"></i>{" "}
+                          <i className="fa fa-star"></i>{" "}
+                          <i className="fa fa-star"></i>
+                        </div>
                         <a href={null}>
-                          <Media
-                            src={variant.images[1]}
-                            className="img-fluid blur-up lazyload bg-img"
-                            alt=""
-                          />
+                          <h6>{product.title}</h6>
                         </a>
-                      </div>
-                      <div className="cart-info cart-wrap">
-                        <button
-                          data-toggle="modal"
-                          data-target="#addtocart"
-                          title="Add to cart"
-                          onClick={() => addToCart(product, quantity)}
-                        >
-                          <i className="fa fa-shopping-cart"></i>
-                        </button>
-                        <a
-                          href="#"
-                          onClick={() => wishlistContext.addToWish(product)}
-                          title="Add to Wishlist"
-                        >
-                          <i className="fa fa-heart" aria-hidden="true"></i>
-                        </a>
-                        <a
-                          href="#"
-                          onClick={() => getSelectedProduct(product)}
-                          data-toggle="modal"
-                          data-target="#quick-view"
-                          title="Quick View"
-                        >
-                          <i className="fa fa-search" aria-hidden="true"></i>
-                        </a>
-                        <a
-                          href="#"
-                          onClick={() => compareContext.addToCompare(product)}
-                          title="Compare"
-                        >
-                          <i className="fa fa-refresh" aria-hidden="true"></i>
-                        </a>
+                        <h4>
+                          {symbol}
+                          {product.price}
+                        </h4>
+                        <ul className="color-variant">
+                          <li className="bg-light0"></li>
+                          <li className="bg-light1"></li>
+                          <li className="bg-light2"></li>
+                        </ul>
                       </div>
                     </div>
-                    <div className="product-detail">
-                      <div className="rating">
-                        <i className="fa fa-star"></i>{" "}
-                        <i className="fa fa-star"></i>{" "}
-                        <i className="fa fa-star"></i>{" "}
-                        <i className="fa fa-star"></i>{" "}
-                        <i className="fa fa-star"></i>
-                      </div>
-                      <a href={null}>
-                        <h6>{product.title}</h6>
-                      </a>
-                      <h4>
-                        {symbol}
-                        {product.price}
-                      </h4>
-                      <ul className="color-variant">
-                        <li className="bg-light0"></li>
-                        <li className="bg-light1"></li>
-                        <li className="bg-light2"></li>
-                      </ul>
-                    </div>
-                  </div>
-                </Col>
-              ))}
+                  </Col>
+                );
+              })}
             </>
           )}
         </Row>
@@ -168,7 +181,7 @@ useEffect(() => {
                           <li
                             key={i}
                             title={variant.flavor}
-                            onClick={() => setSelectedProduct({ ...product, selectedVariant: variant })}
+                            onClick={() => setSelectedVariantProduct(variant)}
                           >
                             {variant.flavor}
                           </li>
@@ -235,7 +248,13 @@ useEffect(() => {
                     <div className="product-buttons">
                       <button
                         className="btn btn-solid"
-                        onClick={() => addToCart(product, quantity)}
+                        onClick={() =>
+                          cartCtx.addToCart(
+                            product,
+                            quantity,
+                            selectedVariantProduct
+                          )
+                        }
                       >
                         add to cart
                       </button>

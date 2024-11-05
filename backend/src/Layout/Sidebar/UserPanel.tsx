@@ -1,7 +1,7 @@
 "use client";
 
-import { ImagePath } from "@/Constants";
 import { useSession } from "next-auth/react";
+import { ImagePath } from "@/Constants";
 
 const UserPanel = () => {
   const { data: session } = useSession();

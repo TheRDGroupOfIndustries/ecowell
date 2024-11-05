@@ -7,7 +7,13 @@ import CartContext from "../../../helpers/cart";
 import CountdownComponent from "../../../components/common/widgets/countdownComponent";
 import MasterSocial from "./master_social";
 
-const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
+const DetailsWithPrice = ({
+  item,
+  stickyClass,
+  selectedVariantProduct,
+  changeColorVar,
+}) => {
+  // console.log("selectedVariantProduct: ", selectedVariantProduct);
   const [modal, setModal] = useState(false);
   const CurContect = useContext(CurrencyContext);
   const symbol = CurContect.state.symbol;
@@ -38,14 +44,18 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
         <h4>
           <del>
             {/* ruppees entitu */}
-            {symbol}|
-            {product.price}
+            {symbol}|{product.price}
           </del>
-          <span>{product.discount?(Number(product?.discount).toFixed(2)):"90"}% off</span>
+          <span>
+            {product.discount ? Number(product?.discount).toFixed(2) : "90"}%
+            off
+          </span>
         </h4>
         <h3>
           {symbol}
-          {(product.price - (product.price * product.discount) / 100).toFixed(2)}
+          {(product.price - (product.price * product.discount) / 100).toFixed(
+            2
+          )}
         </h3>
         {product.variants.map((vari) => {
           var findItem = uniqueFlavors.find((x) => x.flavor === vari.flavor);
@@ -56,15 +66,22 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
             {uniqueFlavors.some((vari) => vari.flavor) ? (
               <ul>
                 {uniqueFlavors.map((vari, i) => {
-                  return <li className={vari.flavor} key={i} title={vari.flavor} style={{
-                    padding: "10px",
-                    border: '1px solid #fff',
-                    marginRight: "10px",
-                    borderRadius:"5px",
-                    cursor: "pointer"
-                  }}>{
-                    vari.flavor
-                  }</li>;
+                  return (
+                    <li
+                      className={vari.flavor}
+                      key={i}
+                      title={vari.flavor}
+                      style={{
+                        padding: "10px",
+                        border: "1px solid #fff",
+                        marginRight: "10px",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {vari.flavor}
+                    </li>
+                  );
                 })}
               </ul>
             ) : (
@@ -76,15 +93,23 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
             {uniqueFlavors.some((vari) => vari.flavor) ? (
               <ul>
                 {uniqueFlavors.map((vari, i) => {
-                  return <li className={vari.flavor} key={i} title={vari.flavor} onClick={() => changeColorVar(i)} style={{
-                    padding: "10px",
-                    border: '1px solid #fff',
-                    marginRight: "10px",
-                    borderRadius:"5px",
-                    cursor: "pointer"
-                  }}>{
-                    vari.flavor
-                  }</li>;
+                  return (
+                    <li
+                      className={vari.flavor}
+                      key={i}
+                      title={vari.flavor}
+                      onClick={() => changeColorVar(i)}
+                      style={{
+                        padding: "10px",
+                        border: "1px solid #fff",
+                        marginRight: "10px",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {vari.flavor}
+                    </li>
+                  );
                 })}
               </ul>
             ) : (
@@ -135,13 +160,31 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
           <div className="qty-box">
             <div className="input-group">
               <span className="input-group-prepend">
-                <button type="button" className="btn quantity-left-minus" onClick={minusQty} data-type="minus" data-field="">
+                <button
+                  type="button"
+                  className="btn quantity-left-minus"
+                  onClick={minusQty}
+                  data-type="minus"
+                  data-field=""
+                >
                   <i className="fa fa-angle-left"></i>
                 </button>
               </span>
-              <Input type="text" name="quantity" value={quantity} onChange={changeQty} className="form-control input-number" />
+              <Input
+                type="text"
+                name="quantity"
+                value={quantity}
+                onChange={changeQty}
+                className="form-control input-number"
+              />
               <span className="input-group-prepend">
-                <button type="button" className="btn quantity-right-plus" onClick={() => plusQty(product)} data-type="plus" data-field="">
+                <button
+                  type="button"
+                  className="btn quantity-right-plus"
+                  onClick={() => plusQty(product)}
+                  data-type="plus"
+                  data-field=""
+                >
                   <i className="fa fa-angle-right"></i>
                 </button>
               </span>
@@ -149,10 +192,28 @@ const DetailsWithPrice = ({ item, stickyClass, changeColorVar }) => {
           </div>
         </div>
         <div className="product-buttons">
-          <a href={null} className="btn btn-solid" onClick={() => context.addToCart(product, quantity)}>
-            add to cart
+          <a
+            href={null}
+            className="btn btn-solid"
+            onClick={() => {
+              if (context.productExistsInCart(product._id)) {
+                context.removeFromCart(product);
+              } else {
+                context.addToCart(product, quantity, selectedVariantProduct);
+              }
+            }}
+          >
+            {context.productExistsInCart(product._id)
+              ? "remove from cart"
+              : "add to cart"}
           </a>
-          <Link href={`/page/account/checkout`} className="btn btn-solid" onClick={() => context.addToCart(product, quantity)}>
+          <Link
+            href={`/page/account/checkout`}
+            className="btn btn-solid"
+            onClick={() =>
+              context.addToCart(product, quantity, selectedVariantProduct)
+            }
+          >
             buy now
           </Link>
         </div>

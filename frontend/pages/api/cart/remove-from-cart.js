@@ -31,15 +31,6 @@ export default async function handler(req, res) {
         )
     );
 
-    // If the cart is empty after filtering, remove the cart document
-    if (cart.items.length === 0) {
-      await Cart.deleteOne({ userId });
-      return res.status(200).json({
-        message: "Product removed and cart deleted as it was empty",
-        cart: null,
-      });
-    }
-
     // Debugging: Log the state of the cart after filtering
     console.log("Filtered cart items:", cart.items);
 

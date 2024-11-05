@@ -8,7 +8,11 @@ import DetailsWithPrice from "../common/detail-price";
 import Filter from "../common/filter";
 import { Container, Row, Col, Media } from "reactstrap";
 
-const LeftSidebarPage = ({ selectedProduct: data, wholeProduct, setSelectedProduct }) => {
+const LeftSidebarPage = ({
+  selectedProduct: data,
+  wholeProduct,
+  setSelectedProduct,
+}) => {
   var products = {
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -41,7 +45,7 @@ const LeftSidebarPage = ({ selectedProduct: data, wholeProduct, setSelectedProdu
   };
 
   const changeColorVar = (variantIndex) => {
-    console.log("Changing color variant to:", wholeProduct.variants[variantIndex]);
+    // console.log("Changing color variant to:", wholeProduct.variants[variantIndex]);
     setSelectedProduct(wholeProduct.variants[variantIndex]);
     slider2.current?.slickGoTo(0);
   };
@@ -78,7 +82,12 @@ const LeftSidebarPage = ({ selectedProduct: data, wholeProduct, setSelectedProdu
                 ) : (
                   <Row>
                     <Col lg="6" className="product-thumbnail">
-                      <Slider {...products} asNavFor={nav2} ref={(slider) => setSlider1(slider)} className="product-slick">
+                      <Slider
+                        {...products}
+                        asNavFor={nav2}
+                        ref={(slider) => setSlider1(slider)}
+                        className="product-slick"
+                      >
                         {selectedVariant.images.map((vari, index) => (
                           <div key={index}>
                             <ImageZoom image={vari} />
@@ -86,17 +95,31 @@ const LeftSidebarPage = ({ selectedProduct: data, wholeProduct, setSelectedProdu
                         ))}
                       </Slider>
                       {selectedVariant.images.length > 1 && (
-                        <Slider className="slider-nav" {...sliderNav} asNavFor={nav1} ref={(slider) => setSlider2(slider)}>
+                        <Slider
+                          className="slider-nav"
+                          {...sliderNav}
+                          asNavFor={nav1}
+                          ref={(slider) => setSlider2(slider)}
+                        >
                           {selectedVariant.images.map((item, i) => (
                             <div key={i}>
-                              <Media src={item} key={i} alt={`variant-${i}`} className="img-fluid" />
+                              <Media
+                                src={item}
+                                key={i}
+                                alt={`variant-${i}`}
+                                className="img-fluid"
+                              />
                             </div>
                           ))}
                         </Slider>
                       )}
                     </Col>
                     <Col lg="6" className="rtl-text product-ps">
-                      <DetailsWithPrice item={wholeProduct} changeColorVar={changeColorVar} />
+                      <DetailsWithPrice
+                        item={wholeProduct}
+                        selectedVariantProduct={selectedVariant}
+                        changeColorVar={changeColorVar}
+                      />
                     </Col>
                   </Row>
                 )}

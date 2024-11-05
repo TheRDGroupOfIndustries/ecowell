@@ -1,4 +1,5 @@
 import CommonCardHeader from "@/CommonComponents/CommonCardHeader";
+import Link from "next/link";
 import { Button, Card, CardBody, Col, Table } from "reactstrap";
 
 const LatestOrders = () => {
@@ -50,7 +51,9 @@ const LatestOrders = () => {
                 </tr>
               </tbody>
             </Table>
-            <Button color="primary">View All Orders</Button>
+            <Link href="/en/sales/orders">
+              <Button color="primary">View All Orders</Button>
+            </Link>
           </div>
         </CardBody>
       </Card>

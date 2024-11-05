@@ -59,7 +59,8 @@ const MasterProductDetail = ({
               <ul className="mt-2 d-flex flex-row gap-2 flavourItems">
                 {uniqueTags.map((vari, i) => {
                   return (
-                    <li style={{
+                    <li
+                      style={{
                         // padding: "0.3rem 0.5rem";
                         // border: "0.5px solid #5b5b5b";
                         // borderRadius: "5px";
@@ -68,7 +69,7 @@ const MasterProductDetail = ({
                         padding: "0.3rem 0.5rem",
                         border: "0.5px solid #5b5b5b",
                         borderRadius: "5px",
-                    }}
+                      }}
                       key={i}
                       title={vari.flavor}
                       onClick={() => variantChangeByFlavor(vari.flavor)}

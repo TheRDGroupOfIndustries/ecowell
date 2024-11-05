@@ -36,9 +36,11 @@ const ProductItem = ({
       product.variants[0].images[0]) ??
       ""
   );
+
   useEffect(() => {
-    setImage( product.variants[0].images[0] );
+    setImage(product.variants[0].images[0]);
   }, [product]);
+
   const [modal, setModal] = useState(false);
   const [modalCompare, setModalCompare] = useState(false);
   const toggleCompare = () => setModalCompare(!modalCompare);
@@ -105,7 +107,7 @@ const ProductItem = ({
               if (cartContext.productExistsInCart(product._id)) {
                 cartContext.removeFromCart(product);
               } else {
-                addCart(product);
+                cartContext.addToCart(product, 1, product.variants[0]);
               }
             }}
           >
@@ -311,9 +313,17 @@ const ProductItem = ({
                 <div className="product-buttons">
                   <button
                     className="btn btn-solid"
-                    onClick={() => addCart(product)}
+                    onClick={() => {
+                      if (cartContext.productExistsInCart(product._id)) {
+                        cartContext.removeFromCart(product);
+                      } else {
+                        cartContext.addToCart(product, 1, product.variants[0]);
+                      }
+                    }}
                   >
-                    add to cart
+                    {cartContext.productExistsInCart(product._id)
+                      ? "remove from cart"
+                      : "add to cart"}
                   </button>
                   <button
                     className="btn btn-solid"
