@@ -100,7 +100,7 @@ const TabContent = ({ data, loading, cartClass, startIndex, endIndex }) => {
                 product={product}
                 key={i}
                 addCompare={() => compareContext.addToCompare(product)}
-                addCart={() => context.addToCart(product, quantity)}
+                addCart={() =>context.addToCart(product, quantity, product.variants[0])}
                 addWishlist={() => wishListContext.addToWish(product)}
                 cartClass={cartClass}
               />

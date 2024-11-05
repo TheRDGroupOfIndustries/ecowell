@@ -126,7 +126,7 @@ import { useSession } from "next-auth/react"; // Import useSession
 
 const CartProvider = (props) => {
   const { data: session } = useSession(); // Use the useSession hook
-  const userId = session?.user?.user?._id; // Get userId from session
+  const userId = session?.user?._id; // Get userId from session
   // console.log("User  ID from session:", userId); // Log the userId
 
   const [cartItems, setCartItems] = useState([]);
@@ -187,17 +187,23 @@ const CartProvider = (props) => {
   }, [cartItems, userId]);
 
   // Add Product To Cart
-  const addToCart = async (item, quantity) => {
-    toast.success("Product Added Successfully!");
-    console.log(userId);
+  const addToCart = async (item, quantity, variant) => {
+    console.log("add to cart", userId, item, quantity, variant);
 
-    // Prepare the product data
-    const productData = {
-      userId, // Get userId from session
-      productId: item._id, // Assuming item has an _id field
-      quantity,
-      variant: item.variant || null, // Include variant if applicable
+    const updatedVariant = {
+      flavor: variant.flavor,
+      image_link: variant.images[0],
+      stock: variant.stock,
     };
+
+    const productData = {
+      userId,
+      productId: item._id,
+      variant: updatedVariant,
+      quantity,
+    };
+
+    console.log("productData", productData);
 
     // Call the API to add the product to the cart
     const response = await fetch("/api/cart/addToCart", {
@@ -214,6 +220,7 @@ const CartProvider = (props) => {
       // Update the local state with the new cart items from the API response
       setCartItems(data.cart.items); // Set cart items from the response
       setCartTotal(data.cart.totalPrice); // Update the total price from the response
+      toast.success("Product Added Successfully!");
     } else {
       // Handle error response
       toast.error(data.message || "Failed to add product to cart.");

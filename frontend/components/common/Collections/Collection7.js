@@ -123,7 +123,7 @@ const ProductBox = ({ type, cartClass }) => {
                         <div key={i}>
                           <ProductItem
                             product={product}
-                            addCart={() => context.addToCart(product, quantity)}
+                            addCart={() =>context.addToCart(product, quantity, product.variants[0])}
                             addWishlist={() =>
                               wishlistContext.addToWish(product)
                             }
