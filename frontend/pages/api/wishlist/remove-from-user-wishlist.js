@@ -13,19 +13,23 @@ export default async function handler(req, res) {
 
   try {
     await connectToMongoDB();
-    const user = await Wishlist.findById(userId);
+    const user = await Wishlist.findOne({ userId });
+
     if (!user) {
-      return res.status(404).json({ message: "User  not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    // Remove the product from the wishlist
-    user.wishlist_products = user.wishlist_products.filter(
-      (id) => id.toString() !== productId
-    );
+    user.products = user.products.filter((id) => id.toString() !== productId);
     await user.save();
+
+    const wishlist = await Wishlist.findOne({ userId }).populate(
+      "products",
+      "_id sku title price description image_link variants"
+    );
+
     return res.status(200).json({
       message: "Product removed from wishlist",
-      wishlist: user.wishlist_products,
+      wishlist: wishlist.products,
     });
   } catch (error) {
     return res.status(500).json({

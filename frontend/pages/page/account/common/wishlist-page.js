@@ -25,66 +25,84 @@ const WishlistPage = () => {
           <Container>
             <Row>
               <Col sm="12">
-                <Table className="table cart-table table-responsive-xs">
+                <Table className="table table-responsive-xs">
                   <thead>
                     <tr className="table-head">
-                      <th scope="col">image</th>
-                      <th scope="col">product name</th>
-                      <th scope="col">price</th>
-                      <th scope="col">availability</th>
-                      <th scope="col">action</th>
+                      <th scope="col">Image</th>
+                      <th scope="col">Product name</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Availability</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   {wishlist.map((item, i) => (
                     <tbody key={i}>
-                      <tr>
+                      <tr className="table-body">
                         <td>
-                          <a href="#">
-                            <img src={item.images[0].src} alt="" />
-                          </a>
+                          <Link href={`/page/product/${item.sku}`}>
+                            <img src={item.variants[0].images[0]} alt="" />
+                          </Link>
                         </td>
                         <td>
-                          <a href="#">{item.title}</a>
+                          <Link href={`/page/product/${item.sku}`}>
+                            {item.title}
+                          </Link>
                           <Row className="mobile-cart-content">
                             <div className="col-xs-3">
-                              <p>out of stock</p>
+                              <p>
+                                {item.variants[0].stock > 0
+                                  ? "In Stock"
+                                  : "Out of Stock"}
+                              </p>
                             </div>
                             <div className="col-xs-3">
-                              <h2 className="td-color">$63.00</h2>
+                              <p className="td-colo">${item.price}</p>
                             </div>
                             <div className="col-xs-3">
                               <h2 className="td-color">
-                                <a href="#" className="icon me-1">
+                                <button
+                                  onClick={() => removeFromWish(item)}
+                                  className="icon me-1"
+                                  style={{ border: "none" }}
+                                >
                                   <i className="fa fa-close"></i>
-                                </a>
-                                <a href="#" className="cart">
+                                </button>
+                                <button
+                                  onClick={() => addCart(item)}
+                                  className="cart"
+                                  style={{ border: "none" }}
+                                >
                                   <i className="fa fa-shopping-cart"></i>
-                                </a>
+                                </button>
                               </h2>
                             </div>
                           </Row>
                         </td>
                         <td>
-                          <h2>${item.price}</h2>
+                          <p>₹{item.price}</p>
                         </td>
                         <td>
-                          <p>{item.stock > 0 ? "In Stock" : "out of Stock"}</p>
+                          <p>
+                            {item.variants[0].stock > 0
+                              ? "In Stock"
+                              : "Out of Stock"}
+                          </p>
                         </td>
                         <td>
-                          <a
-                            href={null}
-                            className="icon me-3"
+                          <button
                             onClick={() => removeFromWish(item)}
+                            className="icon me-3"
+                            style={{ border: "none" }}
                           >
                             <i className="fa fa-times"></i>
-                          </a>
-                          <a
-                            href={null}
-                            className="cart"
+                          </button>
+                          <button
                             onClick={() => addCart(item)}
+                            className="cart"
+                            style={{ border: "none" }}
                           >
                             <i className="fa fa-shopping-cart"></i>
-                          </a>
+                          </button>
                         </td>
                       </tr>
                     </tbody>
@@ -94,12 +112,12 @@ const WishlistPage = () => {
             </Row>
             <Row className="wishlist-buttons">
               <Col sm="12">
-                <Link href={"/"} className="btn btn-solid">
+                <Link href="/" className="btn btn-solid">
                   continue shopping
                 </Link>
-                <a href={null} className="btn btn-solid" onClick={checkOut}>
+                <button className="btn btn-solid" onClick={checkOut}>
                   check out
-                </a>
+                </button>
               </Col>
             </Row>
           </Container>

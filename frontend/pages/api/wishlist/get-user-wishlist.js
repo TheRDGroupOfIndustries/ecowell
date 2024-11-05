@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
     const wishlist = await Wishlist.findOne({ userId }).populate(
       "products",
-      "_id sku title price description images"
+      "_id sku title price description image_link variants"
     );
 
     // console.log("wishlist:", wishlist);
