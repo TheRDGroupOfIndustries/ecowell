@@ -1,8 +1,41 @@
 import CommonCardHeader from "@/CommonComponents/CommonCardHeader";
 import Link from "next/link";
-import { Button, Card, CardBody, Col, Table } from "reactstrap";
+import { Badge, Button, Card, CardBody, Col, Table } from "reactstrap";
+import { sampleOrders } from "@/Data/Order";
+import { formatTimestamp } from "@/lib/utils";
+import { capitalizeHeader } from "@/lib/utils";
 
 const LatestOrders = () => {
+  const allOrders = sampleOrders
+    .flatMap((user) =>
+      user.orders.map((order) => ({
+        order_id: order.order_info.order_id,
+        user: user.user_name,
+        payment_method: order.order_info.payment_method,
+        total_price: "₹" + order.order_info.total_price,
+        order_date: formatTimestamp(order.order_info.order_date.toString()),
+        status: (
+          <Badge
+            color={
+              order.order_info.status === "shipped"
+                ? "primary"
+                : order.order_info.status === "processing"
+                ? "warning"
+                : order.order_info.status === "delivered"
+                ? "success"
+                : "danger"
+            }
+          >
+            {capitalizeHeader(order.order_info.status)}
+          </Badge>
+        ),
+      }))
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.order_date).getTime() - new Date(a.order_date).getTime() // Sorting by order_date (latest first)
+    );
+
   return (
     <Col xl="6 xl-100">
       <Card>
@@ -15,40 +48,20 @@ const LatestOrders = () => {
                   <th scope="col">Order ID</th>
                   <th scope="col">Order Total</th>
                   <th scope="col">Payment Method</th>
+                  <th scope="col">Date</th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td className="digits">$120.00</td>
-                  <td className="font-danger">Bank Transfers</td>
-                  <td className="digits">On Way</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td className="digits">$90.00</td>
-                  <td className="font-secondary">Ewallets</td>
-                  <td className="digits">Delivered</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td className="digits">$240.00</td>
-                  <td className="font-warning">Cash</td>
-                  <td className="digits">Delivered</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td className="digits">$120.00</td>
-                  <td className="font-primary">Direct Deposit</td>
-                  <td className="digits">$6523</td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td className="digits">$50.00</td>
-                  <td className="font-primary">Bank Transfers</td>
-                  <td className="digits">Delivered</td>
-                </tr>
+                {allOrders.slice(0, 5).map((order, index) => (
+                  <tr key={index}>
+                    <td>{order.order_id}</td>
+                    <td className="digits">{order.total_price}</td>
+                    <td className="font-danger">{order.payment_method}</td>
+                    <td className="digits">{order.order_date}</td>
+                    <td className="digits">{order.status}</td>
+                  </tr>
+                ))}
               </tbody>
             </Table>
             <Link href="/en/sales/orders">

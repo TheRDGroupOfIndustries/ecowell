@@ -44,3 +44,17 @@ export const fetchCategories = async () => {
   } finally {
   }
 };
+
+export const formatTimestamp = (timestamp: string): string => {
+  const date = new Date(timestamp);
+
+  // padding single digits with leading zeros
+  const pad = (num: number) => (num < 10 ? `0${num}` : num);
+
+  const day = pad(date.getUTCDate());
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const month = monthNames[date.getUTCMonth()];
+  const year = String(date.getUTCFullYear()).slice(-2); // Get last two digits of the year
+
+  return `${month} ${day}, ${year}`;
+};

@@ -1,33 +1,6 @@
+import { Order, OrderDetails, OrderInfo } from "@/Types/Layout";
+import { Product } from "@/Types/Layout";
 import { Schema, model, models, Document, Types } from "mongoose";
-
-interface Product {
-  product_id: Types.ObjectId;
-  variant_flavor: string;
-  quantity: number;
-}
-
-interface OrderInfo {
-  order_id: string;
-  total_price: number;
-  order_date: Date;
-  delivery_date?: Date;
-  shipping_date?: Date;
-  cancelled_date?: Date;
-  phone_number: string;
-  shipping_address: string;
-  zip_code: string;
-  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
-}
-
-interface OrderDetails {
-  order_info: OrderInfo;
-  products: Product[];
-}
-
-export interface Order extends Document {
-  user_id: Types.ObjectId;
-  orders: OrderDetails[];
-}
 
 const productSchema = new Schema<Product>({
   product_id: { type: Schema.Types.ObjectId, ref: "Products" },
@@ -37,6 +10,11 @@ const productSchema = new Schema<Product>({
 
 const orderInfoSchema = new Schema<OrderInfo>({
   order_id: { type: String, required: true },
+  payment_method: {
+    type: String,
+    required: true,
+    enum: ["online", "cash-on-delivery"],
+  },
   total_price: { type: Number, required: true },
   order_date: { type: Date, required: true },
   delivery_date: { type: Date },
@@ -59,6 +37,7 @@ const orderDetailsSchema = new Schema<OrderDetails>({
 
 const orderSchema = new Schema<Order>({
   user_id: { type: Schema.Types.ObjectId, ref: "User" },
+  user_name: { type: String, required: true },
   orders: [orderDetailsSchema],
 });
 

@@ -1,5 +1,5 @@
-import { connectToMongoDB } from "../../../utils/db"; // Adjust the import path if necessary
-import Cart from "../../../models/Cart"; // Import the Cart model
+import { connectToMongoDB } from "../../../utils/db";
+import Cart from "../../../models/Cart";
 
 export default async function handler(req, res) {
   const { method, query } = req;
