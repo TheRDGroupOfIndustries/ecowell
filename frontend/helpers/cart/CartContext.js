@@ -13,7 +13,9 @@ const CartProvider = (props) => {
   const [cartTotal, setCartTotal] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [stock, setStock] = useState("InStock");
-
+// useEffect(() => {
+//   console.log("CartTotal:", cartTotal);
+// }, [cartTotal]);
   useEffect(() => {
     if (userId) {
       // Fetch cart items from the database when the component mounts
@@ -24,9 +26,11 @@ const CartProvider = (props) => {
             headers: { "Cache-Control": "no-cache" },
           });
           const data = await response.json();
+          console.log("data of cart:", data);
           if (response.ok) {
             // console.log("data:", data);
             setCartItems(data.items || []);
+
             setCartTotal(data.totalPrice || 0);
           } // else {
           //   toast.error(data.message || "Failed to fetch cart items.");
@@ -42,32 +46,8 @@ const CartProvider = (props) => {
   }, [userId]); // Only run when userId changes
 
   useEffect(() => {
-    const Total = cartItems.reduce((a, b) => a + b.total, 0);
+    const Total = cartItems.reduce((a, b) => a + (b.productId.price * b.quantity), 0);
     setCartTotal(Total);
-
-    // Save cart items to the database when they change
-    const saveCart = async () => {
-      if (userId) {
-        try {
-          await fetch(`/api/cart/${userId}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userId,
-              items: cartItems,
-              totalPrice: Total,
-            }),
-          });
-        } catch (error) {
-          console.error("Error saving cart:", error);
-          toast.error("An error occurred while saving the cart.");
-        }
-      }
-    };
-
-    saveCart();
   }, [cartItems, userId]);
 
   // Add Product To Cart
@@ -157,23 +137,33 @@ const CartProvider = (props) => {
   // Update Product Quantity
   const updateQty = async (item, quantity) => {
     if (quantity >= 1) {
-      const index = cartItems.findIndex((itm) => itm.id === item.id);
-      if (index !== -1) {
-        cartItems[index] = {
-          ...item,
-          qty: quantity,
-          total: item.price * quantity,
-        };
-        setCartItems([...cartItems]);
-        toast.info("Product Quantity Updated !");
-      } else {
-        const product = {
-          ...item,
-          qty: quantity,
-          total: (item.price - (item.price * item.discount) / 100) * quantity,
-        };
-        setCartItems([...cartItems, product]);
-        toast.success("Product Added Updated !");
+      try {
+        const response = await fetch(`/api/cart/changeQuantity`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            productId: item.productId._id,
+            quantity,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          toast.info("Product Quantity Updated !");
+          setCartItems(data.items);
+          setCartTotal(data.totalPrice);
+        } else {
+          toast.error(
+            data.message ||
+              "An error occurred while updating the product quantity."
+          );
+        }
+      } catch (error) {
+        toast.error("An error occurred while updating the product quantity.");
       }
     } else {
       toast.error("Enter Valid Quantity !");

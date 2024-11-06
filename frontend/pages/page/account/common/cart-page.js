@@ -64,6 +64,7 @@ const CartPage = () => {
                     </tr>
                   </thead>
                   {cartItems.map((item, index) => {
+                    // console.log("item cart ehre: ", item);
                     return (
                       <tbody key={index}>
                         <tr>
@@ -152,7 +153,7 @@ const CartPage = () => {
                           <td>
                             <h2 className="td-color">
                               {symbol}
-                              {item.total}
+                              {item.quantity * item.productId.price}
                             </h2>
                           </td>
                         </tr>

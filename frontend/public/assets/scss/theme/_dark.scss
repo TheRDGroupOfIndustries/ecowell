@@ -1255,6 +1255,8 @@ body {
     th,
     td {
       border-color: $dark-border;
+      background: $dark-body;
+      color: $white-5;
     }
   }
 
