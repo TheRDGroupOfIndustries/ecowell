@@ -82,6 +82,7 @@ const CartProvider = (props) => {
 
     if (response.ok) {
       // Update the local state with the new cart items from the API response
+      
       setCartItems(data.cart.items); // Set cart items from the response
       setCartTotal(data.cart.totalPrice); // Update the total price from the response
       toast.success("Product Added Successfully!");
@@ -93,6 +94,7 @@ const CartProvider = (props) => {
 
   const removeFromCart = async (item) => {
     try {
+      console.log("Product id: ", item._id);
       const response = await fetch(`/api/cart/remove-from-cart`, {
         method: "DELETE",
         headers: {
@@ -104,8 +106,9 @@ const CartProvider = (props) => {
         }),
       });
       const data = await response.json();
+      console.log("data afer removing:", data);
       if (response.ok) {
-        toast.error("Product Removed Successfully !");
+        toast.success("Product Removed Successfully !");
         setCartItems(data.cart.items);
         setCartTotal(data.cart.totalPrice);
       } else {
@@ -135,8 +138,17 @@ const CartProvider = (props) => {
   };
 
   // Update Product Quantity
-  const updateQty = async (item, quantity) => {
+  const updateQty = async (item, quantity, currentStock) => {
     if (quantity >= 1) {
+      console.log("updateQty:", item, quantity, currentStock);
+      if(!currentStock){
+        toast.error("No current stock found!");
+        return;
+      }
+      if(quantity>currentStock){
+        toast.error("Quantity Exceeds Stock !");
+        return; 
+      }
       try {
         const response = await fetch(`/api/cart/changeQuantity`, {
           method: "PUT",
@@ -153,7 +165,8 @@ const CartProvider = (props) => {
         const data = await response.json();
 
         if (response.ok) {
-          toast.info("Product Quantity Updated !");
+          // toast.info("Product Quantity Updated !");
+          console.log("data:", data.items);
           setCartItems(data.items);
           setCartTotal(data.totalPrice);
         } else {

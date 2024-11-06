@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 
     const updatedCart = await Cart.findOne({ userId }).populate(
       "items.productId",
-      "_id title price"
+      "_id title price variants"
     );
     return res.status(200).json({
       message: "Product added to cart successfully",

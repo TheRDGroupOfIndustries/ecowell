@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     await connectToMongoDB(); // Connect to MongoDB
 
     // Find the cart for the user
-    const cart = await Cart.findOne({ userId }).populate("items.productId", "price");
+    const cart = await Cart.findOne({ userId }).populate("items.productId", "price title _id variants");
 
     if (!cart) {
       return res.status(404).json({ message: "Cart not found for this user." });

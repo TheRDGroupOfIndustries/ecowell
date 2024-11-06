@@ -17,10 +17,10 @@ const CartPage = () => {
   const [stockStatus, setStockStatus] = useState("InStock");
   const updateQty = context.updateQty;
 
-  const handleQtyUpdate = (item, quantity) => {
+  const handleQtyUpdate = (item, quantity,currentStock) => {
     if (quantity >= 1) {
       setQuantityError(false);
-      updateQty(item, quantity);
+      updateQty(item, quantity, currentStock);
     } else {
       setQuantityError(true);
     }
@@ -64,7 +64,11 @@ const CartPage = () => {
                     </tr>
                   </thead>
                   {cartItems.map((item, index) => {
-                    // console.log("item cart ehre: ", item);
+                    // console.log("item index: ", item.productId.variants)
+                    const currentVariant = item.productId.variants.find( variant => variant.flavor === item.variant.flavor);
+                    const currentStock = currentVariant ? currentVariant.stock : 0;
+
+
                     return (
                       <tbody key={index}>
                         <tr>
@@ -95,7 +99,7 @@ const CartPage = () => {
                                     />
                                   </div>
                                 </div>
-                                {item.quantity >= item.variant.stock
+                                {item.quantity >= currentStock
                                   ? "out of Stock"
                                   : ""}
                               </div>
@@ -130,7 +134,7 @@ const CartPage = () => {
                                   type="number"
                                   name="quantity"
                                   onChange={(e) =>
-                                    handleQtyUpdate(item, e.target.value)
+                                    handleQtyUpdate(item, e.target.value, currentStock)
                                   }
                                   className="form-control input-number"
                                   value={item.quantity}
@@ -140,7 +144,7 @@ const CartPage = () => {
                                 />
                               </div>
                             </div>
-                            {item.quantity >= item.variant.stock
+                            {item.quantity >= currentStock
                               ? "out of Stock"
                               : ""}
                           </td>
