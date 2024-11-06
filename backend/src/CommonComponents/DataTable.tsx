@@ -21,6 +21,7 @@ const DataTable = dynamic(() => import("react-data-table-component"), {
 });
 
 const Datatable = ({
+  showId = true,
   myData,
   myClass,
   multiSelectOption,
@@ -103,6 +104,10 @@ const Datatable = ({
 
   const columns = [];
   for (const key in myData[0]) {
+    if (key === "_id" && !showId) {
+      continue;
+    }
+
     let editable = renderEditable;
     if (key === "image") {
       editable = null;
@@ -147,7 +152,7 @@ const Datatable = ({
           );
         }
         if (key === onClickField) {
-          console.log("row[key]: ", row);
+          // console.log("row[key]: ", row);
           return (
             <div
               style={{
@@ -160,7 +165,7 @@ const Datatable = ({
               {row[key]}
             </div>
           );
-        }
+        } // key === "_id" && !showId ? null :
         return row[key] || "-";
       },
       Cell: editable,

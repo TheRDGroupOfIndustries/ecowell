@@ -1,6 +1,6 @@
 import { Order, OrderDetails, OrderInfo } from "@/Types/Layout";
 import { Product } from "@/Types/Layout";
-import { Schema, model, models, Document, Types } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const productSchema = new Schema<Product>({
   product_id: { type: Schema.Types.ObjectId, ref: "Products" },
