@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Row, Col, Media, Modal, ModalBody, ModalHeader } from "reactstrap";
 import CartContext from "../../../helpers/cart";
 import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
 import MasterProductDetail from "./MasterProductDetail";
+import { WishlistContext } from "../../../helpers/wishlist/WishlistContext";
 
 const ProductItem = ({
   product,
@@ -18,6 +19,7 @@ const ProductItem = ({
   title,
 }) => {
   const router = useRouter();
+  const wishlistContext = useContext(WishlistContext);
   const cartContext = useContext(CartContext);
   // console.log("cartContext:", cartContext, product);
 
@@ -34,6 +36,11 @@ const ProductItem = ({
       product.variants[0].images[0]) ??
       ""
   );
+
+  useEffect(() => {
+    setImage(product.variants[0].images[0]);
+  }, [product]);
+
   const [modal, setModal] = useState(false);
   const [modalCompare, setModalCompare] = useState(false);
   const toggleCompare = () => setModalCompare(!modalCompare);
@@ -68,9 +75,12 @@ const ProductItem = ({
 
   return (
     <div className="product-box product-wrap">
-      <div className="img-wrapper" style={{
-        cursor: "pointer"
-      }}>
+      <div
+        className="img-wrapper"
+        style={{
+          cursor: "pointer",
+        }}
+      >
         <div className="lable-block">
           {product.new === true ? <span className="lable3">new</span> : ""}
           {product.sale === true ? <span className="lable4">on sale</span> : ""}
@@ -91,11 +101,45 @@ const ProductItem = ({
         )}
 
         <div className={cartClass}>
-          <button title="Add to cart" onClick={addCart}>
-            <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+          <button
+            title="Add to cart"
+            onClick={() => {
+              if (cartContext.productExistsInCart(product._id)) {
+                cartContext.removeFromCart(product);
+              } else {
+                cartContext.addToCart(product, 1, product.variants[0]);
+              }
+            }}
+          >
+            <i
+              className="fa fa-shopping-cart"
+              style={{
+                color:
+                  cartContext.productExistsInCart(product._id) && "#399B2E",
+              }}
+              aria-hidden="true"
+            ></i>
           </button>
-          <a href={null} title="Add to Wishlist" onClick={addWishlist}>
-            <i className="fa fa-heart" aria-hidden="true"></i>
+          <a
+            href={null}
+            title="Add to Wishlist"
+            onClick={() => {
+              if (wishlistContext.productExistsInWishlist(product._id)) {
+                wishlistContext.removeFromWish(product);
+              } else {
+                addWishlist(product);
+              }
+            }}
+          >
+            <i
+              className="fa fa-heart"
+              style={{
+                color:
+                  wishlistContext.productExistsInWishlist(product._id) &&
+                  "#399B2E",
+              }}
+              aria-hidden="true"
+            ></i>
           </a>
           <a href={null} title="Quick View" onClick={toggle}>
             <i className="fa fa-search" aria-hidden="true"></i>
@@ -269,9 +313,17 @@ const ProductItem = ({
                 <div className="product-buttons">
                   <button
                     className="btn btn-solid"
-                    onClick={() => addCart(product)}
+                    onClick={() => {
+                      if (cartContext.productExistsInCart(product._id)) {
+                        cartContext.removeFromCart(product);
+                      } else {
+                        cartContext.addToCart(product, 1, product.variants[0]);
+                      }
+                    }}
                   >
-                    add to cart
+                    {cartContext.productExistsInCart(product._id)
+                      ? "remove from cart"
+                      : "add to cart"}
                   </button>
                   <button
                     className="btn btn-solid"

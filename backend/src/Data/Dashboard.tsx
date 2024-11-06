@@ -8,6 +8,7 @@ export const TopDashboardCardsData = [
     count: 6659,
     label: "This Month",
     icon: <Navigation className="font-warning" />,
+    href: "/en/dashboard/#",
   },
   {
     id: 2,
@@ -16,22 +17,25 @@ export const TopDashboardCardsData = [
     icon: <Box className="font-secondary" />,
     count: 9856,
     label: "This Month",
+    href: "/en/products/digital/digital-product-list",
   },
   {
     id: 3,
-    type: "Messages",
+    type: "Orders",
     bgColor: "bg-primary",
     icon: <MessageSquare className="font-primary" />,
     count: 8933,
     label: "This Month",
+    href: "/en/sales/orders",
   },
   {
     id: 4,
-    type: "New Vendors",
+    type: "Users",
     bgColor: "bg-danger",
     icon: <Users className="font-danger" />,
     count: 45631,
     label: "This Month",
+    href: "/en/users/list-user",
   },
 ];
 

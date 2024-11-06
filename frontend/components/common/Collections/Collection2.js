@@ -111,7 +111,7 @@ const TopCollection = ({
                             addWishlist={() =>
                               contextWishlist.addToWish(product)
                             }
-                            addCart={() => context.addToCart(product, quantity)}
+                            addCart={() =>context.addToCart(product, quantity, product.variants[0])}
                           />
                         </div>
                       ))}
@@ -156,7 +156,7 @@ const TopCollection = ({
                               contextWishlist.addToWish(product)
                             }
                             key={index}
-                            addCart={() => context.addToCart(product, quantity)}
+                            addCart={() =>context.addToCart(product, quantity, product.variants[0])}
                           />
                         ))
                     )}

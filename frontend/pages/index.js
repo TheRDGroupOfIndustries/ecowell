@@ -32,7 +32,7 @@ const Fashion = () => {
           throw new Error("Network response was not ok");
         }
         const dataTemp = await response.json();
-        console.log("Fetched Products:", dataTemp);
+        // console.log("Fetched Products:", dataTemp);
         setData(dataTemp);
       } catch (error) {
         console.error("Error fetching categories:", error);

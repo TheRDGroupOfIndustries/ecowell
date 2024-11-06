@@ -23,7 +23,7 @@ const ProfileStatus = () => {
       <Media>
         <Media body>
           <h6>
-            Leaves taken <span className="pull-right">50%</span>
+            Leaves taken <span className="pull-right">10%</span>
           </h6>
           <Progress value={50} color="danger" className="sm-progress-bar" />
         </Media>

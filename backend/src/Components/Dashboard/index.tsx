@@ -1,5 +1,19 @@
 import { Fragment } from "react";
-import { ArcElement, BarController, BarElement, CategoryScale, Chart as ChartJS, Filler, Legend, LineElement, LinearScale, PointElement, RadialLinearScale, Title, Tooltip } from "chart.js";
+import {
+  ArcElement,
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LineElement,
+  LinearScale,
+  PointElement,
+  RadialLinearScale,
+  Title,
+  Tooltip,
+} from "chart.js";
 import CommonBreadcrumb from "@/CommonComponents/CommonBreadcrumb";
 import dynamic from "next/dynamic";
 import { Container, Row } from "reactstrap";
@@ -15,7 +29,20 @@ import TotalPurchase from "./TotalPurchase";
 import TotalSales from "./TotalSales";
 const MarketValue = dynamic(() => import("./MarketValue"), { ssr: false });
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, BarController, BarElement, ArcElement, Filler, RadialLinearScale);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  BarController,
+  BarElement,
+  ArcElement,
+  Filler,
+  RadialLinearScale
+);
 
 const DashboardContainer = () => {
   return (

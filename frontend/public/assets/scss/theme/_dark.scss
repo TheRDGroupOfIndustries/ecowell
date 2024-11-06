@@ -971,8 +971,9 @@ body {
     tbody {
       tr {
         td {
-          border-color: $dark-border;
-
+          border: 0.5px solid $dark-border;
+          background: $dark-body;
+          color : $white-5;
           a {
             color: $dark-link;
           }
@@ -994,7 +995,9 @@ body {
 
     thead {
       th {
-        border-color: $dark-border;
+        border: 0.5px solid $dark-border;
+        background: $dark-body;
+        color: $white-1;
       }
     }
   }
@@ -1252,6 +1255,8 @@ body {
     th,
     td {
       border-color: $dark-border;
+      background: $dark-body;
+      color: $white-5;
     }
   }
 

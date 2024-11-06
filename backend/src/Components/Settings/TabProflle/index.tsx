@@ -14,19 +14,19 @@ const TabProfile = () => {
             <User className="me-2" />
             Profile
           </Tab>
-          <Tab className="nav-link">
+          {/* <Tab className="nav-link">
             <Settings className="me-2" />
             Contact
-          </Tab>
+          </Tab> */}
         </TabList>
         <TabPanel>
           <TabTable />
         </TabPanel>
-        <TabPanel>
+        {/* <TabPanel>
           <Notifications />
           <DeactivateAccount />
           <DeleteAccount />
-        </TabPanel>
+        </TabPanel> */}
       </Tabs>
     </div>
   );

@@ -8,7 +8,7 @@ export const POST = async (request: NextRequest) => {
   const { name, email, password, phone_number, isEmail, otp, checkOtpCode } =
     await request.json();
 
-  console.log(name, email, phone_number, isEmail, password, otp, checkOtpCode);
+  // console.log(name, email, phone_number, isEmail, password, otp, checkOtpCode);
 
   await connectToMongoDB();
 

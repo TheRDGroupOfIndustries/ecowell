@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       await user.save();
       const wishlist = await Wishlist.findOne({ userId }).populate(
         "products",
-        "_id sku title price description images"
+        "_id sku title price description image_link variants"
       );
       return res.status(200).json({
         message: "Product added to wishlist",

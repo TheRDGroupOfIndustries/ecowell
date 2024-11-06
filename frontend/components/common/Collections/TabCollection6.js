@@ -78,7 +78,7 @@ const TabContent = ({ data, loading, cartClass, startIndex, endIndex }) => {
               .map((product, i) => (
                 <ProductItem
                   product={product}
-                  addCart={() => context.addToCart(product, quantity)}
+                  addCart={() =>context.addToCart(product, quantity, product.variants[0])}
                   key={i}
                   addWishlist={() => wishListContext.addToWish(product)}
                   addCompareList={() => compareContext.addToCompare(product)}
