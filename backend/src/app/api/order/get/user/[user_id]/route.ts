@@ -11,6 +11,13 @@ export const GET = async (
 
     const userOrders = await Order.findOne({ user_id });
 
+    if (!userOrders) {
+      return NextResponse.json({
+        status: 404,
+        message: "No User Orders found!",
+      });
+    }
+
     return NextResponse.json(userOrders, { status: 200 });
   } catch (error) {
     console.error("Error fetching orders:", error);

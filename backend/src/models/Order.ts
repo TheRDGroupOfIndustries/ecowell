@@ -16,13 +16,23 @@ const orderInfoSchema = new Schema<OrderInfo>({
     enum: ["online", "cash-on-delivery"],
   },
   total_price: { type: Number, required: true },
+
+  first_name: { type: String, required: true },
+  last_name: { type: String, required: true },
+
+  phone: { type: String, required: true },
+  email: { type: String, required: true },
+  address: { type: String, required: true },
+  country: { type: String, required: true },
+  state: { type: String, required: true },
+  city: { type: String, required: true },
+  pincode: { type: String, required: true },
+
   order_date: { type: Date, required: true },
   delivery_date: { type: Date },
   shipping_date: { type: Date },
   cancelled_date: { type: Date },
-  phone_number: { type: String, required: true },
-  shipping_address: { type: String, required: true },
-  zip_code: { type: String, required: true },
+
   status: {
     type: String,
     enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
