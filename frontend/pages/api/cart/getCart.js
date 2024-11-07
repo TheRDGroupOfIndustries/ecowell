@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import { connectToMongoDB } from "../../../utils/db";
-import Cart from "../../../models/Cart";
-=======
 import { connectToMongoDB } from "../../../utils/db"; // Adjust the import path if necessary
 import Cart from "../../../models/Cart"; // Import the Cart model
 import Product from "../../../models/Products"; // Import the Product model
->>>>>>> 8f3ca5a529ff39b0dab4dd290cfab52700fef275
 
 export default async function handler(req, res) {
   const { method, query } = req;
