@@ -55,7 +55,7 @@ const MasterFooter = ({
                       <div>
                         <h4>KNOW IT ALL FIRST!</h4>
                         <p>
-                          Never Miss Anything From Multikart By Signing Up To
+                          Never Miss Anything From Ecowell By Signing Up To
                           Our Newsletter.
                         </p>
                       </div>
@@ -108,9 +108,7 @@ const MasterFooter = ({
                       <LogoImage logo={logoName} />
                     </div>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam,
+                      Ecowell offers premium, natural supplements to support your wellness journey. With sustainably sourced ingredients and science-backed formulas, we’re here to help you live healthier every day.
                     </p>
                     <div className="footer-social">
                       <ul>
@@ -121,13 +119,13 @@ const MasterFooter = ({
                               aria-hidden="true"></i>
                           </a>
                         </li>
-                        <li>
+                        {/* <li>
                           <a href="https://plus.google.com" target="_blank">
                             <i
                               className="fa fa-google-plus"
                               aria-hidden="true"></i>
                           </a>
-                        </li>
+                        </li> */}
                         <li>
                           <a href="https://twitter.com" target="_blank">
                             <i className="fa fa-twitter" aria-hidden="true"></i>
@@ -140,11 +138,11 @@ const MasterFooter = ({
                               aria-hidden="true"></i>
                           </a>
                         </li>
-                        <li>
+                        {/* <li>
                           <a href="https://rss.com" target="_blank">
                             <i className="fa fa-rss" aria-hidden="true"></i>
                           </a>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </div>
@@ -171,20 +169,20 @@ const MasterFooter = ({
                     isOpen={width ? (collapse === 2 ? isOpen : false) : true}>
                     <div className="footer-contant">
                       <ul>
-                        <li>
-                          <Link href={`/shop/left_sidebar`}>
+                        {/* <li> */}
+                          {/* <Link href={`/shop/left_sidebar`}> */}
                             {/* <a> */}
-                            womens
+                            {/* womens */}
                             {/* </a> */}
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href={`/shop/left_sidebar`}>
+                          {/* </Link> */}
+                        {/* </li> */}
+                        {/* <li> */}
+                          {/* <Link href={`/shop/left_sidebar`}> */}
                             {/* <a>  */}
-                            clothing
+                            {/* clothing */}
                             {/* </a> */}
-                          </Link>
-                        </li>
+                          {/* </Link> */}
+                        {/* </li> */}
                         <li>
                           <Link href={`/shop/left_sidebar`}>
                             {/* <a> */}
@@ -231,7 +229,7 @@ const MasterFooter = ({
                         <li>
                           <a href="#">secure shopping</a>
                         </li>
-                        <li>
+                        {/* <li>
                           <a href="#">gallary</a>
                         </li>
                         <li>
@@ -239,7 +237,7 @@ const MasterFooter = ({
                         </li>
                         <li>
                           <a href="#">contacts</a>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </Collapse>
@@ -267,7 +265,7 @@ const MasterFooter = ({
                     <div className="footer-contant">
                       <ul className="contact-list">
                         <li>
-                          <i className="fa fa-map-marker"></i>Multikart Demo
+                          <i className="fa fa-map-marker"></i>Ecowell Demo
                           Store, Demo store India 345-659
                         </li>
                         <li>

@@ -26,11 +26,11 @@ const TopBarDark = ({ topClass, fluid }) => {
           </Col>
           <Col lg="6" className="text-end">
             <ul className="header-dropdown">
-              <li className="mobile-wishlist">
+              {/* <li className="mobile-wishlist">
                 <Link href="/page/account/wishlist">
                   <i className="fa fa-heart" aria-hidden="true"></i> wishlist
                 </Link>
-              </li>
+              </li> */}
               <li className="onhover-dropdown mobile-account">
                 <i className="fa fa-user" aria-hidden="true"></i>{" "}
                 {status === "authenticated" ? "My Account" : "Login now"}

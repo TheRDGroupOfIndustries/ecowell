@@ -28,9 +28,9 @@ const FilterPage = ({sm,sidebarView,closeSidebar}) => {
                 {/* <!-- silde-bar colleps block end here -->*/}
                 <NewProduct />
                 {/* <!-- side-bar banner start here -->  */}
-                <div className="collection-sidebar-banner">
+                {/* <div className="collection-sidebar-banner">
                     <a href={null}><Media src={sideBanner.src} className="img-fluid blur-up lazyload" alt="" /></a>
-                </div>
+                </div> */}
                 {/* <!-- side-bar banner end here --> */}
             </Col>
         </>
