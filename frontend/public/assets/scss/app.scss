@@ -1,5 +1,5 @@
 :root {
-  --theme-deafult: #399B2E;
+  --theme-deafult: #399b2e;
   // This gradient color only for gym layout
   --theme-gradient1: #01effc;
   --theme-gradient2: #485ff2;
@@ -22,3 +22,62 @@
 @import "./slick.scss";
 @import "./slick-theme.scss";
 @import "./customStyle.scss";
+
+// .order-tabs {
+//   display: flex;
+//   gap: 10px;
+//   margin-bottom: 20px;
+// }
+
+// .tab-button {
+//   padding: 10px 15px;
+//   cursor: pointer;
+//   border: none;
+//   background-color: #e0e0e0;
+//   transition: background-color 0.3s ease;
+// }
+
+// .tab-button.active {
+//   background-color: #399b2e;
+//   color: #fff;
+// }
+
+// .order-card {
+//   padding: 15px;
+//   // background-color: #fff;
+//   border: 1px solid #ddd;
+//   margin-bottom: 10px;
+//   border-radius: 8px;
+//   transition: max-height 0.3s ease, opacity 0.3s ease;
+// }
+
+// .order-summary {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+// }
+
+// .expand-button {
+//   background: none;
+//   border: none;
+//   font-size: 1.2em;
+//   cursor: pointer;
+// }
+
+// .order-expanded {
+//   margin-top: 15px;
+// }
+
+// .order-expanded p {
+//   margin: 5px 0;
+// }
+
+// .cancel-button {
+//   background-color: #ff4d4d;
+//   color: #fff;
+//   padding: 8px 12px;
+//   border: none;
+//   border-radius: 4px;
+//   cursor: pointer;
+//   margin-top: 10px;
+// }

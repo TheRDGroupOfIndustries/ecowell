@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 import HeaderOne from "../headers/header-one";
-import SettingContext from "../../helpers/theme-setting/SettingContext"
+import SettingContext from "../../helpers/theme-setting/SettingContext";
 import MasterFooter from "../footers/common/MasterFooter";
 import Breadcrubs from "../common/widgets/breadcrubs";
-
 
 // import { useSession } from "next-auth/react";
 // import { useRouter } from "next/navigation";
