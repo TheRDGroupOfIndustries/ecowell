@@ -91,7 +91,8 @@ body {
   }
 
   option {
-    background-color: $dark-body;
+    background-color: $white-1;
+    color: #000;
     transition: all 0.3s ease;
   }
 
@@ -1167,7 +1168,7 @@ body {
         &[type="tel"],
         &[type="number"],
         &[type="url"] {
-          background-color: $dark-body;
+          background-color: $white-1;
           transition: all 0.3s ease;
           border-color: $dark-border;
         }
@@ -1176,6 +1177,9 @@ body {
       select,
       textarea {
         border-color: $dark-border;
+        color: #000;
+        background-color: $white-1;
+
       }
 
       .checkout-details {
