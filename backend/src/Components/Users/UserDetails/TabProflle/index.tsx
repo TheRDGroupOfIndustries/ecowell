@@ -31,7 +31,6 @@ const TabProfile = ({ user_id, user }: { user_id: string; user: UserType }) => {
           <TabTable user={user} />
         </TabPanel>
         <TabPanel>
-          Orders
           <UserOrders user_id={user_id} />
         </TabPanel>
       </Tabs>
