@@ -9,43 +9,86 @@ export default async function handler(req, res) {
 
   const {
     user_id,
-    user_name,
     order_info: {
-      order_id,
       payment_method,
+      first_name,
+      last_name,
       total_price,
       order_date,
       delivery_date,
       shipping_date,
       cancelled_date,
-      phone_number,
-      shipping_address,
-      zip_code,
+      phone,
+      email,
+      address,
+      city,
+      state,
+      country,
+      pincode,
       status,
     },
     products,
   } = req.body;
 
+  // Validate required fields
+  if (
+    !user_id ||
+    !payment_method ||
+    !first_name ||
+    !last_name ||
+    !total_price ||
+    !order_date ||
+    !phone ||
+    !email ||
+    !address ||
+    !city ||
+    !state ||
+    !country ||
+    !pincode ||
+    !products ||
+    products.length === 0
+  ) {
+    return res.status(400).json({ success: false, message: "All fields are required." });
+  }
+
   try {
-    // validating and creating order details as new order
+    await connectToMongoDB();
+
+    // Generate a unique order_id
+    let order_id;
+    let isUnique = false;
+    while (!isUnique) {
+      order_id = `ORD-${Date.now()}`;
+      const existingOrder = await Order.findOne({ "order_info.order_id": order_id });
+      if (!existingOrder) {
+        isUnique = true;
+      }
+    }
+
+    // Create new order details
     const newOrder = {
       order_info: {
         order_id,
         payment_method,
+        first_name,
+        last_name,
         total_price,
         order_date: new Date(order_date),
         delivery_date: delivery_date ? new Date(delivery_date) : null,
         shipping_date: shipping_date ? new Date(shipping_date) : null,
         cancelled_date: cancelled_date ? new Date(cancelled_date) : null,
-        phone_number,
-        shipping_address,
-        zip_code,
+        phone,
+        email,
+        address,
+        city,
+        state,
+        country,
+        pincode,
         status: status || "pending",
       },
       products,
     };
 
-    await connectToMongoDB();
     let userOrder = await Order.findOne({ user_id });
 
     if (userOrder) {
@@ -53,7 +96,6 @@ export default async function handler(req, res) {
     } else {
       userOrder = new Order({
         user_id,
-        user_name,
         orders: [newOrder],
       });
     }
@@ -62,7 +104,7 @@ export default async function handler(req, res) {
 
     return res
       .status(200)
-      .json({ success: true, message: "Order created successfully" });
+      .json({ success: true, message: "Order created successfully" , order: newOrder });
   } catch (error) {
     console.error("Error creating order:", error);
     return res
@@ -70,9 +112,3 @@ export default async function handler(req, res) {
       .json({ success: false, message: "Failed to create order" });
   }
 }
-
-// : products.map((product) => ({
-//   product_id: product.product_id,
-//   variant_flavor: product.variant_flavor,
-//   quantity: product.quantity,
-// }))

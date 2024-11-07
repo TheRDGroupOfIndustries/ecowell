@@ -9,6 +9,8 @@ const CartProvider = (props) => {
   // console.log("User  ID from session:", userId); // Log the userId
 
   const [cartItems, setCartItems] = useState([]);
+  const [ordererdItems, setOrderedItems] = useState([]);
+  const [currentOrderDetails, setCurrentOrderDetails] = useState();
   // console.log("cartItems:", cartItems);
   const [cartTotal, setCartTotal] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -203,6 +205,8 @@ const CartProvider = (props) => {
         minusQty: minusQty,
         updateQty: updateQty,
         productExistsInCart: productExistsInCart,
+        ordererdItems, setOrderedItems, setCartItems,
+        currentOrderDetails, setCurrentOrderDetails
       }}
     >
       {props.children}

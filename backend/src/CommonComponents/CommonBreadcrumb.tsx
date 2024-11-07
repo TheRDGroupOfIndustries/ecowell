@@ -1,3 +1,4 @@
+import { capitalizeHeader } from "@/lib/utils";
 import { CommonBreadcrumbType } from "@/Types/Layout";
 import Link from "next/link";
 import { Home } from "react-feather";
@@ -10,23 +11,30 @@ const CommonBreadcrumb = ({ title, parent, element }: CommonBreadcrumbType) => {
         <Row>
           <Col lg="6">
             <div className="page-header-left d-flex flex-column gap-2 align-items-start">
-              <h3>
-                {title}
-              </h3>
+              <h3>{capitalizeHeader(title)}</h3>
               <Breadcrumb className=" pull-right">
-              <BreadcrumbItem>
-                <Link href="/dashboard">
-                  <Home />
-                </Link>
-              </BreadcrumbItem>
-              <BreadcrumbItem>{parent}</BreadcrumbItem>
-              <BreadcrumbItem className=" active">{title}</BreadcrumbItem>
-            </Breadcrumb>
+                <BreadcrumbItem>
+                  <Link href="/en/dashboard">
+                    <Home />
+                  </Link>
+                </BreadcrumbItem>
+                {parent && (
+                  <BreadcrumbItem>
+                    <Link
+                      href={`/en/${parent}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      {capitalizeHeader(parent)}
+                    </Link>
+                  </BreadcrumbItem>
+                )}
+                <BreadcrumbItem className="active">
+                  {capitalizeHeader(title)}
+                </BreadcrumbItem>
+              </Breadcrumb>
             </div>
           </Col>
-          <Col lg="6">
-            {element}
-          </Col>
+          <Col lg="6">{element}</Col>
         </Row>
       </div>
     </Container>
