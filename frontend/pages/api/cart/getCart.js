@@ -29,8 +29,10 @@ export default async function handler(req, res) {
     }
 
     // Update the variant stock in the cart items
-    cart.items.forEach(item => {
-      const productVariant = item.productId.variants.find(variant => variant.flavor === item.variant.flavor);
+    cart.items.forEach((item) => {
+      const productVariant = item.productId.variants.find(
+        (variant) => variant.flavor === item.variant.flavor
+      );
       if (productVariant) {
         item.variant.stock = productVariant.stock;
       }

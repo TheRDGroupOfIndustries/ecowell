@@ -26,7 +26,7 @@ const ModalComponent = () => {
       setTimeout(() => {
         setModal(true);
         localStorage.setItem("isSubmodalShown", true);
-      }, 6000);
+      }, 20000);
     }
   }, []);
 

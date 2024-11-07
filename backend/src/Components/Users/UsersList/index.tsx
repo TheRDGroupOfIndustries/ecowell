@@ -72,14 +72,15 @@ const UserList = () => {
               className="category-table user-list order-table coupon-list-delete"
             >
               <Datatable
+                showId={false}
                 // multiSelectOption={true}
                 myData={filteredUserData}
                 loading={loading}
                 pageSize={10}
                 pagination={true}
                 class="-striped -highlight"
-                onClickField="_id"
-                handleOnClick={(row:any) =>
+                onClickField="first_name"
+                handleOnClick={(row: any) =>
                   router.push(`/en/users/user-detail/${row._id}`)
                 }
               />

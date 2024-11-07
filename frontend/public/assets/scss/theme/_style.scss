@@ -570,8 +570,16 @@ button {
   letter-spacing: 0.05em;
   border: 2px solid var(--theme-deafult);
   border-color: var(--theme-deafult) !important;
-  background-image: -webkit-linear-gradient(30deg, var(--theme-deafult) 50%, transparent 50%);
-  background-image: linear-gradient(30deg, var(--theme-deafult) 50%, transparent 50%);
+  background-image: -webkit-linear-gradient(
+    30deg,
+    var(--theme-deafult) 50%,
+    transparent 50%
+  );
+  background-image: linear-gradient(
+    30deg,
+    var(--theme-deafult) 50%,
+    transparent 50%
+  );
   background-size: 540px;
   background-repeat: no-repeat;
   background-position: 0;
@@ -583,7 +591,11 @@ button {
     background-color: $white;
   }
   &.black-btn {
-    background-image: -webkit-linear-gradient(30deg, $dark-font 50%, transparent 50%);
+    background-image: -webkit-linear-gradient(
+      30deg,
+      $dark-font 50%,
+      transparent 50%
+    );
     background-image: linear-gradient(30deg, $dark-font 50%, transparent 50%);
     border: 2px solid $dark-font;
   }
@@ -592,18 +604,30 @@ button {
   }
   &.btn-gradient {
     background: var(--theme-deafult);
-    background: linear-gradient(180deg, var(--gradient1) 0%, var(--gradient2) 99%);
+    background: linear-gradient(
+      180deg,
+      var(--gradient1) 0%,
+      var(--gradient2) 99%
+    );
     transition: background 300ms ease-in-out;
     background-size: 300% 100%;
     border: none;
     &:hover {
-      background: linear-gradient(-180deg, var(--gradient2) 0%, var(--gradient1) 99%);
+      background: linear-gradient(
+        -180deg,
+        var(--gradient2) 0%,
+        var(--gradient1) 99%
+      );
       transition: background 300ms ease-in-out;
       color: white;
     }
   }
   &.btn-green {
-    background-image: linear-gradient(to right, var(--gradient1), var(--gradient2));
+    background-image: linear-gradient(
+      to right,
+      var(--gradient1),
+      var(--gradient2)
+    );
     border: none;
     background-color: var(--theme-deafult);
     &:hover {
@@ -665,8 +689,16 @@ button {
     &.btn-solid,
     &.btn-outline {
       &:active {
-        background-image: -webkit-linear-gradient(30deg, var(--theme-deafult) 50%, transparent 50%);
-        background-image: linear-gradient(30deg, var(--theme-deafult) 50%, transparent 50%);
+        background-image: -webkit-linear-gradient(
+          30deg,
+          var(--theme-deafult) 50%,
+          transparent 50%
+        );
+        background-image: linear-gradient(
+          30deg,
+          var(--theme-deafult) 50%,
+          transparent 50%
+        );
         color: $white;
         background: var(--theme-deafult);
       }
@@ -734,7 +766,12 @@ button {
     hr[role="tournament6"] {
       border: 0px solid;
       height: 1px;
-      background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--theme-deafult), rgba(0, 0, 0, 0));
+      background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0),
+        var(--theme-deafult),
+        rgba(0, 0, 0, 0)
+      );
       display: block;
       width: 25%;
       margin: 15px auto 30px auto;
@@ -1418,7 +1455,7 @@ header {
         font-size: 28px;
         color: $dark-font;
         cursor: pointer;
-        &::before{
+        &::before {
           vertical-align: 3px;
         }
       }
@@ -2443,7 +2480,11 @@ del {
         }
       }
       .category-btn {
-        background-image: linear-gradient(30deg, $dark-font 50%, transparent 50%);
+        background-image: linear-gradient(
+          30deg,
+          $dark-font 50%,
+          transparent 50%
+        );
         border: 2px solid $dark-font;
         transition: all 0.5s ease;
       }
@@ -4049,7 +4090,12 @@ del {
       animation-duration: 2s;
       animation-iteration-count: infinite;
       -webkit-transition-timing-function: cubic-bezier(0.6, 0, 0.735, 0.045);
-      -webkit-transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+      -webkit-transition-timing-function: cubic-bezier(
+        0.6,
+        -0.28,
+        0.735,
+        0.045
+      );
       -moz-transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
       -o-transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
       transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
@@ -4641,7 +4687,24 @@ del {
   &.modal-dialog {
     .modal-content {
       .modal-body {
-        background-image: linear-gradient(135deg, var(--theme-deafult) 5.77%, $white 5.77%, $white 25%, $grey01 25%, $grey01 30.77%, $white 30.77%, $white 50%, var(--theme-deafult) 50%, var(--theme-deafult) 55.77%, $white 55.77%, $white 75%, $grey01 75%, $grey01 80.77%, $white 80.77%, $white 100%);
+        background-image: linear-gradient(
+          135deg,
+          var(--theme-deafult) 5.77%,
+          $white 5.77%,
+          $white 25%,
+          $grey01 25%,
+          $grey01 30.77%,
+          $white 30.77%,
+          $white 50%,
+          var(--theme-deafult) 50%,
+          var(--theme-deafult) 55.77%,
+          $white 55.77%,
+          $white 75%,
+          $grey01 75%,
+          $grey01 80.77%,
+          $white 80.77%,
+          $white 100%
+        );
         background-size: 36.77px 36.77px;
         background-color: white;
         .modal-bg {
@@ -5799,7 +5862,11 @@ footer {
   }
   .instagram-box {
     .overlay {
-      background: linear-gradient(-180deg, var(--gradient1) 0%, var(--gradient2) 99%);
+      background: linear-gradient(
+        -180deg,
+        var(--gradient1) 0%,
+        var(--gradient2) 99%
+      );
     }
   }
 }
@@ -5822,7 +5889,11 @@ footer {
         bottom: 0;
         top: 0;
         i {
-          background: linear-gradient(180deg, var(--gradient1) 0%, var(--gradient2) 99%);
+          background: linear-gradient(
+            180deg,
+            var(--gradient1) 0%,
+            var(--gradient2) 99%
+          );
           color: rgba($white, 0.6);
           border-radius: 100%;
           margin: 0 5px;
@@ -5940,7 +6011,11 @@ footer {
 }
 .tap-top {
   &.gradient-top {
-    background: linear-gradient(180deg, var(--gradient1) 0%, var(--gradient2) 99%);
+    background: linear-gradient(
+      180deg,
+      var(--gradient1) 0%,
+      var(--gradient2) 99%
+    );
   }
 }
 .banner-furniture {
@@ -6082,12 +6157,20 @@ footer {
 }
 .btn-gradient {
   background: var(--theme-deafult);
-  background: linear-gradient(180deg, var(--gradient1) 0%, var(--gradient2) 99%);
+  background: linear-gradient(
+    180deg,
+    var(--gradient1) 0%,
+    var(--gradient2) 99%
+  );
   transition: background 300ms ease-in-out;
   background-size: 300% 100%;
   border: none;
   &:hover {
-    background: linear-gradient(-180deg, var(--gradient2) 0%, var(--gradient1) 99%);
+    background: linear-gradient(
+      -180deg,
+      var(--gradient2) 0%,
+      var(--gradient1) 99%
+    );
     transition: background 300ms ease-in-out;
     color: white;
   }
@@ -6851,7 +6934,11 @@ footer {
 .green-gradient {
   .top-header {
     background: var(--theme-deafult);
-    background-image: linear-gradient(to right, var(--gradient1), var(--gradient2));
+    background-image: linear-gradient(
+      to right,
+      var(--gradient1),
+      var(--gradient2)
+    );
     .header-contact {
       padding: 10px 0;
       li {
@@ -6878,7 +6965,11 @@ footer {
     li {
       .lable-nav {
         background: var(--theme-deafult);
-        background-image: linear-gradient(to right, var(--gradient1), var(--gradient2));
+        background-image: linear-gradient(
+          to right,
+          var(--gradient1),
+          var(--gradient2)
+        );
       }
     }
   }
@@ -6969,7 +7060,11 @@ footer {
   &.tools-grey {
     .ribbon {
       span {
-        background-image: linear-gradient(to right, var(--gradient1), var(--gradient2));
+        background-image: linear-gradient(
+          to right,
+          var(--gradient1),
+          var(--gradient2)
+        );
       }
     }
     .product-box {
@@ -6979,17 +7074,29 @@ footer {
       .cart-info {
         a {
           &:hover {
-            background-image: linear-gradient(to right, var(--gradient1), var(--gradient2));
+            background-image: linear-gradient(
+              to right,
+              var(--gradient1),
+              var(--gradient2)
+            );
           }
         }
         button {
           &:hover {
-            background-image: linear-gradient(to right, var(--gradient1), var(--gradient2));
+            background-image: linear-gradient(
+              to right,
+              var(--gradient1),
+              var(--gradient2)
+            );
           }
         }
       }
       .quick-view-part {
-        background-image: linear-gradient(to right, var(--gradient1), var(--gradient2));
+        background-image: linear-gradient(
+          to right,
+          var(--gradient1),
+          var(--gradient2)
+        );
       }
     }
   }
@@ -7019,7 +7126,11 @@ footer {
 }
 footer {
   &.footer-5 {
-    background-image: linear-gradient(to right, var(--gradient1), var(--gradient2));
+    background-image: linear-gradient(
+      to right,
+      var(--gradient1),
+      var(--gradient2)
+    );
     .dark-layout {
       background-color: transparent;
     }
@@ -7053,7 +7164,11 @@ footer {
 }
 .tap-top {
   &.green-top {
-    background-image: linear-gradient(to right, var(--gradient1), var(--gradient2));
+    background-image: linear-gradient(
+      to right,
+      var(--gradient1),
+      var(--gradient2)
+    );
     border: 1px solid rgba($white, 0.5);
   }
 }
@@ -7153,7 +7268,11 @@ footer {
             }
           }
           .black-btn {
-            background-image: linear-gradient(30deg, #23292c 50%, transparent 50%);
+            background-image: linear-gradient(
+              30deg,
+              #23292c 50%,
+              transparent 50%
+            );
             border: 2px solid #23292c;
           }
         }
@@ -7772,7 +7891,7 @@ footer {
     22.theme setting box CSS start
 ==========================*/
 .color1 {
-  background: #399B2E;
+  background: #399b2e;
 }
 .color2 {
   background: #3fdda7;
@@ -7867,7 +7986,8 @@ footer {
       z-index: -1;
       text-decoration: none;
       background-color: rgb(249, 249, 249);
-      box-shadow: -5.985px -0.419px 30px 0 rgba(0, 0, 0, 0.08), inset -2px 0 10px 0 rgba(0, 0, 0, 0.04);
+      box-shadow: -5.985px -0.419px 30px 0 rgba(0, 0, 0, 0.08),
+        inset -2px 0 10px 0 rgba(0, 0, 0, 0.04);
       top: -80px;
       color: $black;
       i {
@@ -9315,13 +9435,13 @@ footer {
           border-right: 1px solid #dddddd;
           i {
             font-size: 20px;
-            color: #399B2E;
+            color: #399b2e;
           }
           h6 {
             text-transform: uppercase;
             padding-top: 5px;
             font-weight: 600;
-            color: #399B2E;
+            color: #399b2e;
           }
         }
         p {
@@ -9844,7 +9964,7 @@ footer {
     height: auto !important;
   }
 }
-.product-ps{
+.product-ps {
   padding-left: 30px;
 }
 .product-thumbnail {
@@ -9906,8 +10026,8 @@ footer {
     }
   }
 }
-.product-thumbnail{
-  .slider-nav{
+.product-thumbnail {
+  .slider-nav {
     overflow: hidden;
   }
 }
@@ -11740,7 +11860,8 @@ footer {
     .theme-card {
       .offer-slider {
         .product-box2 {
-          box-shadow: 0 2px 5px 0 rgba(145, 145, 145, 0.16), 0 2px 10px 0 rgba(145, 145, 145, 0.12);
+          box-shadow: 0 2px 5px 0 rgba(145, 145, 145, 0.16),
+            0 2px 10px 0 rgba(145, 145, 145, 0.12);
           .media {
             padding-right: 15px;
             img {
@@ -12126,7 +12247,7 @@ header {
     }
     &.active {
       img {
-        border: 1px solid #399B2E;
+        border: 1px solid #399b2e;
       }
     }
   }
@@ -12311,7 +12432,9 @@ table {
               margin-bottom: 0;
             }
             span {
-              margin-left: calc(10px + (30 - 10) * ((100vw - 320px) / (1920 - 320)));
+              margin-left: calc(
+                10px + (30 - 10) * ((100vw - 320px) / (1920 - 320))
+              );
               border-radius: 2px;
               text-transform: capitalize;
               color: var(--theme-deafult);
@@ -12549,7 +12672,8 @@ table {
       right: -0;
       height: 100%;
       display: block;
-      background: url("/assets/images/vendor/step-arrow.png") no-repeat center center;
+      background: url("/assets/images/vendor/step-arrow.png") no-repeat center
+        center;
     }
     .row {
       margin-left: -50px;
@@ -13025,7 +13149,11 @@ table {
   &:after {
     position: absolute;
     content: "";
-    background: linear-gradient(-180deg, var(--gradient1) 0%, var(--gradient2) 99%);
+    background: linear-gradient(
+      -180deg,
+      var(--gradient1) 0%,
+      var(--gradient2) 99%
+    );
     width: 100%;
     height: 100%;
     top: 0;
@@ -13310,7 +13438,24 @@ table {
   .modal-dialog {
     .modal-content {
       .modal-body {
-        background-image: linear-gradient(135deg, var(--theme-deafult) 5.77%, $white 5.77%, $white 25%, $grey01 25%, $grey01 30.77%, $white 30.77%, $white 50%, var(--theme-deafult) 50%, var(--theme-deafult) 55.77%, $white 55.77%, $white 75%, $grey01 75%, $grey01 80.77%, $white 80.77%, $white 100%);
+        background-image: linear-gradient(
+          135deg,
+          var(--theme-deafult) 5.77%,
+          $white 5.77%,
+          $white 25%,
+          $grey01 25%,
+          $grey01 30.77%,
+          $white 30.77%,
+          $white 50%,
+          var(--theme-deafult) 50%,
+          var(--theme-deafult) 55.77%,
+          $white 55.77%,
+          $white 75%,
+          $grey01 75%,
+          $grey01 80.77%,
+          $white 80.77%,
+          $white 100%
+        );
         background-size: 36.77px 36.77px;
         background-color: white;
         .modal-bg {
@@ -13842,7 +13987,8 @@ table {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #fff url("/assets/images/christmas/loading.gif") no-repeat center center;
+  background: #fff url("/assets/images/christmas/loading.gif") no-repeat center
+    center;
 }
 /*=====================
     17.4.Fashion-3 Demo CSS
@@ -13862,7 +14008,9 @@ table {
       margin-left: -15px;
       margin-right: -15px;
       padding-top: calc(100px + (200 - 100) * ((100vw - 320px) / (1920 - 320)));
-      padding-bottom: calc(100px + (200 - 100) * ((100vw - 320px) / (1920 - 320)));
+      padding-bottom: calc(
+        100px + (200 - 100) * ((100vw - 320px) / (1920 - 320))
+      );
     }
     &.bg-image {
       background-image: url("/assets/images/bg-image.jpg");

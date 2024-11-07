@@ -17,18 +17,18 @@ const MasterCategory = ({ img, title, link, slug }) => {
     >
       <Link href={link}>
         {/* <a onClick={(e) => e.preventDefault()}> */}
-          <div className="category-banner">
-            <div>
-              <Media
-                src={img}
-                className="img-fluid blur-up lazyload bg-img"
-                alt=""
-              />
-            </div>
-            <div className="category-box cursor-pointer">
-              <h2>{title}</h2>
-            </div>
+        <div className="category-banner">
+          <div>
+            <Media
+              src={img}
+              className="img-fluid blur-up lazyload bg-img"
+              alt=""
+            />
           </div>
+          <div className="category-box cursor-pointer">
+            <h2>{title}</h2>
+          </div>
+        </div>
         {/* </a> */}
       </Link>
     </div>
