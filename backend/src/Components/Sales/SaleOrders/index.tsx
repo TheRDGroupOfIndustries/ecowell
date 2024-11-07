@@ -33,6 +33,8 @@ const SalesOrders = () => {
           cancelled: "danger",
         }[status];
 
+        const orderIndex = user.orders.indexOf(order);
+
         return {
           order_id: order.order_info.order_id,
           user: user.user_name,
@@ -40,29 +42,108 @@ const SalesOrders = () => {
           total_price: "₹" + order.order_info.total_price,
           order_date: formatTimestamp(order.order_info.order_date.toString()),
           status: (
-            <div>
-              <Badge
-                color={statusColor}
-                onClick={() => setIsEditing(!isEditing)}
-                style={{ cursor: "pointer" }}
+            <div style={{ position: "relative", userSelect: "none" }}>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
-                {capitalizeHeader(status)}
-              </Badge>
-              {isEditing && (
-                <select
-                  value={status}
-                  onChange={(e) => {
-                    const newStatus = e.target.value;
-                    setStatus(newStatus);
+                <Badge
+                  title={capitalizeHeader(status)}
+                  color={statusColor}
+                  onClick={() => setIsEditing(!isEditing)}
+                  style={{
+                    width: "100%",
+                    cursor: "pointer",
+                    marginRight: "5px",
                   }}
-                  style={{ marginLeft: "10px" }}
                 >
-                  <option value="pending">Pending</option>
-                  <option value="processing">Processing</option>
-                  <option value="shipped">Shipped</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
+                  {capitalizeHeader(status)}
+                </Badge>
+                <span
+                  style={{
+                    cursor: "pointer",
+                    transform: isEditing ? "rotate(180deg)" : "",
+                  }}
+                >
+                  &#9660;
+                </span>
+              </div>
+              {isEditing && (
+                <div
+                  style={{
+                    width: "100%",
+                    backgroundColor: "white",
+                    border: "2px gray solid",
+                    padding: "4px",
+                    position: "absolute",
+                    top: orderIndex < 3 ? "110%" : undefined,
+                    bottom: orderIndex >= 3 ? "110%" : undefined,
+                    display: "grid",
+                    gap: "1px",
+                    left: "0",
+                    zIndex: 1,
+                  }}
+                >
+                  <Badge
+                    title="Pending"
+                    color="warning"
+                    onClick={() => {
+                      setStatus("pending");
+                      setIsEditing(!isEditing);
+                    }}
+                    style={{ cursor: "pointer", margin: "5px 0" }}
+                  >
+                    Pending
+                  </Badge>
+                  <Badge
+                    title="Processing"
+                    color="secondary"
+                    onClick={() => {
+                      setStatus("processing");
+                      setIsEditing(!isEditing);
+                    }}
+                    style={{ cursor: "pointer", margin: "5px 0" }}
+                  >
+                    Processing
+                  </Badge>
+                  <Badge
+                    title="Shipped"
+                    color="primary"
+                    onClick={() => {
+                      setStatus("shipped");
+                      setIsEditing(!isEditing);
+                    }}
+                    style={{ cursor: "pointer", margin: "5px 0" }}
+                  >
+                    Shipped
+                  </Badge>
+                  <Badge
+                    title="Delivered"
+                    color="success"
+                    onClick={() => {
+                      setStatus("delivered");
+                      setIsEditing(!isEditing);
+                    }}
+                    style={{ cursor: "pointer", margin: "5px 0" }}
+                  >
+                    Delivered
+                  </Badge>
+                  <Badge
+                    title="Cancelled"
+                    color="danger"
+                    onClick={() => {
+                      setStatus("cancelled");
+                      setIsEditing(!isEditing);
+                    }}
+                    style={{ cursor: "pointer", margin: "5px 0" }}
+                  >
+                    Cancelled
+                  </Badge>
+                </div>
               )}
             </div>
           ),

@@ -1,6 +1,6 @@
+import { getServerSession } from "next-auth";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { getServerSession } from "next-auth";
 import { connectToMongoDB } from "@/lib/db";
 import { ToastContainer } from "react-toastify";
 import MainProvider from "@/MainProvider";

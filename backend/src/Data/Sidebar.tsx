@@ -84,7 +84,8 @@ export const MENUITEMS: any = [
     ],
   },
   {
-    title: "Orders",
+    title: "Sales",
+    path: "/sales/orders",
     icon: DollarSign,
     type: "sub",
     active: false,
@@ -136,13 +137,14 @@ export const MENUITEMS: any = [
   // },
   {
     title: "Users",
+    path: "/users/list-user",
     icon: UserPlus,
-    type: "sub",
+    type: "link",
     active: false,
-    children: [
-      { path: "/users/list-user", title: "User List", type: "link" },
-      // { path: "/users/create-user", title: "Create User", type: "link" },
-    ],
+    // children: [
+    //   { path: "/users/list-user", title: "User List", type: "link" },
+    //   // { path: "/users/create-user", title: "Create User", type: "link" },
+    // ],
   },
   {
     title: "Vendors",
@@ -181,9 +183,10 @@ export const MENUITEMS: any = [
   // },
   {
     title: "Settings",
+    path: "/settings/profile",
     icon: Settings,
-    type: "sub",
-    children: [{ path: "/settings/profile", title: "Profile", type: "link" }],
+    type: "link",
+    // children: [{ path: "/settings/profile", title: "Profile", type: "link" }],
   },
   {
     title: "Invoice",

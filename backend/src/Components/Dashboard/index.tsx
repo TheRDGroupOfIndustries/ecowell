@@ -47,7 +47,7 @@ ChartJS.register(
 const DashboardContainer = () => {
   return (
     <Fragment>
-      <CommonBreadcrumb title="Dashboard" parent="Dashboard" />
+      <CommonBreadcrumb title="dashboard" />
       <Container fluid>
         <Row>
           <TopDashboardCards />

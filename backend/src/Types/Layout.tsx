@@ -1,8 +1,8 @@
-import { ObjectId, Types } from "mongoose";
+import { Types } from "mongoose";
 
 export interface CommonBreadcrumbType {
   title: string;
-  parent: string;
+  parent?: string;
   element?: JSX.Element;
 }
 export interface AdminValues {
