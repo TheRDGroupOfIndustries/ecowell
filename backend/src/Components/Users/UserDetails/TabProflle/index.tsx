@@ -1,11 +1,8 @@
 "use client";
 
 import { OrderValues, User as UserType } from "@/Types/Layout";
-import { Settings, ShoppingCart, User } from "react-feather";
+import { ShoppingCart, User } from "react-feather";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import DeactivateAccount from "./DeactivateAccount";
-import DeleteAccount from "./DeleteAccount";
-import Notifications from "./Notifications";
 import TabTable from "./TabTable";
 import { capitalizeHeader, formatTimestamp } from "@/lib/utils";
 import { Badge, CardBody } from "reactstrap";
@@ -48,6 +45,8 @@ const UserOrders = ({ user_id }: { user_id?: string }) => {
   const [orderStatuses, setOrderStatuses] = useState<{ [key: string]: string }>(
     {}
   );
+
+  const [isEditing, setIsEditing] = useState<string>("");
 
   useEffect(() => {
     const fetchUserOrder = async () => {
@@ -141,24 +140,6 @@ const UserOrders = ({ user_id }: { user_id?: string }) => {
           status: (
             <div style={{ position: "relative", userSelect: "none" }}>
               <div
-                onClick={async () => {
-                  const newStatus = prompt("Enter new status:", status);
-                  if (newStatus) {
-                    // calling the API to update the status in the database
-                    const isUpdated = await updateOrderStatus(
-                      userId.toString(),
-                      orderId.toString(),
-                      newStatus
-                    );
-
-                    if (isUpdated) {
-                      setOrderStatuses((prev) => ({
-                        ...prev,
-                        [orderId]: newStatus,
-                      }));
-                    }
-                  }
-                }}
                 style={{
                   width: "100%",
                   display: "flex",
@@ -166,18 +147,125 @@ const UserOrders = ({ user_id }: { user_id?: string }) => {
                   justifyContent: "center",
                 }}
               >
-                <Badge
-                  title={capitalizeHeader(status)}
-                  color={statusColor}
-                  style={{
-                    width: "100%",
-                    cursor: "pointer",
-                    marginRight: "5px",
-                  }}
-                >
-                  {capitalizeHeader(status)}
-                </Badge>
-                <i className="fa fa-pencil"></i>
+                {isEditing === orderId ? (
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <select
+                      value={orderStatuses[orderId] || status}
+                      onChange={async (e) => {
+                        const newStatus = e.target.value;
+                        // calling the API to update the status in the database
+                        const isUpdated = await updateOrderStatus(
+                          userId.toString(),
+                          orderId.toString(),
+                          newStatus
+                        );
+
+                        if (isUpdated) {
+                          setOrderStatuses((prev) => ({
+                            ...prev,
+                            [orderId]: newStatus,
+                          }));
+                        }
+                        setIsEditing("");
+                      }}
+                      style={{
+                        width: "100%",
+                        cursor: "pointer",
+                        marginRight: "5px",
+                        padding: "5px 10px",
+                        borderRadius: "8px",
+                        border: "1px solid #ccc",
+                        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                        transition: "border-color 0.3s, box-shadow 0.3s",
+                        color:
+                          {
+                            pending: "orange",
+                            processing: "blue",
+                            shipped: "green",
+                            delivered: "darkgreen",
+                            cancelled: "red",
+                          }[orderStatuses[orderId] || status] || "white",
+                      }}
+                    >
+                      <option
+                        value="pending"
+                        style={{ color: "white", backgroundColor: "orange" }}
+                      >
+                        Pending
+                      </option>
+                      <option
+                        value="processing"
+                        style={{ color: "white", backgroundColor: "blue" }}
+                      >
+                        Processing
+                      </option>
+                      <option
+                        value="shipped"
+                        style={{ color: "white", backgroundColor: "green" }}
+                      >
+                        Shipped
+                      </option>
+                      <option
+                        value="delivered"
+                        style={{
+                          color: "white",
+                          backgroundColor: "darkgreen",
+                        }}
+                      >
+                        Delivered
+                      </option>
+                      <option
+                        value="cancelled"
+                        style={{ color: "white", backgroundColor: "red" }}
+                      >
+                        Cancelled
+                      </option>
+                    </select>
+                    <span
+                      onClick={() => setIsEditing("")}
+                      title="Cancel"
+                      style={{
+                        color: "red",
+                        fontSize: "20px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      X
+                    </span>
+                  </div>
+                ) : (
+                  <div
+                    title="Update Status"
+                    onClick={() => setIsEditing(orderId)}
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Badge
+                      title={capitalizeHeader(status)}
+                      color={statusColor}
+                      style={{
+                        width: "100%",
+                        cursor: "pointer",
+                        marginRight: "5px",
+                      }}
+                    >
+                      {capitalizeHeader(status)}
+                    </Badge>
+                    <i className="fa fa-pencil"></i>
+                  </div>
+                )}
               </div>
             </div>
           ),
