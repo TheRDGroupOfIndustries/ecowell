@@ -6,6 +6,7 @@ import CartContext from "../../../helpers/cart";
 import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
 import MasterProductDetail from "./MasterProductDetail";
 import { WishlistContext } from "../../../helpers/wishlist/WishlistContext";
+import { useSession } from "next-auth/react";
 
 const ProductItem = ({
   product,
@@ -22,14 +23,14 @@ const ProductItem = ({
   const wishlistContext = useContext(WishlistContext);
   const cartContext = useContext(CartContext);
   // console.log("cartContext:", cartContext, product);
-
+  const cartItems = cartContext.state;
   const curContext = useContext(CurrencyContext);
   const currency = curContext.state;
   const plusQty = cartContext.plusQty;
   const minusQty = cartContext.minusQty;
   const quantity = cartContext.quantity;
   const setQuantity = cartContext.setQuantity;
-
+const {data: session} = useSession();
   const [image, setImage] = useState(
     (product.variants &&
       product.variants[0].images &&
@@ -104,8 +105,17 @@ const ProductItem = ({
           <button
             title="Add to cart"
             onClick={() => {
+              if(!session){
+                console.log("session not available:", session);
+                router.push('/page/account/login');
+                return;
+              }
               if (cartContext.productExistsInCart(product._id)) {
-                cartContext.removeFromCart(product);
+                console.log("product exists in cart:", product);
+                const existedItem = cartItems.find(
+                  (item) => item.productId._id === product._id && item.variant.flavor === product.variants[0].flavor 
+                );
+                cartContext.removeFromCart(existedItem);
               } else {
                 cartContext.addToCart(product, 1, product.variants[0]);
               }
@@ -124,7 +134,13 @@ const ProductItem = ({
             href={null}
             title="Add to Wishlist"
             onClick={() => {
+              if(!session){
+                console.log("Session not available:", session);
+                router.push('/page/account/login');
+                return;
+              }
               if (wishlistContext.productExistsInWishlist(product._id)) {
+                
                 wishlistContext.removeFromWish(product);
               } else {
                 addWishlist(product);
@@ -315,7 +331,11 @@ const ProductItem = ({
                     className="btn btn-solid"
                     onClick={() => {
                       if (cartContext.productExistsInCart(product._id)) {
-                        cartContext.removeFromCart(product);
+                        const existedItem = cartItems.find(
+                          (item) => item.productId._id === product._id && item.variant.flavor === product.variants[0].flavor
+                        );
+
+                        cartContext.removeFromCart(existedItem);
                       } else {
                         cartContext.addToCart(product, 1, product.variants[0]);
                       }

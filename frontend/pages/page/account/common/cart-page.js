@@ -12,7 +12,7 @@ const CartPage = () => {
   const curContext = useContext(CurrencyContext);
   const symbol = curContext.state.symbol;
   const removeFromCart = context.removeFromCart;
-  const [quantity, setQty] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [quantityError, setQuantityError] = useState(false);
   const [stockStatus, setStockStatus] = useState("InStock");
   const updateQty = context.updateQty;
@@ -27,7 +27,7 @@ const CartPage = () => {
   };
 
   const changeQty = (e) => {
-    setQty(parseInt(e.target.value));
+    setQuantity(parseInt(e.target.value));
   };
 
   const minusQty = () => {
@@ -39,7 +39,7 @@ const CartPage = () => {
 
   const plusQty = (product) => {
     if (product.variant.stock >= quantity) {
-      setQty(quantity + 1);
+      setQuantity(quantity + 1);
     } else {
       setStockStatus("Out of Stock !");
     }
