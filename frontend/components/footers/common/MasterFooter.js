@@ -9,9 +9,11 @@ import {
   Input,
   Button,
   Collapse,
+  Alert,
 } from "reactstrap";
 import LogoImage from "../../headers/common/logo";
 import CopyRight from "./copyright";
+import { useSession } from "next-auth/react";
 
 const MasterFooter = ({
   containerFluid,
@@ -27,7 +29,71 @@ const MasterFooter = ({
 }) => {
   const [isOpen, setIsOpen] = useState();
   const [collapse, setCollapse] = useState(0);
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState({ type: "", message: "" });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { data: session } = useSession();
+  const userId = session?.user?._id;
+
   const width = window.innerWidth <= 767;
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!userId) {
+      setStatus({
+        type: "error",
+        message: "Please sign in to subscribe to our newsletter",
+      });
+      return;
+    }
+
+    if (!email) {
+      setStatus({
+        type: "error",
+        message: "Please enter an email address",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/Newsletter/push', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          emails: [email],
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus({
+          type: "success",
+          message: "Successfully subscribed to newsletter!",
+        });
+        setEmail("");
+      } else {
+        setStatus({
+          type: "error",
+          message: data.message || "Failed to subscribe to newsletter",
+        });
+      }
+    } catch (error) {
+      setStatus({
+        type: "error",
+        message: "An error occurred while subscribing",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     const changeCollapse = () => {
       if (window.innerWidth <= 767) {
@@ -42,6 +108,7 @@ const MasterFooter = ({
       window.removeEventListener("resize", changeCollapse);
     };
   }, []);
+
   return (
     <div>
       <footer className={footerClass}>
@@ -62,27 +129,39 @@ const MasterFooter = ({
                     </div>
                   </Col>
                   <Col lg="6">
-                    <Form className="form-inline subscribe-form">
+                    <Form className="form-inline subscribe-form" onSubmit={handleNewsletterSubmit}>
                       <div className="mx-sm-3">
                         <Input
-                          type="text"
+                          type="email"
                           className="form-control"
-                          id="exampleFormControlInput1"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           placeholder="Enter your email"
+                          required
                         />
                       </div>
-                      <Button type="submit" className="btn btn-solid">
-                        subscribe
+                      <Button
+                        type="submit"
+                        className="btn btn-solid"
+                        disabled={isLoading}
+                      >
+                        {isLoading ? "Subscribing..." : "Subscribe"}
                       </Button>
                     </Form>
+                    {status.message && (
+                      <Alert
+                        color={status.type === "success" ? "success" : "danger"}
+                        className="mt-3"
+                      >
+                        {status.message}
+                      </Alert>
+                    )}
                   </Col>
                 </Row>
               </section>
             </Container>
           </div>
-        ) : (
-          ""
-        )}
+        ) : null}
 
         <section className={belowSection}>
           <Container fluid={belowContainerFluid ? belowContainerFluid : ""}>
