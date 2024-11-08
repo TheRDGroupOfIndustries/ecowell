@@ -2,9 +2,11 @@ import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import Context from "./index";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const CartProvider = (props) => {
   const { data: session } = useSession(); // Use the useSession hook
+  const router = useRouter(); // Get the router object
   const userId = session?.user?._id; // Get userId from session
   // console.log("User  ID from session:", userId); // Log the userId
 
@@ -55,7 +57,10 @@ const CartProvider = (props) => {
   // Add Product To Cart
   const addToCart = async (item, quantity, variant) => {
     // console.log("add to cart", userId, item, quantity, variant);
-
+if(!userId){
+  router.push("/page/account/login");
+  return;
+}
     const updatedVariant = {
       flavor: variant.flavor,
       image_link: variant.images[0],
@@ -132,7 +137,7 @@ const CartProvider = (props) => {
   };
 
   const plusQty = (item) => {
-    if (item.stock >= quantity) {
+    if (item.stock > quantity) {
       setQuantity(quantity + 1);
     } else {
       setStock("Out of Stock !");
@@ -203,6 +208,7 @@ const CartProvider = (props) => {
         plusQty: plusQty,
         minusQty: minusQty,
         updateQty: updateQty,
+        setStock,
         productExistsInCart: productExistsInCart,
         ordererdItems, setOrderedItems, setCartItems,
         currentOrderDetails, setCurrentOrderDetails
