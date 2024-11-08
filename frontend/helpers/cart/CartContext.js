@@ -13,6 +13,8 @@ const CartProvider = (props) => {
   const [cartItems, setCartItems] = useState([]);
   const [ordererdItems, setOrderedItems] = useState([]);
   const [currentOrderDetails, setCurrentOrderDetails] = useState();
+  const [currentDiscount, setCurrentDiscount] = useState(0);
+  const [selectedCoupons, setSelectedCoupons] = useState([]);
   // console.log("cartItems:", cartItems);
   const [cartTotal, setCartTotal] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -212,7 +214,8 @@ if(!userId){
         setStock,
         productExistsInCart: productExistsInCart,
         ordererdItems, setOrderedItems, setCartItems,
-        currentOrderDetails, setCurrentOrderDetails
+        currentOrderDetails, setCurrentOrderDetails,
+        currentDiscount, setCurrentDiscount,  selectedCoupons, setSelectedCoupons, setCartTotal
       }}
     >
       {props.children}
