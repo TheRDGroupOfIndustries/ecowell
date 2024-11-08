@@ -99,6 +99,7 @@ if(!userId){
     }
   };
 
+  // Update the removeFromCart function in your CartProvider
   const removeFromCart = async (item) => {
     try {
       console.log("Product id: ", item._id);

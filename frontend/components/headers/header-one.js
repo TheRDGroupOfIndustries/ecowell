@@ -12,6 +12,7 @@ import cart from "../../public/assets/images/icon/cart.png";
 import Currency from "./common/currency";
 import { useRouter } from "next/navigation";
 import SearchOverlay from "./common/search-overlay";
+import Link from "next/link";
 
 const HeaderOne = ({ headerClass, topClass, noTopBar, direction }) => {
   const router = useRouter();
@@ -100,7 +101,16 @@ const HeaderOne = ({ headerClass, topClass, noTopBar, direction }) => {
                 </div>
                 <div className="menu-right pull-right">
                   {/*Top Navigation Bar Component*/}
+                  <div style={{display:"flex",flexDirection:'row',alignItems:'center'}}>
+
                   <NavBar />
+                    <div style={{scale:'130%',marginBottom:'10px'}}>
+                      <Link href="/page/account/wishlist">
+                        <i  className="fa fa-heart" aria-hidden="true"></i>
+                      </Link>
+                    </div>
+                  </div>
+                  
 
                   <div>
                     <div className="icon-nav">
@@ -120,6 +130,7 @@ const HeaderOne = ({ headerClass, topClass, noTopBar, direction }) => {
                           </div>
                         </li>
                         <Currency icon={settings.src} />
+                        
                         {/*Header Cart Component */}
                         {direction === undefined ? (
                           // <></>
@@ -143,3 +154,8 @@ const HeaderOne = ({ headerClass, topClass, noTopBar, direction }) => {
 };
 
 export default HeaderOne;
+
+
+
+
+

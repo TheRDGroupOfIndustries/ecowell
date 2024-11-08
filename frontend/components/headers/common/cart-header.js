@@ -107,8 +107,7 @@ const CartHeader = ({ item, symbol }) => {
           <i
             className="fa fa-times"
             aria-hidden="true"
-            onClick={() => context.removeFromCart(item)}
-          ></i>
+            onClick={() => context.removeFromCart(productDetails.product._id)}></i>
         </div>
       </li>
     </Fragment>

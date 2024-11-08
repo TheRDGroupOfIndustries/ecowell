@@ -293,8 +293,10 @@ const NavBar = () => {
                                                           </>
                                                         </Link>
                                                       </li>
+                                                      
                                                     );
-                                                  }
+                                                    
+                                                  } 
                                                 )
                                               : megaMenuItem.children.map(
                                                   (subMegaMenuItem, i) => {
@@ -310,9 +312,11 @@ const NavBar = () => {
                                                           }
                                                         </Link>
                                                       </li>
+                                                      
                                                     );
                                                   }
                                                 )}
+                                              
                                           </ul>
                                         </div>
                                       </div>
@@ -331,6 +335,7 @@ const NavBar = () => {
                 </li>
               );
             })}
+            
           </ul>
         </div>
       </div>
