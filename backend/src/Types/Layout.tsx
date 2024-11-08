@@ -6,11 +6,11 @@ export interface CommonBreadcrumbType {
   element?: JSX.Element;
 }
 export interface AdminValues {
-  _id?: string;
-  name?: string;
-  email: string;
-  role?: string;
+  _id: string;
+  email?: string;
   phone_number?: string;
+  name?: string;
+  role?: string;
 }
 
 export interface User {

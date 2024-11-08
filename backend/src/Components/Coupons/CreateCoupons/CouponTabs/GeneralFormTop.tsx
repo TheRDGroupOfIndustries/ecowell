@@ -1,7 +1,9 @@
+"use client";
+
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { Col, FormGroup, Input, Label, Row } from "reactstrap";
+import "react-datepicker/dist/react-datepicker.css";
 
 const GeneFormTop = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -35,7 +37,9 @@ const GeneFormTop = () => {
           <Col md="7">
             <Input id="validationCustom1" type="text" required />
           </Col>
-          <div className="valid-feedback">Please Provide a Valid Coupon Code.</div>
+          <div className="valid-feedback">
+            Please Provide a Valid Coupon Code.
+          </div>
         </Row>
       </FormGroup>
       <FormGroup>

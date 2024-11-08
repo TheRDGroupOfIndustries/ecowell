@@ -86,7 +86,7 @@ const ProfilePage = () => {
       },
       error: {
         render({ data }) {
-          return data.message || "Failed to update user details.";
+          return data.message || "Failed to update your details.";
         },
       },
     });

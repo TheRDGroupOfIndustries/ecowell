@@ -5,13 +5,14 @@ import {
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { connectToMongoDB } from "@/lib/db";
-import Admin from "@/models/Admin";
 import bcrypt from "bcryptjs";
-import { AdminValues } from "@/Types/Layout";
+import { connectToMongoDB } from "@/lib/db";
 import { sendOtpToPhone, verifyOtpFromPhone } from "../../core";
+import { AdminValues } from "@/Types/Layout";
+import Admin from "@/models/Admin";
 
 interface CustomUser extends AuthUser {
+  _id: string;
   email: string;
 }
 interface CustomToken extends Record<string, any> {
