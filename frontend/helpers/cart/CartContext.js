@@ -19,9 +19,9 @@ const CartProvider = (props) => {
   const [cartTotal, setCartTotal] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [stock, setStock] = useState("InStock");
-// useEffect(() => {
-//   console.log("CartTotal:", cartTotal);
-// }, [cartTotal]);
+  // useEffect(() => {
+  //   console.log("CartTotal:", cartTotal);
+  // }, [cartTotal]);
   useEffect(() => {
     if (userId) {
       // Fetch cart items from the database when the component mounts
@@ -52,17 +52,20 @@ const CartProvider = (props) => {
   }, [userId]); // Only run when userId changes
 
   useEffect(() => {
-    const Total = cartItems.reduce((a, b) => a + (b.productId.price * b.quantity), 0);
+    const Total = cartItems.reduce(
+      (a, b) => a + b.productId.price * b.quantity,
+      0
+    );
     setCartTotal(Total);
   }, [cartItems, userId]);
 
   // Add Product To Cart
   const addToCart = async (item, quantity, variant) => {
     // console.log("add to cart", userId, item, quantity, variant);
-if(!userId){
-  router.push("/page/account/login");
-  return;
-}
+    if (!userId) {
+      router.push("/page/account/login");
+      return;
+    }
     const updatedVariant = {
       flavor: variant.flavor,
       image_link: variant.images[0],
@@ -91,7 +94,7 @@ if(!userId){
 
     if (response.ok) {
       // Update the local state with the new cart items from the API response
-      
+
       setCartItems(data.cart.items); // Set cart items from the response
       setCartTotal(data.cart.totalPrice); // Update the total price from the response
       toast.success("Product Added Successfully!");
@@ -104,7 +107,8 @@ if(!userId){
   // Update the removeFromCart function in your CartProvider
   const removeFromCart = async (item) => {
     try {
-      console.log("Product id: ", item._id);
+      console.log("Product id: ", item);
+
       const response = await fetch(`/api/cart/remove-from-cart`, {
         method: "DELETE",
         headers: {
@@ -151,13 +155,13 @@ if(!userId){
   const updateQty = async (item, quantity, currentStock) => {
     if (quantity >= 1) {
       console.log("updateQty:", item, quantity, currentStock);
-      if(!currentStock){
+      if (!currentStock) {
         toast.error("No current stock found!");
         return;
       }
-      if(quantity>currentStock){
+      if (quantity > currentStock) {
         toast.error("Quantity Exceeds Stock !");
-        return; 
+        return;
       }
       try {
         const response = await fetch(`/api/cart/changeQuantity`, {
@@ -213,9 +217,16 @@ if(!userId){
         updateQty: updateQty,
         setStock,
         productExistsInCart: productExistsInCart,
-        ordererdItems, setOrderedItems, setCartItems,
-        currentOrderDetails, setCurrentOrderDetails,
-        currentDiscount, setCurrentDiscount,  selectedCoupons, setSelectedCoupons, setCartTotal
+        ordererdItems,
+        setOrderedItems,
+        setCartItems,
+        currentOrderDetails,
+        setCurrentOrderDetails,
+        currentDiscount,
+        setCurrentDiscount,
+        selectedCoupons,
+        setSelectedCoupons,
+        setCartTotal,
       }}
     >
       {props.children}
