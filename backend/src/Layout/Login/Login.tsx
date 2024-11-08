@@ -16,7 +16,7 @@ const Login = () => {
 
   // console.log(session);
   if (status === "authenticated") {
-    return router.push(`/${i18LangStatus}/dashboard`);
+    router.push(`/${i18LangStatus}/dashboard`);
   }
 
   return (
