@@ -29,6 +29,7 @@ export const MENUITEMS: any = [
     icon: Box,
     type: "sub",
     active: false,
+    path: "/products/digital/digital-product-list",
     children: [
       {
         path: "/products/digital/digital-category",
@@ -99,6 +100,7 @@ export const MENUITEMS: any = [
     icon: Tag,
     type: "sub",
     active: false,
+    path: "/coupons/list-coupons",
     children: [
       { path: "/coupons/list-coupons", title: "List Coupons", type: "link" },
       {
@@ -146,16 +148,16 @@ export const MENUITEMS: any = [
     //   // { path: "/users/create-user", title: "Create User", type: "link" },
     // ],
   },
-  {
-    title: "Vendors",
-    icon: Users,
-    type: "sub",
-    active: false,
-    children: [
-      { path: "/vendors/list-vendors", title: "Vendor List", type: "link" },
-      { path: "/vendors/create-vendors", title: "Create Vendor", type: "link" },
-    ],
-  },
+  // {
+  //   title: "Vendors",
+  //   icon: Users,
+  //   type: "sub",
+  //   active: false,
+  //   children: [
+  //     { path: "/vendors/list-vendors", title: "Vendor List", type: "link" },
+  //     { path: "/vendors/create-vendors", title: "Create Vendor", type: "link" },
+  //   ],
+  // },
   // {
   //   title: "Localization",
   //   icon: Chrome,
@@ -188,13 +190,13 @@ export const MENUITEMS: any = [
     type: "link",
     // children: [{ path: "/settings/profile", title: "Profile", type: "link" }],
   },
-  {
-    title: "Invoice",
-    path: "/invoice",
-    icon: Archive,
-    type: "link",
-    active: false,
-  },
+  // {
+  //   title: "Invoice",
+  //   path: "/invoice",
+  //   icon: Archive,
+  //   type: "link",
+  //   active: false,
+  // },
   // {
   //   title: "Login",
   //   path: "/auth/login",
