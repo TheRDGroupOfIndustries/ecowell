@@ -10,6 +10,7 @@ const couponSchema: Schema = new Schema(
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     discountType: { type: String, required: true },
+    discountValue: { type: Number, required: true, default: 0 },
     quantity: { type: Number, required: true, default: 1 },
     freeShipping: { type: Boolean, required: true, default: false },
     status: { type: Boolean, required: true, default: false },

@@ -26,7 +26,8 @@ export interface GeneralCouponFormDataTypes {
   description: string;
   startDate: Date;
   endDate: Date;
-  discountType: string;
+  discountType: "Percent" | "Fixed" | string;
+  discountValue: number;
   quantity: number;
   freeShipping: boolean;
   status: boolean;
@@ -55,6 +56,7 @@ const CouponTabs = () => {
       startDate: new Date(),
       endDate: new Date(),
       discountType: "",
+      discountValue: 0,
       quantity: 1,
       freeShipping: false,
       status: false,
@@ -88,6 +90,7 @@ const CouponTabs = () => {
       name,
       code,
       discountType,
+      discountValue,
       startDate,
       endDate,
       description,
@@ -119,6 +122,7 @@ const CouponTabs = () => {
       startDate,
       endDate,
       discountType,
+      discountValue,
       quantity,
       freeShipping,
       status,
@@ -208,7 +212,11 @@ const CouponTabs = () => {
         </TabPanel>
       </Tabs>
       <div className="pull-right">
-        <Button type="button" onClick={handleCreateCouponSubmit}>
+        <Button
+          type="button"
+          onClick={handleCreateCouponSubmit}
+          disabled={isLoading}
+        >
           Save
         </Button>
       </div>

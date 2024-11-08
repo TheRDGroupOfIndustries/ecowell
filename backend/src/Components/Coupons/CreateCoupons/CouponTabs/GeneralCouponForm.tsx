@@ -181,6 +181,28 @@ const GeneralCouponForm: FC<GeneralCouponFormProps> = ({
           <FormGroup>
             <Row>
               <Col xl="3" md="4">
+                <Label>
+                  Discount{" "}
+                  {generalFormData.discountType === "percent"
+                    ? "Percent"
+                    : "Fixed Amount"}
+                  <span style={{ color: "red" }}>*</span>
+                </Label>
+              </Col>
+              <Col md="7">
+                <Input
+                  name="discountValue"
+                  value={generalFormData.discountValue}
+                  onChange={handleChange}
+                  type="number"
+                  required
+                />
+              </Col>
+            </Row>
+          </FormGroup>
+          <FormGroup>
+            <Row>
+              <Col xl="3" md="4">
                 <Label>Quantity</Label>
               </Col>
               <Col md="7">

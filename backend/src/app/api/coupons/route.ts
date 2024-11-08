@@ -7,21 +7,21 @@ export const GET = async (request: NextRequest) => {
     await connectToMongoDB();
 
     const coupons = await Coupon.find();
-    if (!coupons) {
+    if (coupons.length === 0) {
       return NextResponse.json(
-        { error: "Coupon with this code already exists." },
+        { error: "No coupons found." },
         { status: 404 }
       );
     }
 
     return NextResponse.json(
-      { message: "Coupon created successfully!", coupons },
+      { message: "Coupons retrieved successfully!", coupons },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error creating coupon:", error);
+    console.error("Error retrieving coupons:", error);
     return NextResponse.json(
-      { error: "Failed to create coupon" },
+      { error: "Failed to retrieve coupons" },
       { status: 500 }
     );
   }
