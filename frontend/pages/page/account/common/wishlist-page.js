@@ -75,7 +75,9 @@ const WishlistPage = () => {
                                   <i className="fa fa-close"></i>
                                 </button>
                                 <button
-                                  onClick={() => addCart(item)}
+                                  onClick={() =>
+                                    addCart(item, 1, item.variants[0])
+                                  }
                                   className="cart"
                                   style={{ border: "none" }}
                                 >
