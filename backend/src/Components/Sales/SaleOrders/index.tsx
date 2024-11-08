@@ -6,7 +6,7 @@ import { Badge, Card, CardBody, Col, Container, Row } from "reactstrap";
 import CommonBreadcrumb from "@/CommonComponents/CommonBreadcrumb";
 import CommonCardHeader from "@/CommonComponents/CommonCardHeader";
 import Datatable from "@/CommonComponents/DataTable";
-import { sampleOrders } from "@/Data/Order";
+// import { sampleOrders } from "@/Data/Order";
 import { OrderValues } from "@/Types/Layout";
 // import { SaleOrdersData } from "@/Data/Sales";
 
@@ -23,7 +23,7 @@ const SalesOrders = () => {
         });
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         setOrders(data);
         setLoading(false);
