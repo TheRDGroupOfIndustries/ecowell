@@ -6,11 +6,11 @@ export interface CommonBreadcrumbType {
   element?: JSX.Element;
 }
 export interface AdminValues {
-  _id?: string;
-  name?: string;
-  email: string;
-  role?: string;
+  _id: string;
+  email?: string;
   phone_number?: string;
+  name?: string;
+  role?: string;
 }
 
 export interface User {
@@ -41,16 +41,27 @@ export interface Product {
 }
 
 export interface OrderInfo {
-  payment_method: "online" | "cash-on-delivery";
   order_id: string;
+  payment_method: "online" | "cash-on-delivery";
   total_price: number;
+
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  address: string;
+  country: string;
+  state: string;
+  city: string;
+  pincode: string;
+
   order_date: Date;
   delivery_date?: Date;
   shipping_date?: Date;
   cancelled_date?: Date;
-  phone_number: string;
-  shipping_address: string;
-  zip_code: string;
+  // phone_number: string;
+  // shipping_address: string;
+  // zip_code: string;
   status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
 }
 
@@ -60,6 +71,12 @@ export interface OrderDetails {
 }
 
 export interface Order extends Document {
+  user_id: Types.ObjectId;
+  user_name: string;
+  orders: OrderDetails[];
+}
+export interface OrderValues {
+  _id: Types.ObjectId;
   user_id: Types.ObjectId;
   user_name: string;
   orders: OrderDetails[];

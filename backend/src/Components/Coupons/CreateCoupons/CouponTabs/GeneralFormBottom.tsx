@@ -1,3 +1,5 @@
+"use client";
+
 import { Col, FormGroup, Input, Label, Row } from "reactstrap";
 
 const GeneralFormBottom = () => {
@@ -10,7 +12,11 @@ const GeneralFormBottom = () => {
           </Col>
           <Col md="7">
             <Label className="d-block">
-              <Input className="checkbox_animated" id="chk-ani2" type="checkbox" />
+              <Input
+                className="checkbox_animated"
+                id="chk-ani2"
+                type="checkbox"
+              />
               Allow Free Shipping
             </Label>
           </Col>
@@ -47,7 +53,11 @@ const GeneralFormBottom = () => {
           </Col>
           <Col md="7">
             <Label className="d-block">
-              <Input className="checkbox_animated" id="chk-ani2" type="checkbox" />
+              <Input
+                className="checkbox_animated"
+                id="chk-ani2"
+                type="checkbox"
+              />
               Enable the Coupon
             </Label>
           </Col>

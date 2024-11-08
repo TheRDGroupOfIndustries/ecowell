@@ -4,8 +4,6 @@ import sizeChart from "../../../public/assets/images/size-chart.jpg";
 import { Modal, ModalBody, ModalHeader, Media, Input } from "reactstrap";
 import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
 import CartContext from "../../../helpers/cart";
-import CountdownComponent from "../../../components/common/widgets/countdownComponent";
-import MasterSocial from "./master_social";
 
 const DetailsWithPrice = ({
   item,
@@ -22,15 +20,26 @@ const DetailsWithPrice = ({
   useEffect(() => {
     setProduct(item);
   }, [item]);
+
   const context = useContext(CartContext);
   const stock = context.stock;
+  const cartItems = context.state;
   const plusQty = context.plusQty;
   const minusQty = context.minusQty;
   const quantity = context.quantity;
+  const setQuantity = context.setQuantity;
+  const setStock = context.setStock;
   const uniqueFlavors = [];
 
   const changeQty = (e) => {
-    setQuantity(parseInt(e.target.value));
+    if(e.target.value >= 1){
+      if(e.target.value <= selectedVariantProduct.stock){ 
+      setQuantity(parseInt(e.target.value));
+      setStock("InStock");
+      } else {
+        setStock("Out of Stock !");
+      }
+  }
   };
 
   if (!product || !product.variants) {
@@ -181,7 +190,7 @@ const DetailsWithPrice = ({
                 <button
                   type="button"
                   className="btn quantity-right-plus"
-                  onClick={() => plusQty(product)}
+                  onClick={() => plusQty(selectedVariantProduct)}
                   data-type="plus"
                   data-field=""
                 >
@@ -197,7 +206,9 @@ const DetailsWithPrice = ({
             className="btn btn-solid"
             onClick={() => {
               if (context.productExistsInCart(product._id)) {
-                context.removeFromCart(product);
+                const existedItem = cartItems.find( item => item.productId._id === product._id && item.variant.flavor === selectedVariantProduct.flavor);
+
+                context.removeFromCart(existedItem);
               } else {
                 context.addToCart(product, quantity, selectedVariantProduct);
               }

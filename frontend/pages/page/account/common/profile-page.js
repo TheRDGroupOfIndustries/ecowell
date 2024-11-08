@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Form, Input, Label, Col } from "reactstrap";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const ProfilePage = () => {
   const { data: session } = useSession();
@@ -85,7 +86,7 @@ const ProfilePage = () => {
       },
       error: {
         render({ data }) {
-          return data.message || "Failed to update user details.";
+          return data.message || "Failed to update your details.";
         },
       },
     });
@@ -97,6 +98,25 @@ const ProfilePage = () => {
     <>
       <section className="contact-page register-page">
         <Container>
+          <div
+            style={{
+              width: "100%",
+              marginBottom: "20px",
+              display: "flex",
+              justifyContent: "end",
+            }}
+          >
+            <Link
+              href={"/page/account/profile/my-orders"}
+              style={{
+                backgroundColor: "#399B2E",
+                color: "white",
+                padding: "5px",
+              }}
+            >
+              My Orders
+            </Link>
+          </div>
           <Row>
             <Col sm="12">
               <h3>PERSONAL DETAIL</h3>

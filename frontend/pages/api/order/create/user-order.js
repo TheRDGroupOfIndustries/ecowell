@@ -1,5 +1,6 @@
 import { connectToMongoDB } from "../../../../utils/db";
 import Order from "../../../../models/Order";
+import User from "../../../../models/User";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -48,7 +49,9 @@ export default async function handler(req, res) {
     !products ||
     products.length === 0
   ) {
-    return res.status(400).json({ success: false, message: "All fields are required." });
+    return res
+      .status(400)
+      .json({ success: false, message: "All fields are required." });
   }
 
   try {
@@ -57,9 +60,12 @@ export default async function handler(req, res) {
     // Generate a unique order_id
     let order_id;
     let isUnique = false;
+
     while (!isUnique) {
       order_id = `ORD-${Date.now()}`;
-      const existingOrder = await Order.findOne({ "order_info.order_id": order_id });
+      const existingOrder = await Order.findOne({
+        "order_info.order_id": order_id,
+      });
       if (!existingOrder) {
         isUnique = true;
       }
@@ -88,23 +94,33 @@ export default async function handler(req, res) {
       },
       products,
     };
+    const userExists = await User.findOne({ _id: user_id });
+    if (!userExists) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User doesn't exists." });
+    }
 
     let userOrder = await Order.findOne({ user_id });
 
     if (userOrder) {
       userOrder.orders.push(newOrder);
     } else {
+      const user_name = userExists.first_name;
       userOrder = new Order({
         user_id,
+        user_name,
         orders: [newOrder],
       });
     }
 
     await userOrder.save();
 
-    return res
-      .status(200)
-      .json({ success: true, message: "Order created successfully" , order: newOrder });
+    return res.status(200).json({
+      success: true,
+      message: "Order created successfully",
+      order: newOrder,
+    });
   } catch (error) {
     console.error("Error creating order:", error);
     return res

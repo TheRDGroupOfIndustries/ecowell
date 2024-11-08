@@ -75,7 +75,7 @@ const Fashion = () => {
         backImage={true}
         type="fashion"
         title="See Our Products"
-        subtitle="special cdoffer"
+        subtitle="special offer"
         productSlider={Product4}
         designClass="section-b-space p-t-0 ratio_asos px-2"
         noSlider="false"

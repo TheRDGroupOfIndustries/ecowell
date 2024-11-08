@@ -13,23 +13,24 @@ const orderInfoSchema = new Schema({
     required: true,
     enum: ["online", "cod"],
   },
+  total_price: { type: Number, required: true },
+
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
-  total_price: { type: Number, required: true },
+
+  phone: { type: String, required: true },
+  email: { type: String, required: true },
+  address: { type: String, required: true },
+  country: { type: String, required: true },
+  state: { type: String, required: true },
+  city: { type: String, required: true },
+  pincode: { type: String, required: true },
 
   order_date: { type: Date, required: true },
   delivery_date: { type: Date },
   shipping_date: { type: Date },
   cancelled_date: { type: Date },
-  
-  phone: { type: String, required: true },
-  email: { type: String, required: true },
-  address: { type: String, required: true },
-  city: { type: String, required: true },
-  state: { type: String, required: true },
-  country: { type: String, required: true },
-  pincode: { type: String, required: true },
-  
+
   status: {
     type: String,
     enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
@@ -44,6 +45,7 @@ const orderDetailsSchema = new Schema({
 
 const orderSchema = new Schema({
   user_id: { type: Schema.Types.ObjectId, ref: "User" },
+  user_name: { type: String, required: true },
   orders: [orderDetailsSchema],
 });
 
