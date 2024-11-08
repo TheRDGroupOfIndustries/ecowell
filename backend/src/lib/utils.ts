@@ -52,9 +52,32 @@ export const formatTimestamp = (timestamp: string): string => {
   const pad = (num: number) => (num < 10 ? `0${num}` : num);
 
   const day = pad(date.getUTCDate());
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   const month = monthNames[date.getUTCMonth()];
   const year = String(date.getUTCFullYear()).slice(-2); // Get last two digits of the year
 
   return `${month} ${day}, ${year}`;
+};
+
+export const formatEarnings = (num: number): number => {
+  if (num >= 1_000_000) {
+    return Math.round(num / 1_000_000); // millions (M)
+  } else if (num >= 1_000) {
+    return Math.round(num / 1_000); // thousands (K)
+  } else {
+    return num; // original number
+  }
 };

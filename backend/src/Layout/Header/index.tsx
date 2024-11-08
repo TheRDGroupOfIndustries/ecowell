@@ -103,7 +103,7 @@ const Header = () => {
                 <span className="dot"></span>
                 <Notification />
               </li>
-              <li>
+              {/* <li>
                 <a
                   href={Href}
                   onClick={() => dispatch(setRightSidebar(!rightSidebar))}
@@ -111,7 +111,7 @@ const Header = () => {
                   <MessageSquare />
                   <span className="dot"></span>
                 </a>
-              </li>
+              </li> */}
               <UserMenu />
             </ul>
             <div
