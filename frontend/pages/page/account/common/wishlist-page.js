@@ -39,7 +39,9 @@ const WishlistPage = () => {
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
-                  {wishlist.map((item, i) => (
+                  {wishlist.map((item, i) => {
+                    // console.log("item: ", item);
+                    return (
                     <tbody key={i}>
                       <tr className="table-body">
                         <td>
@@ -76,7 +78,7 @@ const WishlistPage = () => {
                                 </button>
                                 <button
                                   onClick={() =>
-                                    addCart(item, 1, item.variants[0])
+                              addCart(item, 1, item.variants[0])
                                   }
                                   className="cart"
                                   style={{ border: "none" }}
@@ -109,7 +111,7 @@ const WishlistPage = () => {
                             <i className="fa fa-times"></i>
                           </button>
                           <button
-                            onClick={() => addCart(item)}
+                            onClick={() => addCart(item, 1, item.variants[0])}
                             className="cart"
                             style={{ border: "none" }}
                           >
@@ -118,7 +120,7 @@ const WishlistPage = () => {
                         </td>
                       </tr>
                     </tbody>
-                  ))}
+                  )})}
                 </Table>
               </Col>
             </Row>

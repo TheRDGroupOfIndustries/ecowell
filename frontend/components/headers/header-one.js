@@ -84,14 +84,14 @@ const HeaderOne = ({ headerClass, topClass, noTopBar, direction }) => {
               <div className="main-menu">
                 <div className="menu-left">
                   <div className="navbar">
-                    <a href={null} onClick={openNav}>
+                    {/* <a href={null} onClick={openNav}>
                       <div className="bar-style">
                         <i
                           className="fa fa-bars sidebar-bar"
                           aria-hidden="true"
                         ></i>
                       </div>
-                    </a>
+                    </a> */}
                     {/*SideBar Navigation Component*/}
                     <SideBar />
                   </div>
@@ -103,7 +103,7 @@ const HeaderOne = ({ headerClass, topClass, noTopBar, direction }) => {
                   {/*Top Navigation Bar Component*/}
                   <div style={{display:"flex",flexDirection:'row',alignItems:'center'}}>
 
-                  <NavBar />
+                  {/* <NavBar /> */}
                     <div style={{scale:'130%',marginBottom:'10px'}}>
                       <Link href="/page/account/wishlist">
                         <i  className="fa fa-heart" aria-hidden="true"></i>

@@ -58,7 +58,7 @@ const CartProvider = (props) => {
 
   // Add Product To Cart
   const addToCart = async (item, quantity, variant) => {
-    // console.log("add to cart", userId, item, quantity, variant);
+    // console.log("add to cart variant", item, quantity, variant);
 if(!userId){
   router.push("/page/account/login");
   return;

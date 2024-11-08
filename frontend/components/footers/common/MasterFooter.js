@@ -240,7 +240,7 @@ const MasterFooter = ({
                           setCollapse(2);
                         } else setIsOpen(true);
                       }}>
-                      my account
+                      Products
                       <span className="according-menu"></span>
                     </h4>
                   </div>
@@ -263,16 +263,16 @@ const MasterFooter = ({
                           {/* </Link> */}
                         {/* </li> */}
                         <li>
-                          <Link href={`/shop/left_sidebar`}>
+                          <Link href={`/shop/left_sidebar?category=featured`}>
                             {/* <a> */}
-                            accessories
+                            Featured
                             {/* </a> */}
                           </Link>
                         </li>
                         <li>
-                          <Link href={`/shop/left_sidebar`}>
+                          <Link href={`/shop/left_sidebar?category=trending`}>
                             {/* <a> */}
-                            featured
+                            Trending
                             {/* </a> */}
                           </Link>
                         </li>
