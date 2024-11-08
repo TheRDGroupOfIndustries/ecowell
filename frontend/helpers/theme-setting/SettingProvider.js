@@ -47,7 +47,7 @@
 // export default SettingProvider;
 
 
-
+// SettingProvider.js
 import React, { useState } from "react";
 import SettingContext from "./SettingContext";
 import config from "../../components/customizer/config.json";
@@ -55,21 +55,17 @@ import config from "../../components/customizer/config.json";
 const SettingProvider = (props) => {
   const [layoutState, setLayoutState] = useState("RTL");
   const [layoutColor, setLayoutColor] = useState("#399B2E");
-  const [logo, setLogo] = useState("logo.png");
-
-  console.log(logo);
+  const [logo, setLogo] = useState("logo.png"); // Default logo
 
   const layoutFun = (item) => {
     if (item === "RTL") {
       document.body.classList.remove("ltr");
       document.body.classList.add("rtl");
       setLayoutState("LTR");
-      setLogo("logo-dark.png");
     } else {
       document.body.classList.remove("rtl");
       document.body.classList.add("ltr");
       setLayoutState("RTL");
-      setLogo("logo.png");
     }
   };
 
@@ -83,6 +79,10 @@ const SettingProvider = (props) => {
     setLayoutColor(item.target.value);
   };
 
+  const setThemeLogo = (logoName) => {
+    setLogo(logoName);
+  };
+
   return (
     <SettingContext.Provider
       value={{
@@ -91,6 +91,7 @@ const SettingProvider = (props) => {
         layoutFun,
         layoutColorFun,
         logo,
+        setThemeLogo,
       }}
     >
       {props.children}
