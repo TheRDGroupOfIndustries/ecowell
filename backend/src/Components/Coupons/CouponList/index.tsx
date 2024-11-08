@@ -49,7 +49,10 @@ const ListCoupons = () => {
           console.log(res);
         }
         const list = await res.json();
-        // console.log(list.coupons);
+
+        // console.log(list);
+        if (list.status === 404) setNoCoupons(true);
+
         setCoupons(list.coupons);
         setIsFetching(false);
       } catch (error) {
@@ -95,37 +98,39 @@ const ListCoupons = () => {
     );
   };
 
-  const filteredCoupons = coupons
-    .filter((coupon) => {
-      if (filter === "valid") return coupon.status;
-      if (filter === "invalid") return !coupon.status;
-      return true;
-    })
-    .map((coupon) => {
-      return {
-        _id: coupon._id,
-        code: coupon.code,
-        name: coupon.name,
-        discountValue:
-          (coupon.discountType !== "percent" ? "₹" : "") +
-          coupon.discountValue +
-          (coupon.discountType === "percent" ? "%" : ""),
-        status: (
-          <span
-            className={`fa fa-circle ${
-              coupon.status ? "font-success" : "font-danger"
-            } f-12`}
-          ></span>
-        ),
-        checkbox: (
-          <input
-            type="checkbox"
-            checked={selectedCoupons.includes(coupon._id)}
-            onChange={() => handleSelectCoupon(coupon._id)}
-          />
-        ),
-      };
-    });
+  const filteredCoupons =
+    coupons &&
+    coupons
+      .filter((coupon) => {
+        if (filter === "valid") return coupon.status;
+        if (filter === "invalid") return !coupon.status;
+        return true;
+      })
+      .map((coupon) => {
+        return {
+          _id: coupon._id,
+          code: coupon.code,
+          name: coupon.name,
+          discountValue:
+            (coupon.discountType !== "percent" ? "₹" : "") +
+            coupon.discountValue +
+            (coupon.discountType === "percent" ? "%" : ""),
+          status: (
+            <span
+              className={`fa fa-circle ${
+                coupon.status ? "font-success" : "font-danger"
+              } f-12`}
+            ></span>
+          ),
+          checkbox: (
+            <input
+              type="checkbox"
+              checked={selectedCoupons.includes(coupon._id)}
+              onChange={() => handleSelectCoupon(coupon._id)}
+            />
+          ),
+        };
+      });
 
   return (
     <Fragment>
@@ -136,29 +141,31 @@ const ListCoupons = () => {
             <Card>
               <div className="d-flex justify-content-between align-items-center">
                 <CommonCardHeader title="Coupons List"></CommonCardHeader>
-                <div className="filter-buttons d-flex justify-content-between align-items-center gap-2">
-                  <Button
-                    onClick={() => setFilter("all")}
-                    className={filter === "all" ? "active" : ""}
-                  >
-                    All
-                  </Button>
-                  <Button
-                    onClick={() => setFilter("valid")}
-                    className={filter === "valid" ? "active" : ""}
-                  >
-                    Valid
-                  </Button>
-                  <Button
-                    onClick={() => setFilter("invalid")}
-                    className={filter === "invalid" ? "active" : ""}
-                  >
-                    Invalid
-                  </Button>
-                  <Button onClick={deleteSelectedCoupons} color="danger">
-                    Delete Selected
-                  </Button>
-                </div>
+                {coupons && coupons.length > 0 && (
+                  <div className="filter-buttons d-flex justify-content-between align-items-center gap-2">
+                    <Button
+                      onClick={() => setFilter("all")}
+                      className={filter === "all" ? "active" : ""}
+                    >
+                      All
+                    </Button>
+                    <Button
+                      onClick={() => setFilter("valid")}
+                      className={filter === "valid" ? "active" : ""}
+                    >
+                      Valid
+                    </Button>
+                    <Button
+                      onClick={() => setFilter("invalid")}
+                      className={filter === "invalid" ? "active" : ""}
+                    >
+                      Invalid
+                    </Button>
+                    <Button onClick={deleteSelectedCoupons} color="danger">
+                      Delete Selected
+                    </Button>
+                  </div>
+                )}
               </div>
               <CardBody>
                 <div
@@ -166,7 +173,8 @@ const ListCoupons = () => {
                   className="category-table order-table coupon-list-delete"
                 >
                   {!isNoCoupons
-                    ? filteredCoupons.length > 0 && (
+                    ? filteredCoupons &&
+                      filteredCoupons.length > 0 && (
                         <Datatable
                           loading={isFetching}
                           showId={false}
