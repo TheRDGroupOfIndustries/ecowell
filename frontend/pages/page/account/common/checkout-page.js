@@ -15,12 +15,17 @@ const CheckoutPage = () => {
   const cartTotal = cartContext.cartTotal;
   const setCartItems = cartContext.setCartItems;
   const setCurrentOrderDetails = cartContext.setCurrentOrderDetails;
+  const setCurrentDiscount = cartContext.setCurrentDiscount;
+  const currentDiscount = cartContext.currentDiscount;
+  const selectedCoupons = cartContext.selectedCoupons;
+  const setSelectedCoupons = cartContext.setSelectedCoupons;
   const setOrderedItems = cartContext.setOrderedItems;
   const curContext = useContext(CurrencyContext);
   const symbol = curContext.state.symbol;
   const [payment, setPayment] = useState("cod");
   const [placingOrder, setPlacingOrder] = useState(false);
   const { data: session } = useSession();
+  const [coupons, setCoupons] = useState([]);
   const userId = session?.user?._id;
   const {
     register,
@@ -42,6 +47,30 @@ const CheckoutPage = () => {
     state: "",
     pincode: "",
   });
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      try {
+        const response = await fetch("/api/coupons/getAllCoupons", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log("Coupons:", result.coupons);
+          setCoupons(result.coupons);
+        } else {
+          console.error("Failed to fetch coupons");
+        }
+      } catch (error) {
+        console.error("Error fetching coupons:", error);
+      }
+    };
+
+    fetchCoupons();
+  }, []);
 
   useEffect(() => {
     console.log("Cart Items:", cartItems);
@@ -51,7 +80,33 @@ const CheckoutPage = () => {
       setOrderedItems(cartItems);
     }
   }, []);
+useEffect(() => {
+  console.log("Selected Coupons:", selectedCoupons);
 
+  const calculateDiscount = () => {
+    let discount = 0;
+
+    selectedCoupons.forEach((coupon) => {
+      if (coupon.discountType === "fixed") {
+        discount += coupon.discountValue;
+      } else if (coupon.discountType === "percent") {
+        let percentDiscount = (cartTotal * coupon.discountValue) / 100;
+        if (percentDiscount > coupon.maxSpend) {
+          percentDiscount = coupon.maxSpend;
+        }
+        discount += percentDiscount;
+      }
+    });
+
+    const finalPrice = cartTotal - discount;
+    console.log("Final Price after discount:", finalPrice);
+    setCurrentDiscount(discount);
+    // setCartTotal(finalPrice);
+    // setFinalPrice(finalPrice > 0 ? finalPrice : 0);
+  };
+
+  calculateDiscount();
+}, [selectedCoupons, cartTotal]);
   const checkhandle = (value) => {
     setPayment(value);
   };
@@ -78,7 +133,7 @@ const CheckoutPage = () => {
               payment_method: payment,
               first_name: billingDetails.first_name,
               last_name: billingDetails.last_name,
-              total_price: cartTotal,
+              total_price: cartTotal-currentDiscount>0? cartTotal-currentDiscount:0,
               order_date: new Date().toISOString(),
               phone: billingDetails.phone,
               email: billingDetails.email,
@@ -122,7 +177,8 @@ const CheckoutPage = () => {
 
           router.push({
             pathname: "/page/order-success",
-            state: { items: cartItems, orderTotal: cartTotal, symbol: symbol },
+            state: { items: cartItems, orderTotal: 
+              cartTotal-currentDiscount>0? cartTotal-currentDiscount:0,symbol: symbol },
           });
         } else {
           console.error("Failed to create order");
@@ -302,6 +358,60 @@ const CheckoutPage = () => {
                   </div>
                 </Col>
                 <Col lg="6" sm="12" xs="12">
+                {/* Add a coupon are here which will show all the fetched coupons... with checkboxes... */}
+
+                <div className="coupons-container">
+                  <h3>Available Coupons</h3>
+                  <div className="coupons-list">
+                    {coupons.map((coupon, index) => (
+                      <div key={index} className="coupon-card">
+                        <input
+                          type="checkbox"
+                          id={`coupon-${index}`}
+                          name="coupon"
+                          value={coupon.code}
+                          className="coupon-checkbox"
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedCoupons([...selectedCoupons, coupon]);
+                            } else {
+                              setSelectedCoupons(
+                                selectedCoupons.filter((selectedCoupon) => selectedCoupon.code !== coupon.code)
+                              );
+                            }
+                          }
+                          }
+                        />
+                        <label htmlFor={`coupon-${index}`} className="coupon-label">
+                          <div className="coupon-code">{coupon.code}</div>
+                          <div className="coupon-details">
+                            <p className="coupon-description">
+                              Save ₹{coupon.discountValue} - {coupon.description}
+                            </p>
+                            <p className="coupon-discount">
+                              {coupon.discountType === "fixed"
+                                ? `₹${coupon.discountValue} off`
+                                : `${coupon.discountValue}% off`}{" "}
+                              on minimum purchase of Rs. {coupon.minSpend}
+                            </p>
+                            {coupon.discountType==='percent' && coupon.maxSpend > 0 && (
+                              <p className="coupon-discount">
+                                Maximum discount: ₹{coupon.maxSpend}
+                              </p>
+                            )}
+
+                            <p className="coupon-expiry">
+                              Expires on: {new Date(coupon.endDate).toLocaleDateString()} |{" "}
+                              {new Date(coupon.endDate).toLocaleTimeString()}
+                            </p>
+                          </div>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+
                   {cartItems && cartItems.length > 0 ? (
                     <div className="checkout-details">
                       <div className="order-box">
@@ -334,7 +444,7 @@ const CheckoutPage = () => {
                           <li className="d-flex flex-row justify-content-between gap-2">
                             <span style={{ width: "75%" }}>Discount</span>
                             <span style={{ width: "25%", textAlign: "right" }}>
-                              - {symbol}0
+                              - {symbol} {currentDiscount}
                             </span>
                           </li>
                         </ul>
@@ -343,7 +453,9 @@ const CheckoutPage = () => {
                             <span style={{ width: "75%" }}>Total</span>
                             <span style={{ width: "25%", textAlign: "right" }} className="count">
                               {symbol}
-                              {cartTotal}
+                              {
+                                cartTotal - currentDiscount > 0 ? cartTotal - currentDiscount : 0
+                              }
                             </span>
                           </li>
                         </ul>
