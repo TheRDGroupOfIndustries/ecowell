@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import { Container } from "reactstrap";
 import CommonLayout from "../../../../components/shop/common-layout";
+import OrderIcon  from "../../../../public/assets/images/pro2/orderIcon.png";
+import Link from "next/link";
 // import { capitalizeFirstLetter } from "../../../../lib/utils";
 
 const MyOrders = () => {
@@ -36,6 +38,7 @@ const UserOrders = () => {
         const data = await response.json();
         if (data.status === 404) setIsNoUserOrders(true);
         else setUserOrders(data.orders);
+        console.log("User Orders:", data.orders);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -103,19 +106,26 @@ const UserOrders = () => {
                 onClick={() => toggleOrderDetails(order.order_info.order_id)}
                 style={{ cursor: "pointer" }}
               >
-                <div>
-                  <p className="mb-2">
-                    <span style={{ color: "#399b2e", fontWeight: "bold" }}>
-                      Total:
-                    </span>{" "}
-                    ₹{order.order_info.total_price.toFixed(2)}
-                  </p>
-                  <p className="mb-0">
-                    <span style={{ color: "#399b2e", fontWeight: "bold" }}>
-                      Order Placed at:
-                    </span>{" "}
-                    {new Date(order.order_info.order_date).toLocaleDateString()}
-                  </p>
+                <div className="d-flex align-items-center flex-row gap-3">
+                  <img
+                    src={OrderIcon.src}
+                    alt="Order Icon"
+                    style={{ width: "50px" }}
+                  />
+                  <div>
+                    <p className="mb-2">
+                      <span style={{ color: "#399b2e", fontWeight: "bold" }}>
+                        Total:
+                      </span>{" "}
+                      ₹{order.order_info.total_price.toFixed(2)}
+                    </p>
+                    <p className="mb-0">
+                      <span style={{ color: "#399b2e", fontWeight: "bold" }}>
+                        Order Placed at:
+                      </span>{" "}
+                      {new Date(order.order_info.order_date).toLocaleDateString()}
+                    </p>
+                  </div>
                 </div>
                 <div className="d-flex align-items-center">
                   <span
@@ -162,13 +172,13 @@ const UserOrders = () => {
                   <ul className="list-group list-group-flush">
                     {order.products.map((product) => (
                       <li
-                        key={product.product_id}
+                        key={product.product_id._id}
                         className="list-group-item d-flex align-items-center border-0"
                         style={{ backgroundColor: "transparent" }}
                       >
                         <img
-                          src={product.image}
-                          alt={product.title}
+                          src={product.product_id.variants[0].images[0]}
+                          alt={product.product_id.title}
                           className="img-thumbnail me-3"
                           style={{
                             width: "80px",
@@ -176,13 +186,18 @@ const UserOrders = () => {
                             objectFit: "cover",
                           }}
                         />
-                        <div>
-                          <strong>{product.title}</strong>
+                        <div className="d-flex flex-col gap-1 flex-column">
+                          <Link style={{
+                            color: "#0d6efd",
+                            textDecoration: "underline",
+                          }} href={`/product-details/${product.product_id.sku}`}>
+                          <strong>{product.product_id.title}</strong>
+                          </Link>
                           <p className="mb-1">
                             Flavor: {product.variant_flavor}
                           </p>
                           <p className="mb-1">Quantity: {product.quantity}</p>
-                          <p className="mb-0">Price: ₹{product.price}</p>
+                          <p className="mb-0">Price: ₹{product.product_id.price}</p>
                         </div>
                       </li>
                     ))}
