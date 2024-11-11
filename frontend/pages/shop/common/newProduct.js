@@ -118,10 +118,6 @@
 
 // export default NewProduct;
 
-
-
-
-
 import React, { useContext, useEffect, useState } from "react";
 import { Media } from "reactstrap";
 import Slider from "react-slick";
@@ -137,9 +133,9 @@ const NewProduct = () => {
   useEffect(() => {
     const fetchNewProducts = async () => {
       try {
-        const response = await fetch('/api/products/newProduct'); // Adjust the URL based on your API endpoint
+        const response = await fetch("/api/products/newProduct"); // Adjust the URL based on your API endpoint
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const result = await response.json();
         setData(result);
@@ -239,7 +235,7 @@ const NewProduct = () => {
               )}
             </>
           )}
-        </ div>
+        </div>
       </Slider>
     </div>
     //  <!-- side-bar single product slider end -->

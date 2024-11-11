@@ -2,10 +2,10 @@ import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import { Input, Container, Row, Form, Label, Col } from "reactstrap";
 import { emailPattern, passwordPattern } from "./login";
 import CommonLayout from "../../../components/shop/common-layout";
-import { Input, Container, Row, Form, Label, Col } from "reactstrap";
-import { toast } from "react-toastify";
 
 const Register = () => {
   const router = useRouter();
