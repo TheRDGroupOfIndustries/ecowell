@@ -123,8 +123,9 @@ export default async function handler(req, res) {
   }
 
   if (method === "DELETE") {
+    // console.log(body);
     try {
-      const { user_id } = body;
+      const { review_id } = body;
 
       await connectToMongoDB();
 
@@ -136,12 +137,13 @@ export default async function handler(req, res) {
       }
 
       const reviewIndex = productReviews.reviews.findIndex(
-        (review) => review.user_id === user_id
+        (review) => review._id !== review_id
       );
+
       if (reviewIndex === -1) {
-        return res
-          .status(404)
-          .json({ message: "Review not found for this user." });
+        return res.status(404).json({
+          message: "Review not found on your review(s)!",
+        });
       }
 
       productReviews.reviews.splice(reviewIndex, 1);
