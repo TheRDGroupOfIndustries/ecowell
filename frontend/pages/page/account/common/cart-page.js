@@ -17,7 +17,7 @@ const CartPage = () => {
   const [stockStatus, setStockStatus] = useState("InStock");
   const updateQty = context.updateQty;
 
-  const handleQtyUpdate = (item, quantity,currentStock) => {
+  const handleQtyUpdate = (item, quantity, currentStock) => {
     if (quantity >= 1) {
       setQuantityError(false);
       updateQty(item, quantity, currentStock);
@@ -65,9 +65,12 @@ const CartPage = () => {
                   </thead>
                   {cartItems.map((item, index) => {
                     // console.log("item index: ", item.productId.variants)
-                    const currentVariant = item.productId.variants.find( variant => variant.flavor === item.variant.flavor);
-                    const currentStock = currentVariant ? currentVariant.stock : 0;
-
+                    const currentVariant = item.productId.variants.find(
+                      (variant) => variant.flavor === item.variant.flavor
+                    );
+                    const currentStock = currentVariant
+                      ? currentVariant.stock
+                      : 0;
 
                     return (
                       <tbody key={index}>
@@ -106,7 +109,7 @@ const CartPage = () => {
                               <div className="col-xs-3">
                                 <h2 className="td-color">
                                   {symbol}
-                                  {item?.productId?.price}
+                                  {item?.productId?.salePrice}
                                 </h2>
                               </div>
                               <div className="col-xs-3">
@@ -124,7 +127,7 @@ const CartPage = () => {
                           <td>
                             <h2>
                               {symbol}
-                              {item?.productId?.price}
+                              {item?.productId?.salePrice}
                             </h2>
                           </td>
                           <td>
@@ -134,7 +137,11 @@ const CartPage = () => {
                                   type="number"
                                   name="quantity"
                                   onChange={(e) =>
-                                    handleQtyUpdate(item, e.target.value, currentStock)
+                                    handleQtyUpdate(
+                                      item,
+                                      e.target.value,
+                                      currentStock
+                                    )
                                   }
                                   className="form-control input-number"
                                   value={item.quantity}
@@ -157,7 +164,7 @@ const CartPage = () => {
                           <td>
                             <h2 className="td-color">
                               {symbol}
-                              {item.quantity * item.productId.price}
+                              {item.quantity * item.productId.salePrice}
                             </h2>
                           </td>
                         </tr>
@@ -168,7 +175,7 @@ const CartPage = () => {
                 <table className="table cart-table table-responsive-md">
                   <tfoot>
                     <tr>
-                      <td>total price :</td>
+                      <td>Total Price :</td>
                       <td>
                         <h2>
                           {symbol}

@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     // Fetch the cart for the user
     const cart = await Cart.findOne({ userId }).populate({
       path: "items.productId",
-      select: "_id title price variants",
+      select: "_id title salePrice variants",
     });
 
     if (!cart) {
