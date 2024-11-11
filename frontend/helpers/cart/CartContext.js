@@ -53,7 +53,7 @@ const CartProvider = (props) => {
 
   useEffect(() => {
     const Total = cartItems.reduce(
-      (a, b) => a + b.productId.salePrice * b.quantity,
+      (a, b) => a + (b.productId.salePrice ? b.productId.salePrice : b.productId.price) * b.quantity,
       0
     );
     setCartTotal(Total);
@@ -97,6 +97,7 @@ const CartProvider = (props) => {
 
       setCartItems(data.cart.items); // Set cart items from the response
       setCartTotal(data.cart.totalPrice); // Update the total price from the response
+      console.log("cartTotal: ", data.cart);
       toast.success("Product Added Successfully!");
     } else {
       // Handle error response
