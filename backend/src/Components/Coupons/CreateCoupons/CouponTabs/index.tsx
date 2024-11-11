@@ -173,7 +173,11 @@ const CouponTabs = () => {
 
     toast.promise(createCoupon(), {
       pending: "Creating Coupon...",
-      success: "Coupon created successfully!",
+      success: {
+        render({ data }) {
+          return data || "Coupon created successfully!";
+        },
+      },
       error: {
         render({ data }: { data?: { message: any } }) {
           return data?.message || "Something went wrong, please try again!";

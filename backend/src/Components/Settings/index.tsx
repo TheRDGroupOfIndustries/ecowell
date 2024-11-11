@@ -6,12 +6,14 @@ import { Card, CardBody, Col, Container, FormGroup, Row } from "reactstrap";
 import ProfileStatus from "./ProfileStatus";
 import TabProfile from "./TabProflle";
 import { useSession } from "next-auth/react";
+import { AdminValues } from "@/Types/Layout";
+import { capitalizeHeader } from "@/lib/utils";
 
 const Profile = () => {
   const router = useRouter();
   const { data: session } = useSession();
   // console.log(session);
-  const user = session?.user;
+  const user = session?.user as AdminValues;
 
   if (!user) router.push(`/en/auth/login`);
 
@@ -31,6 +33,9 @@ const Profile = () => {
                   />
                   <h5 className="f-w-600 f-16 mb-0">{user?.name}</h5>
                   <span>{user?.email}</span>
+                  <h5 className="f-w-600 f-16 mt-1 bg-primary py-1 rounded text-white">
+                    {capitalizeHeader(user?.role)}
+                  </h5>
                   {/* <div className="social">
                     <FormGroup className=" btn-showcase">
                       <a
@@ -57,8 +62,8 @@ const Profile = () => {
                     </FormGroup>
                   </div> */}
                 </div>
-                <hr />
-                <ProfileStatus />
+                {/* <hr /> */}
+                {/* <ProfileStatus /> */}
               </CardBody>
             </Card>
           </Col>

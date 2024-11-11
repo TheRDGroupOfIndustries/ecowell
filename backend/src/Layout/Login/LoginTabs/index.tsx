@@ -15,17 +15,17 @@ const LoginTabs = () => {
                 <User />
                 Login
               </Tab>
-              <Tab className="nav-link">
+              {/* <Tab className="nav-link">
                 <Unlock />
                 Register
-              </Tab>
+              </Tab> */}
             </TabList>
             <TabPanel>
               <LoginForm />
             </TabPanel>
-            <TabPanel>
+            {/* <TabPanel>
               <RegisterForm />
-            </TabPanel>
+            </TabPanel> */}
           </Tabs>
         </CardBody>
       </Card>

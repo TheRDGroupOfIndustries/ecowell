@@ -47,11 +47,11 @@ export const MENUITEMS: any = [
         title: "Add Product",
         type: "link",
       },
-      {
-        path: "/products/digital/add-bulk-product",
-        title: "Add Bulk Product",
-        type: "link",
-      },
+      // {
+      //   path: "/products/digital/add-bulk-product",
+      //   title: "Add Bulk Product",
+      //   type: "link",
+      // },
       // {
       //   title: "Physical",
       //   type: "sub",

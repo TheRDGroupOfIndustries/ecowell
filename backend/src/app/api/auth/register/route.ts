@@ -69,6 +69,19 @@ export const POST = async (request: NextRequest) => {
   if (otp) {
     let newAdmin;
     if (isEmail && otp == checkOtpCode) {
+      const body = `<h1 style="color: #333; font-family: 'Arial', sans-serif;">Heya ${name}!!</h1>
+    <span style="color: #ccc; font-size: 18px; font-family: 'Arial', sans-serif;">Here's your credentials to login as Admin:</span>
+    <p style="color: #2fff00; font-size: 18px; font-family: 'Arial', sans-serif;">Email: <b style="color: #333;">${email}</b></p>
+    <p style="color: #2fff00; font-size: 18px; font-family: 'Arial', sans-serif;'>Password: <b style="color: #333;">${password}</b></p>`;
+
+      await transporter.sendMail({
+        from: process.env.GMAIL_USER,
+        to: email,
+        subject: "EcoWell - Admin credentials",
+        text: "Admin login credentials",
+        html: body,
+      });
+
       const hashPassword = await bcrypt.hash(password, 5); // converting password into hash-code
 
       newAdmin = new Admin({
@@ -80,6 +93,8 @@ export const POST = async (request: NextRequest) => {
       const isOtpValid = await verifyOtpFromPhone(phone_number, otp);
 
       if (isOtpValid) {
+        // send admin credentials through SmS
+
         newAdmin = new Admin({
           name,
           phone_number,

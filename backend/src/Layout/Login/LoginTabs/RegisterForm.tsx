@@ -26,7 +26,7 @@ const RegisterForm = () => {
   // console.log(emailOrPhone);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [termsChecked, setTermsChecked] = useState(false);
+  const [termsChecked, setTermsChecked] = useState(true);
   const [otp, setOtp] = useState("");
   const [checkOtpCode, setCheckOtpCode] = useState("");
 
@@ -59,23 +59,6 @@ const RegisterForm = () => {
       }
     }
   };
-  // const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const inputValue = e.target.value;
-  //   setEmail(inputValue);
-
-  //   if (inputValue.trim() === "") {
-  //     setDisableBtn(true);
-  //     return;
-  //   }
-
-  //   if (!emailPattern.test(inputValue)) {
-  //     toast.error("Invalid email");
-  //     setDisableBtn(true);
-  //   } else {
-  //     toast.success("Valid email");
-  //     setDisableBtn(false);
-  //   }
-  // };
 
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -123,13 +106,16 @@ const RegisterForm = () => {
   const handleGetOtp = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
+    if (!name) {
+      return toast.error("Please provide new admin name!");
+    }
     if (!name || !emailOrPhone) {
       if (isEmail) {
         if (!email || !password) {
-          return toast.error("Please enter your email and password!");
+          return toast.error("Please provider valid email and password!");
         }
       } else {
-        return toast.error("Please enter your phone number!");
+        return toast.error("Please provide admin email or phone number!");
       }
     }
     if (!termsChecked) {
@@ -288,7 +274,7 @@ const RegisterForm = () => {
                 checked={termsChecked}
                 onChange={() => setTermsChecked(!termsChecked)}
               />{" "}
-              I agree to all statements in Terms & Conditions
+              I agree the Terms & Conditions
             </Label>
           </div>
         </>
@@ -334,10 +320,10 @@ const RegisterForm = () => {
           </>
         )}
       </div>
-      <div className="form-footer">
+      {/* <div className="form-footer">
         <span>Or Sign up with Google</span>
         <SocialMediaIcons />
-      </div>
+      </div> */}
     </Form>
   );
 };

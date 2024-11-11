@@ -1,11 +1,17 @@
-import { Settings, User } from "react-feather";
+"use client";
+
+import { useSession } from "next-auth/react";
+import { Settings, Unlock, User } from "react-feather";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import DeactivateAccount from "./DeactivateAccount";
-import DeleteAccount from "./DeleteAccount";
-import Notifications from "./Notifications";
 import TabTable from "./TabTable";
+import { AdminValues } from "@/Types/Layout";
+import RegisterForm from "@/Layout/Login/LoginTabs/RegisterForm";
 
 const TabProfile = () => {
+  const { data: session } = useSession();
+  const user = session?.user as AdminValues;
+  console.log(user?.role);
+
   return (
     <div>
       <Tabs>
@@ -14,19 +20,30 @@ const TabProfile = () => {
             <User className="me-2" />
             Profile
           </Tab>
-          {/* <Tab className="nav-link">
-            <Settings className="me-2" />
-            Contact
-          </Tab> */}
+          {user?.role === "super-admin" && (
+            <>
+              <Tab className="nav-link">
+                <Unlock className="me-2" />
+                Create New Admins
+              </Tab>
+              {/* <Tab className="nav-link">
+                <Settings className="me-2" />
+                Admins list
+              </Tab> */}
+            </>
+          )}
         </TabList>
         <TabPanel>
           <TabTable />
         </TabPanel>
-        {/* <TabPanel>
-          <Notifications />
-          <DeactivateAccount />
-          <DeleteAccount />
-        </TabPanel> */}
+        {user?.role === "super-admin" && (
+          <>
+            <TabPanel>
+              <RegisterForm />
+            </TabPanel>
+            {/* <TabPanel>list admin</TabPanel> */}
+          </>
+        )}
       </Tabs>
     </div>
   );

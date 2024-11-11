@@ -1,3 +1,4 @@
+import { capitalizeHeader } from "@/lib/utils";
 import { AdminValues } from "@/Types/Layout";
 import { useSession } from "next-auth/react";
 import { Table } from "reactstrap";
@@ -13,6 +14,10 @@ const TabTable = () => {
       <div className="table-responsive profile-table">
         <Table className="table-responsive">
           <tbody>
+            <tr>
+              <td>Role:</td>
+              <td>{capitalizeHeader(user?.role)}</td>
+            </tr>
             <tr>
               <td>First Name:</td>
               <td>{user?.name?.split(" ")[0]}</td>
