@@ -4,9 +4,9 @@ import { Col, Container, Row, Button } from "reactstrap";
 import GeneralForm from "../../AddDigitalProduct/GeneralForm";
 import VariantForm from "../../AddDigitalProduct/VariantForm";
 import AdditionalInfoForm from "../../AddDigitalProduct/AdditionalForm";
-import axios from 'axios';
+import axios from "axios";
 import { toast } from "react-toastify";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 interface Variant {
   flavor: string;
@@ -23,7 +23,9 @@ interface EditDigitalProductProps {
   editProductSku: string;
 }
 
-const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku }) => {
+const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({
+  editProductSku,
+}) => {
   const router = useRouter();
 
   // General Form
@@ -35,15 +37,15 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
     ingredients: [] as string[],
     benefits: [] as string[],
     faqs: [] as { question: string; answer: string }[],
-    title: '',
-    description: '',
+    title: "",
+    description: "",
     category: {
-      title: '',
-      slug: '',
+      title: "",
+      slug: "",
     },
-    brand: '',
+    brand: "",
     isNew: false,
-    bestBefore: '',
+    bestBefore: "",
   });
 
   const handleGeneralForm = (field: string, value: any) => {
@@ -83,10 +85,10 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
   };
 
   const [additionalInfoStates, setAdditionalInfoStates] = useState({
-    manufacturedBy: '',
-    countryOfOrigin: '',
-    phone: '',
-    email: '',
+    manufacturedBy: "",
+    countryOfOrigin: "",
+    phone: "",
+    email: "",
   });
 
   const handleAdditionalChange = (field: string, value: any) => {
@@ -99,7 +101,7 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
   const handleVariantChange = (name: string, value: any) => {
     setNewVariant({
       ...newVariant,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -139,10 +141,16 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
   const handleUpdate = async () => {
     // Validate required fields
     const requiredFields = [
-      'title', 'description', 'category.title', 'category.slug', 'brand', 'price', 'bestBefore'
+      "title",
+      "description",
+      "category.title",
+      "category.slug",
+      "brand",
+      "price",
+      "bestBefore",
     ];
-    const missingFields = requiredFields.filter(field => {
-      const keys = field.split('.');
+    const missingFields = requiredFields.filter((field) => {
+      const keys = field.split(".");
       let value: any = generalFormState;
       keys.forEach((key: string) => {
         value = value[key as keyof typeof value];
@@ -151,7 +159,9 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
     });
 
     if (missingFields.length > 0) {
-      toast.error("Please fill these required fields: " + missingFields.join(", "));
+      toast.error(
+        "Please fill these required fields: " + missingFields.join(", ")
+      );
       return;
     }
 
@@ -169,7 +179,10 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
     };
 
     try {
-      const response = await axios.put(`/api/products/put/${editProductSku}`, product);
+      const response = await axios.put(
+        `/api/products/put/${editProductSku}`,
+        product
+      );
       console.log(response.data);
       toast.success("Product updated successfully");
       // Redirect to product list
@@ -189,22 +202,41 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({ editProductSku 
 
   return (
     <Fragment>
-      <CommonBreadcrumb title="Edit Product" parent="Digital" element={
-        <div className="d-flex gap-2 justify-content-end ">
-          <button onClick={handleUpdate} className="btn btn-primary" disabled={isPosting}>
-            {isPosting ? "Updating..." : "Update"}
-          </button>
-          <button onClick={handleCancel} className="btn btn-secondary">Cancel</button>
-        </div>
-      } />
+      <CommonBreadcrumb
+        title="Edit Product"
+        parent="products/digital"
+        element={
+          <div className="d-flex gap-2 justify-content-end ">
+            <button
+              onClick={handleUpdate}
+              className="btn btn-primary"
+              disabled={isPosting}
+            >
+              {isPosting ? "Updating..." : "Update"}
+            </button>
+            <button onClick={handleCancel} className="btn btn-secondary">
+              Cancel
+            </button>
+          </div>
+        }
+      />
       <Container fluid>
         <Row className="product-adding">
           <Col xl="6">
-            <GeneralForm generalFormState={generalFormState} handleGeneralForm={handleGeneralForm} />
+            <GeneralForm
+              generalFormState={generalFormState}
+              handleGeneralForm={handleGeneralForm}
+            />
           </Col>
           <Col xl="6">
-            <VariantForm variantProps={variantFormProps} handleVariantChange={handleVariantChange} />
-            <AdditionalInfoForm additionalInfoStates={additionalInfoStates} handleAdditionalChange={handleAdditionalChange} />
+            <VariantForm
+              variantProps={variantFormProps}
+              handleVariantChange={handleVariantChange}
+            />
+            <AdditionalInfoForm
+              additionalInfoStates={additionalInfoStates}
+              handleAdditionalChange={handleAdditionalChange}
+            />
             {/* <MetaDataForm /> */}
           </Col>
         </Row>

@@ -24,8 +24,8 @@ export const generateSlug = (name: string): string => {
 
 export const capitalizeHeader = (str: string): string => {
   return str
-    .split(/[_-]/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .split(/[_-\s\/]+/)
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 };
 

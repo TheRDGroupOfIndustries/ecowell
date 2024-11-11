@@ -23,11 +23,27 @@ export const POST = async (request: NextRequest) => {
 
     const skus = await generateSequentialSkus(products.length); // Generate SKUs based on product count
 
-    const newProducts = products.map((product:any, index:any) => {
-      const { title, description, category, brand, price, salePrice, discount, isNew, variants, bestBefore, directions, ingredients, benefits, faqs, additionalInfo } = product;
+    const newProducts = products.map((product: any, index: any) => {
+      const {
+        title,
+        description,
+        category,
+        brand,
+        price,
+        salePrice,
+        discount,
+        isNew,
+        variants,
+        bestBefore,
+        directions,
+        ingredients,
+        benefits,
+        faqs,
+        additionalInfo,
+      } = product;
 
       let sell_on_google_quantity = 0; // Default value
-      variants.map((variant:any) => {
+      variants.map((variant: any) => {
         sell_on_google_quantity += Number(variant.stock);
       });
       const slug = generateSlug(category.title);

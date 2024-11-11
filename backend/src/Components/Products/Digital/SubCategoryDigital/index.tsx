@@ -16,7 +16,7 @@ const SubCategoryDigital = () => {
 
   return (
     <Fragment>
-      <CommonBreadcrumb title="Sub Category" parent="Digital" />
+      <CommonBreadcrumb title="Sub Category" parent="products/digital" />
       <Container fluid>
         <Row>
           <Col sm="12">

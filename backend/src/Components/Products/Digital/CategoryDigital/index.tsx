@@ -199,7 +199,7 @@ const CategoriesDigital = () => {
 
   return (
     <Fragment>
-      <CommonBreadcrumb title="Categories" parent="Digital" />
+      <CommonBreadcrumb title="Categories" parent="products/digital" />
       <Container fluid>
         <Row>
           <Col sm="12">

@@ -61,11 +61,11 @@ const CartProvider = (props) => {
 
   // Add Product To Cart
   const addToCart = async (item, quantity, variant) => {
-    // console.log("add to cart", userId, item, quantity, variant);
-    if (!userId) {
-      router.push("/page/account/login");
-      return;
-    }
+    // console.log("add to cart variant", item, quantity, variant);
+if(!userId){
+  router.push("/page/account/login");
+  return;
+}
     const updatedVariant = {
       flavor: variant.flavor,
       image_link: variant.images[0],

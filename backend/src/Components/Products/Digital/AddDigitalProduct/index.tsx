@@ -210,7 +210,7 @@ const AddDigitalProduct = () => {
 
   return (
     <Fragment>
-      <CommonBreadcrumb title="Add Products" parent="Digital" element={
+      <CommonBreadcrumb title="Add Products" parent="products/digital" element={
         <div className="d-flex gap-2 justify-content-end ">
           <button onClick={handleSave} className="btn btn-primary" disabled={isPosting}>
             {isPosting ? "Creating..." : "Save"}

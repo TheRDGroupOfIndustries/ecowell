@@ -44,7 +44,7 @@ const CategoryProducts = ({categorySlug}:{
 
   return (
     <Fragment>
-      <CommonBreadcrumb title={categorySlug} parent="Digital" />
+      <CommonBreadcrumb title={categorySlug} parent="products/digital" />
       <Container fluid>
         <Row>
           <Col sm="12">
