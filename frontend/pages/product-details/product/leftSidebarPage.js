@@ -40,6 +40,7 @@ const LeftSidebarPage = ({
   const [slider2, setSlider2] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({ rating: 1, review_descr: "" });
+  const [hasOrdered, setHasOrdered] = useState(false);
 
   useEffect(() => {
     setNav1(slider1);
@@ -57,8 +58,23 @@ const LeftSidebarPage = ({
         setReviews(result.reviews || []);
       }
     };
+    const fetchIsUserOrderThisProduct = async () => {
+      if (wholeProduct && session?.user) {
+        const response = await fetch(`/api/products/check-product-in-orders`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: session?.user?._id,
+            product_id: wholeProduct._id,
+          }),
+        });
+        const result = await response.json();
+        setHasOrdered(result.hasOrdered);
+      }
+    };
     fetchReviews();
-  }, [wholeProduct]);
+    fetchIsUserOrderThisProduct();
+  }, [wholeProduct, session?.user]);
 
   const filterClick = () => {
     document.getElementById("filter").style.left = "-15px";
@@ -240,38 +256,42 @@ const LeftSidebarPage = ({
 
               <div className="review-input mt-4">
                 <h5>Leave a Review</h5>
-                <form onSubmit={handleSubmit}>
-                  <div className="mb-3">
-                    <div className="d-flex">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <i
-                          key={star}
-                          className={`fa fa-star ${
-                            newReview.rating >= star
-                              ? "text-warning"
-                              : "text-white"
-                          }`}
-                          onClick={() => handleStarClick(star)}
-                          style={{ cursor: "pointer", marginRight: "4px" }}
-                        ></i>
-                      ))}
+                {hasOrdered ? (
+                  <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                      <div className="d-flex">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <i
+                            key={star}
+                            className={`fa fa-star ${
+                              newReview.rating >= star
+                                ? "text-warning"
+                                : "text-white"
+                            }`}
+                            onClick={() => handleStarClick(star)}
+                            style={{ cursor: "pointer", marginRight: "4px" }}
+                          ></i>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className="mb-3">
-                    <textarea
-                      name="review_descr"
-                      value={newReview.review_descr}
-                      onChange={handleInputChange}
-                      className="form-control"
-                      rows="3"
-                      placeholder="Write your review here..."
-                      required
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-primary">
-                    Submit Review
-                  </button>
-                </form>
+                    <div className="mb-3">
+                      <textarea
+                        name="review_descr"
+                        value={newReview.review_descr}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        rows="3"
+                        placeholder="Write your review here..."
+                        required
+                      />
+                    </div>
+                    <button type="submit" className="btn btn-primary">
+                      Submit Review
+                    </button>
+                  </form>
+                ) : (
+                  <p>You must purchase this product to leave a review.</p>
+                )}
               </div>
             </Col>
           </Row>

@@ -4,7 +4,7 @@ import Review from "../../../../models/Reviews";
 
 export default async function handler(req, res) {
   const { method, query, body } = req;
-  console.log("review req:", method, query, body);
+  //   console.log("review req:", method, query, body);
   const { product_id } = query;
 
   if (!product_id) {
