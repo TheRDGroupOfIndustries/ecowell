@@ -26,9 +26,9 @@ const ProductInformation = ({ product, selectedFlavor, setSelectedFlavor }: any)
     <Col xl="8">
       <div className="product-page-details product-right mb-0">
         <h2>{product.title}</h2>
-        <div style={{ fontSize: 27, height: 31 }}>
+        {/* <div style={{ fontSize: 27, height: 31 }}>
           <ReactStars count={5} onChange={onStarClick} size={40} activeColor="#ffd700" value={rating} />
-        </div>
+        </div> */}
         <hr />
         <h5 className="product-title">Product Details</h5>
         <p>{product.description}</p>

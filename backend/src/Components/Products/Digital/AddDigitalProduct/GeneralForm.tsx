@@ -26,6 +26,9 @@ const GeneralForm = ({ generalFormState, handleGeneralForm }: {
   handleGeneralForm: (field: string, value: any) => void
 }) => {
   const { price, salePrice, discount, directions, ingredients, benefits, faqs, title, description, category, brand, isNew, bestBefore } = generalFormState;
+  useEffect(() => {
+    console.log("bestBefore:", bestBefore);
+  }, [bestBefore]);
   // const categories = [
   //   { title: "Fitness", slug: "fitness" },
   //   { title: "Health", slug: "health" },
@@ -125,7 +128,10 @@ const GeneralForm = ({ generalFormState, handleGeneralForm }: {
               id="price"
               type="number"
               value={price}
-              onChange={(e) => handleGeneralForm('price', parseFloat(e.target.value))}
+              onChange={(e) => {
+                if (Number(e.target.value) >= 0) handleGeneralForm('price', parseFloat(e.target.value))
+                // handleGeneralForm('price', parseFloat(e.target.value))
+              }}
               required
             />
           </FormGroup>
@@ -138,7 +144,7 @@ const GeneralForm = ({ generalFormState, handleGeneralForm }: {
               type="number"
               value={salePrice}
               onChange={(e) => {
-                if (Number(e.target.value) < price) handleGeneralForm('salePrice', parseFloat(e.target.value));
+                if (Number(e.target.value) < price && Number(e.target.value) >= 0) handleGeneralForm('salePrice', parseFloat(e.target.value));
               }}
               required
             />
@@ -194,7 +200,8 @@ const GeneralForm = ({ generalFormState, handleGeneralForm }: {
               id="bestBefore"
               type="date"
               value={bestBefore}
-              onChange={(e) => handleGeneralForm('bestBefore', e.target.value)}
+              onChange={(e) => {
+                handleGeneralForm('bestBefore', e.target.value)}}
             />
           </FormGroup>
           <MultiInputField label="Directions" items={directions} handleArrayChange={handleGeneralForm} fieldName='directions' />

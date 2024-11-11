@@ -27,7 +27,7 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({
   editProductSku,
 }) => {
   const router = useRouter();
-
+  const [loading, setLoading] = useState(true);
   // General Form
   const [generalFormState, setGeneralFormState] = useState({
     price: 0,
@@ -110,8 +110,13 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`/api/products/get/${editProductSku}`);
         const product = response.data;
+        console.log("Product:", product);
+        //convert bestBefore to date in format bestBefore: 2024-11-13
+        let bestBeforeTemp = new Date(product.bestBefore).toISOString().split('T')[0];
+      
         setGeneralFormState({
           price: product.price,
           salePrice: product.salePrice,
@@ -125,13 +130,15 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({
           category: product.category,
           brand: product.brand,
           isNew: product.isNew || false,
-          bestBefore: product.bestBefore.toString(),
+          bestBefore: bestBeforeTemp,
         });
         setVariants(product.variants);
         setAdditionalInfoStates(product.additionalInfo);
       } catch (error) {
         console.error("Error fetching product details:", error);
         toast.error("Failed to fetch product details");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -199,6 +206,10 @@ const EditDigitalProduct: React.FC<EditDigitalProductProps> = ({
     // Redirect to product list
     router.push("/en/products/digital/digital-product-list");
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Fragment>

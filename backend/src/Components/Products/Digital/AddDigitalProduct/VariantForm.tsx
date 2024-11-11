@@ -124,9 +124,65 @@ const VariantForm = ({ variantProps, handleVariantChange }: {
 
   return (
     <Card>
+      {
+        variants.length > 0 && (
+          <>
+            <CommonCardHeader title="Added Variants" />
+            <div className="" style={{
+            padding: "0 30px",
+            // paddingBottom: "0px",
+          }}>
+            <Accordion open={open?open :"false"} toggle={toggle}>
+              {variants.map((variant, index) => (
+                <AccordionItem key={index}>
+                  <AccordionHeader targetId={`${index}`}>
+                    {variant.flavor} - {variant.form}
+                  </AccordionHeader>
+                  <AccordionBody accordionId={`${index}`}>
+                    <div className="d-flex align-items-center justify-content-between mb-2 ">
+                      <div className='w-75'>
+                        <strong>Flavor:</strong> {variant.flavor} <br />
+                        <strong>Stock:</strong> {variant.stock} <br />
+                        <strong>Form:</strong> {variant.form} <br />
+                        <strong>Net Quantity:</strong> {variant.netQuantity} <br />
+                        <strong>Serving Size:</strong> {variant.servingSize} <br />
+                        <strong>Nutrition Facts:</strong> {variant.nutritionFacts.join(", ")} <br />
+                        <strong>Allergens:</strong> {variant.allergens?.join(", ")} <br />
+                        {/* <strong>Images:</strong> {variant.images.join(", ")} */}
+                        <div className="image-previews mt-2">
+                        <strong>Images:</strong>
+                          <Row>
+                            {variant.images.map((src, index) => (
+                              <Col xs="4" key={index} className="mb-4">
+                                <div className="d-flex align-items-center">
+                                  <img
+                                    src={src}
+                                    alt="Preview"
+                                    className="img-thumbnail "
+                                    style={{width:"100%",aspectRatio:1, objectFit: 'cover', objectPosition: 'top' }}
+                                  />
+                                </div>
+                              </Col>
+                            ))}
+                          </Row>
+                          </div>
+                      </div>
+                      <Button color="danger" size="sm" className="dangerBtn px-3 py-2" onClick={() => handleDeleteVariant(index)}>
+                        <AiOutlineDelete size={20} />
+                      </Button>
+                    </div>
+                  </AccordionBody>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+          </>
+        )
+      }
       <CommonCardHeader title="Add Variants" />
       <CardBody className="pt-0">
         <div className="digital-add needs-validation d-flex flex-column">
+
           <FormGroup>
             <Label className="col-form-label pt-0">Flavor</Label>
             <Input
@@ -168,7 +224,7 @@ const VariantForm = ({ variantProps, handleVariantChange }: {
             {errors.form && <FormFeedback>Form is required</FormFeedback>}
           </FormGroup>
           <FormGroup>
-            <Label className="col-form-label pt-0">Net Quantity</Label>
+            <Label className="col-form-label pt-0">Net Quantity (e.g. 100g, 2l, 200 tablets etc.)</Label>
             <Input
               type="text"
               name="netQuantity"
@@ -180,9 +236,9 @@ const VariantForm = ({ variantProps, handleVariantChange }: {
             {errors.netQuantity && <FormFeedback>Net Quantity is required</FormFeedback>}
           </FormGroup>
           <FormGroup>
-            <Label className="col-form-label pt-0">Serving Size</Label>
+            <Label className="col-form-label pt-0">Serving Size (e.g. 3 tablets/day, 2 scoops daily etc.)</Label>
             <Input
-              type="text"
+              type="text" 
               name="servingSize"
               value={newVariant.servingSize}
               onChange={(e) => handleVariantChange("servingSize", e.target.value)}
@@ -192,7 +248,7 @@ const VariantForm = ({ variantProps, handleVariantChange }: {
             {errors.servingSize && <FormFeedback>Serving Size is required</FormFeedback>}
           </FormGroup>
           <NutritionalFactField
-            label="Nutrition Facts"
+            label="Nutrition Facts (e.g. Carbs : 10g, Protein : 12%, etc.)"
             nutritionFacts={newVariant.nutritionFacts}
             handleArrayChange={handleVariantChange}
           />
@@ -246,51 +302,7 @@ const VariantForm = ({ variantProps, handleVariantChange }: {
           <Button color="primary" size="sm" className="px-3 py-3 d-flex justify-content-center align-items-center text-center" style={{ fontSize: "0.9rem" }} onClick={handleAddVariant}>
             <FaPlus size={20} className="me-2" /> Add Variant
           </Button>
-          <div className="mt-4">
-            <Accordion open={open?open :"false"} toggle={toggle}>
-              {variants.map((variant, index) => (
-                <AccordionItem key={index}>
-                  <AccordionHeader targetId={`${index}`}>
-                    {variant.flavor} - {variant.form}
-                  </AccordionHeader>
-                  <AccordionBody accordionId={`${index}`}>
-                    <div className="d-flex align-items-center justify-content-between mb-2 ">
-                      <div className='w-75'>
-                        <strong>Flavor:</strong> {variant.flavor} <br />
-                        <strong>Stock:</strong> {variant.stock} <br />
-                        <strong>Form:</strong> {variant.form} <br />
-                        <strong>Net Quantity:</strong> {variant.netQuantity} <br />
-                        <strong>Serving Size:</strong> {variant.servingSize} <br />
-                        <strong>Nutrition Facts:</strong> {variant.nutritionFacts.join(", ")} <br />
-                        <strong>Allergens:</strong> {variant.allergens?.join(", ")} <br />
-                        {/* <strong>Images:</strong> {variant.images.join(", ")} */}
-                        <div className="image-previews mt-2">
-                        <strong>Images:</strong>
-                          <Row>
-                            {variant.images.map((src, index) => (
-                              <Col xs="4" key={index} className="mb-4">
-                                <div className="d-flex align-items-center">
-                                  <img
-                                    src={src}
-                                    alt="Preview"
-                                    className="img-thumbnail "
-                                    style={{width:"100%",aspectRatio:1, objectFit: 'cover', objectPosition: 'top' }}
-                                  />
-                                </div>
-                              </Col>
-                            ))}
-                          </Row>
-                          </div>
-                      </div>
-                      <Button color="danger" size="sm" className="dangerBtn px-3 py-2" onClick={() => handleDeleteVariant(index)}>
-                        <AiOutlineDelete size={20} />
-                      </Button>
-                    </div>
-                  </AccordionBody>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
+        
         </div>
       </CardBody>
     </Card>
