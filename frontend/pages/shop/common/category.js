@@ -10,11 +10,6 @@ const Category = () => {
   const toggleCategory = () => setIsCategoryOpen(!isCategoryOpen);
   const setSelectedCategory = context.setSelectedCategory;
 
-  // const updateCategory = (category) => {
-  //   console.log("Category selected:", category);
-  //   setSelectedCategory(category);
-  // };
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -23,7 +18,6 @@ const Category = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        // Only title, image_link, and slug to show
         let categoriesToShow = data.map((category) => {
           return { title: category.title, slug: category.slug, image_link: category.image_link };
         });
@@ -49,7 +43,16 @@ const Category = () => {
               <ul className="category-list">
                 {categories.map((category) => (
                   <li key={category.slug}>
-                    <a href={null} onClick={() => context.handleCategory(category.slug)}>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault(); // prevent default link behavior
+                        context.handleCategory(category.slug);
+                      }}
+                      style={{
+                        color: context.selectedCategory === category.slug ? '#4CAF50' : 'inherit'
+                      }}
+                    >
                       {category.title}
                     </a>
                   </li>
