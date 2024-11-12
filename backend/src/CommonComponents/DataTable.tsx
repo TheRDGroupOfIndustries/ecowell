@@ -138,7 +138,11 @@ const Datatable = ({
         return row[key];
       },
       cell: (row) => {
-        if (key === "image_link" || key === "profile_image") {
+        if (
+          key === "image_link" ||
+          key === "profile_image" ||
+          key === "image"
+        ) {
           return (
             <div style={{ textAlign: "center" }}>
               <Image

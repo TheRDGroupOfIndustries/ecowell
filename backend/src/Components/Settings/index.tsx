@@ -1,13 +1,13 @@
-import CommonBreadcrumb from "@/CommonComponents/CommonBreadcrumb";
-import { ImagePath } from "@/Constants";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
 import { Card, CardBody, Col, Container, FormGroup, Row } from "reactstrap";
-import ProfileStatus from "./ProfileStatus";
-import TabProfile from "./TabProflle";
-import { useSession } from "next-auth/react";
 import { AdminValues } from "@/Types/Layout";
 import { capitalizeHeader } from "@/lib/utils";
+// import { ImagePath } from "@/Constants";
+// import ProfileStatus from "./ProfileStatus";
+import CommonBreadcrumb from "@/CommonComponents/CommonBreadcrumb";
+import TabProfile from "./TabProflle";
 
 const Profile = () => {
   const router = useRouter();
@@ -34,7 +34,7 @@ const Profile = () => {
                   <h5 className="f-w-600 f-16 mb-0">{user?.name}</h5>
                   <span>{user?.email}</span>
                   <h5 className="f-w-600 f-16 mt-1 bg-primary py-1 rounded text-white">
-                    {capitalizeHeader(user?.role)}
+                    {session?.user && capitalizeHeader(user?.role)}
                   </h5>
                   {/* <div className="social">
                     <FormGroup className=" btn-showcase">

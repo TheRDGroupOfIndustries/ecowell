@@ -2,7 +2,7 @@
 
 import CommonBreadcrumb from "@/CommonComponents/CommonBreadcrumb";
 import Datatable from "@/CommonComponents/DataTable";
-import { UserListData } from "@/Data/Users";
+// import { UserListData } from "@/Data/Users";
 import { User } from "@/Types/Layout";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
