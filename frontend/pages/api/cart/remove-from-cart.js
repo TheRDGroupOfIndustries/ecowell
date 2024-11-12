@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       { userId },
       { $pull: { items: { _id: productObjectId } } },
       { new: true }
-    ).populate("items.productId", "_id title price variants");
+    ).populate("items.productId", "_id title price salePrice variants sku");
     console.log("cart:", cart);
     if (!cart) {
       return res.status(404).json({ message: "User cart not found" });
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
 
     // Ensure totalPrice is updated correctly
     cart.totalPrice = cart.items.reduce(
-      (total, item) => total + item.quantity * item.productId.price,
+      (total, item) => total + item.quantity * (item.productId.salePrice ? item.productId.salePrice : item.productId.price),
       0
     );
 

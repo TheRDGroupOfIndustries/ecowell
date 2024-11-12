@@ -14,7 +14,7 @@ const ProductDetailContainer = () => {
         try {
           setLoading(true);
           const response = await axios.get(`/api/products/get/${sku}`);
-          console.log("Fetched Product:", response.data);
+          // console.log("Fetched Product:", response.data);
           setProduct(response.data);
         } catch (error) {
           console.error("Error fetching product:", error);

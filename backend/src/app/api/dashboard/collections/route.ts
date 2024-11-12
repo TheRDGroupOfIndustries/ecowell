@@ -40,11 +40,20 @@ export const GET = async (request: NextRequest) => {
       0
     );
 
-    // console.log(totalSales);
+    // Calculate total length of all user's orders
+    const totalUserOrdersLength = await Promise.all(
+      users.map(async (user) => {
+        const userOrders = await Order.find({ user_id: user._id });
+        return userOrders.reduce(
+          (total, order) => total + order.orders.length,
+          0
+        );
+      })
+    ).then((lengths) => lengths.reduce((a, b) => a + b, 0));
 
     const collectionsLength = {
       products: products.length,
-      orders: orders.length,
+      orders: totalUserOrdersLength,
       users: users.length,
       totalSales: totalSales,
     };

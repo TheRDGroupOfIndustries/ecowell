@@ -53,7 +53,7 @@ const CartProvider = (props) => {
 
   useEffect(() => {
     const Total = cartItems.reduce(
-      (a, b) => a + b.productId.price * b.quantity,
+      (a, b) => a + (b.productId.salePrice ? b.productId.salePrice : b.productId.price) * b.quantity,
       0
     );
     setCartTotal(Total);
@@ -62,10 +62,10 @@ const CartProvider = (props) => {
   // Add Product To Cart
   const addToCart = async (item, quantity, variant) => {
     // console.log("add to cart variant", item, quantity, variant);
-if(!userId){
-  router.push("/page/account/login");
-  return;
-}
+    if (!userId) {
+      router.push("/page/account/login");
+      return;
+    }
     const updatedVariant = {
       flavor: variant.flavor,
       image_link: variant.images[0],
@@ -97,6 +97,7 @@ if(!userId){
 
       setCartItems(data.cart.items); // Set cart items from the response
       setCartTotal(data.cart.totalPrice); // Update the total price from the response
+      console.log("cartTotal: ", data.cart);
       toast.success("Product Added Successfully!");
     } else {
       // Handle error response

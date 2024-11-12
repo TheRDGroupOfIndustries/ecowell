@@ -106,6 +106,7 @@ const ListCoupons = () => {
         if (filter === "invalid") return !coupon.status;
         return true;
       })
+      .reverse()
       .map((coupon) => {
         return {
           _id: coupon._id,

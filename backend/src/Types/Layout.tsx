@@ -10,7 +10,8 @@ export interface AdminValues {
   email?: string;
   phone_number?: string;
   name?: string;
-  role?: string;
+  role: string;
+  image: string;
 }
 
 export interface User {

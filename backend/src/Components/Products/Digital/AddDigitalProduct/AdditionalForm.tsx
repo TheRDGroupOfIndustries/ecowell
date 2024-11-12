@@ -20,7 +20,7 @@ const AdditionalInfoForm = ({ additionalInfoStates, handleAdditionalChange }: {
         <div className="digital-add needs-validation">
           <FormGroup>
             <Label className="col-form-label pt-0">
-              <span>*</span> Manufactured By
+              Manufactured By
             </Label>
             <Input
               id="manufacturedBy"
@@ -32,7 +32,7 @@ const AdditionalInfoForm = ({ additionalInfoStates, handleAdditionalChange }: {
           </FormGroup>
           <FormGroup>
             <Label className="col-form-label pt-0">
-              <span>*</span> Country of Origin
+             Country of Origin
             </Label>
             <Input
               id="countryOfOrigin"
@@ -44,7 +44,7 @@ const AdditionalInfoForm = ({ additionalInfoStates, handleAdditionalChange }: {
           </FormGroup>
           <FormGroup>
             <Label className="col-form-label pt-0">
-              <span>*</span> Phone
+               Phone
             </Label>
             <Input
               id="phone"
@@ -56,7 +56,7 @@ const AdditionalInfoForm = ({ additionalInfoStates, handleAdditionalChange }: {
           </FormGroup>
           <FormGroup>
             <Label className="col-form-label pt-0">
-              <span>*</span> Email
+         Email
             </Label>
             <Input
               id="email"

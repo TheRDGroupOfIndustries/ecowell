@@ -19,7 +19,7 @@ const CategoryProducts = ({categorySlug}:{
       try {
         setLoading(true);
         const response = await axios.get(`/api/categories/${categorySlug}`);
-        console.log("Fetched Category Products:", response.data);
+        // console.log("Fetched Category Products:", response.data);
         const transformedData = response.data.map((product: any) => ({
           sku: product.sku,
           image_link: product.variants[0].images[0],

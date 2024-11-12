@@ -49,7 +49,7 @@ const CategoriesDigital = () => {
       toast.success(response.data.message);
       const updatedCategories = categories.map((category) => {
         if (category.slug === newCategory.slug) {
-          return newCategory;
+          return response.data.category;
         } else {
           return category;
         }
@@ -58,7 +58,11 @@ const CategoriesDigital = () => {
       onCloseModal();
     } catch (error) {
       console.error("Error updating category:", error);
-      toast.error("Failed to update category");
+      if(error.response.data.error){
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Failed to update category");
+      }
     } finally {
       setEditingCategory(false);
     }
@@ -165,12 +169,20 @@ const CategoriesDigital = () => {
         toast.success("Category deleted successfully");
         return true;
       } else {
-        toast.error("Failed to delete category");
+        if(response.data.error){
+          toast.error(response.data.error);
+        } else {
+          toast.error("Failed to delete category");
+        }
         return false;
       }
     } catch (error) {
       console.error("Error deleting category:", error);
-      toast.error("Failed to delete category");
+      if(error.response.data.error){
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Failed to delete category");
+      }
       return false;
     }
   };
@@ -180,7 +192,7 @@ const CategoriesDigital = () => {
       try {
         setLoading(true);
         const response = await axios.get('/api/categories/all-categories');
-        console.log("Fetched Categories:", response.data);
+        // console.log("Fetched Categories:", response.data);
         //only title, image_link and slug to show 
         let categoriesToShow = response.data.map((category: any) => {
           return { title: category.title, image_link: category.image_link, slug: category.slug };

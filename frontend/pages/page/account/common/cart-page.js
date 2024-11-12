@@ -17,7 +17,7 @@ const CartPage = () => {
   const [stockStatus, setStockStatus] = useState("InStock");
   const updateQty = context.updateQty;
 
-  const handleQtyUpdate = (item, quantity,currentStock) => {
+  const handleQtyUpdate = (item, quantity, currentStock) => {
     if (quantity >= 1) {
       setQuantityError(false);
       updateQty(item, quantity, currentStock);
@@ -65,20 +65,24 @@ const CartPage = () => {
                   </thead>
                   {cartItems.map((item, index) => {
                     // console.log("item index: ", item.productId.variants)
-                    const currentVariant = item.productId.variants.find( variant => variant.flavor === item.variant.flavor);
-                    const currentStock = currentVariant ? currentVariant.stock : 0;
-
+                    console.log("item: ", item);
+                    const currentVariant = item.productId.variants.find(
+                      (variant) => variant.flavor === item.variant.flavor
+                    );
+                    const currentStock = currentVariant
+                      ? currentVariant.stock
+                      : 0;
 
                     return (
                       <tbody key={index}>
                         <tr>
                           <td>
-                            <Link href={`/left-sidebar/product/` + item.id}>
+                            <Link href={`/product-details/${item.productId.sku}`}>
                               <Media src={item.variant.image_link} alt="" />
                             </Link>
                           </td>
                           <td>
-                            <Link href={`/left-sidebar/product/` + item.id}>
+                            <Link href={`/product-details/${item.productId.sku}`}>
                               {item?.productId?.title}
                             </Link>
                             <div className="mobile-cart-content row">
@@ -106,7 +110,7 @@ const CartPage = () => {
                               <div className="col-xs-3">
                                 <h2 className="td-color">
                                   {symbol}
-                                  {item?.productId?.price}
+                                  {item.productId.salePrice ? item.productId.salePrice : item.productId.price}
                                 </h2>
                               </div>
                               <div className="col-xs-3">
@@ -124,7 +128,7 @@ const CartPage = () => {
                           <td>
                             <h2>
                               {symbol}
-                              {item?.productId?.price}
+                              {item.productId.salePrice ? item.productId.salePrice : item.productId.price}
                             </h2>
                           </td>
                           <td>
@@ -134,7 +138,11 @@ const CartPage = () => {
                                   type="number"
                                   name="quantity"
                                   onChange={(e) =>
-                                    handleQtyUpdate(item, e.target.value, currentStock)
+                                    handleQtyUpdate(
+                                      item,
+                                      e.target.value,
+                                      currentStock
+                                    )
                                   }
                                   className="form-control input-number"
                                   value={item.quantity}
@@ -157,7 +165,7 @@ const CartPage = () => {
                           <td>
                             <h2 className="td-color">
                               {symbol}
-                              {item.quantity * item.productId.price}
+                              {item.productId.salePrice ? item.productId.salePrice * item.quantity : item.productId.price * item.quantity}
                             </h2>
                           </td>
                         </tr>
@@ -168,7 +176,7 @@ const CartPage = () => {
                 <table className="table cart-table table-responsive-md">
                   <tfoot>
                     <tr>
-                      <td>total price :</td>
+                      <td>Total Price :</td>
                       <td>
                         <h2>
                           {symbol}

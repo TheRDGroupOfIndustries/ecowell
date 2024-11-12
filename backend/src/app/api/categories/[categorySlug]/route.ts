@@ -42,7 +42,7 @@ export const PUT = async (request: NextRequest, { params }: { params: { category
   const { categorySlug } = params;
   try {
     const { title, image_link } = await request.json();
-    console.log("Received category update:", { title, image_link });
+    // console.log("Received category update:", { title, image_link });
 
     await connectToMongoDB();
 
@@ -53,6 +53,14 @@ export const PUT = async (request: NextRequest, { params }: { params: { category
         { status: 404 }
       );
     }
+    const ifProductExists = await Product.find({ "category.slug": categorySlug });
+
+    if(ifProductExists.length > 0){
+      return NextResponse.json(
+        { error: "Cannot update category as it is being used by existing products" },
+        { status: 400 }
+      );
+    } 
 
     if (title) {
       const slugTemp = generateSlug(title);
@@ -85,6 +93,16 @@ export const DELETE = async (request: NextRequest, { params }: { params: { categ
   const { categorySlug } = params;
   try {
     await connectToMongoDB();
+
+    const ifProductExists = await Product.find({ "category.slug": categorySlug });
+    
+    if(ifProductExists.length > 0){
+      return NextResponse.json(
+        { error: "Cannot delete category as it is being used by existing products" },
+        { status: 400 }
+      );
+    } 
+
 
     const category = await Categories.findOneAndDelete({ slug: categorySlug });
     if (!category) {

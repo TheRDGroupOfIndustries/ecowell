@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { image } from "@uiw/react-md-editor";
 
 const ProductListDigital = () => {
-  const [ProductListDigitalData, setProductListDigitalData] = useState([]);
+  const [productListDigitalData, setProductListDigitalData] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   useEffect(() => {
@@ -17,8 +17,8 @@ const ProductListDigital = () => {
       try {
         setLoading(true);
         const response = await axios.get("/api/products/get/get-all-products");
-        console.log("Fetched Products:", response.data);
-        const transformedData = response.data.map((product: any) => ({
+        // console.log("Fetched Products:", response.data);
+        const transformedData = response.data.reverse().map((product: any) => ({
           sku: product.sku,
           image_link: product.variants[0].images[0],
           title: product.title,
@@ -68,7 +68,7 @@ const ProductListDigital = () => {
                 >
                   <Datatable
                     multiSelectOption={false}
-                    myData={ProductListDigitalData}
+                    myData={productListDigitalData}
                     pageSize={9}
                     pagination={false}
                     class="-striped -highlight"

@@ -235,11 +235,11 @@ const Datatable = ({
               <i
                 onClick={() => {
                   if (handleOpenEditModal) {
-                    if (
-                      window.confirm(
-                        "Are you sure you wish to edit this item? You will be redirect to its edit page."
-                      )
-                    )
+                    // if (
+                    //   window.confirm(
+                    //     "Are you sure you wish to edit this item? You will be redirect to its edit page."
+                    //   )
+                    // )
                       handleOpenEditModal(row);
                   } else {
                     toast.error("Edit function is not defined!");

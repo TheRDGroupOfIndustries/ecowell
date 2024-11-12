@@ -9,14 +9,14 @@ const Data = [
     img: "home1",
     title: "welcome to fashion",
     desc: "men fashion",
-    link: "#",
+    link: "/shop/left_sidebar",
     ecoSubtitle: ecoSubtitle1,
   },
   {
     img: "home2",
     title: "welcome to fashion",
     desc: "Top collection",
-    link: "#",
+    link: "/shop/left_sidebar",
     ecoSubtitle: ecoSubtitle2,
   },
 ];
@@ -32,7 +32,7 @@ const HomeSlider = () => {
               img={data.img}
               link={data.link}
               title={data.title}
-              ecoSubtitle={ data.ecoSubtitle  }
+              ecoSubtitle={data.ecoSubtitle}
               desc={data.desc}
             />
           );
