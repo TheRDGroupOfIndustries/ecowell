@@ -7,11 +7,12 @@ export interface CommonBreadcrumbType {
 }
 export interface AdminValues {
   _id: string;
+  role: string;
   email?: string;
   phone_number?: string;
-  name?: string;
-  role: string;
+  name: string;
   image: string;
+  createdAt: string;
 }
 
 export interface User {

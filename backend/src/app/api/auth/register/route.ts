@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 import { connectToMongoDB } from "@/lib/db";
 import Admin from "@/models/Admin";
-import bcrypt from "bcryptjs";
 import { sendOtpToPhone, transporter, verifyOtpFromPhone } from "../../core";
 
 export const POST = async (request: NextRequest) => {

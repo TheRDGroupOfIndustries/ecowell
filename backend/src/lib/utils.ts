@@ -24,9 +24,9 @@ export const generateSlug = (name: string): string => {
 
 export const capitalizeHeader = (str: string): string => {
   return str
-    .split(/[_-\s\/]+/)
-    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+    ?.split(/[_-\s\/]+/)
+    ?.map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    ?.join(" ");
 };
 
 export const fetchCategories = async () => {

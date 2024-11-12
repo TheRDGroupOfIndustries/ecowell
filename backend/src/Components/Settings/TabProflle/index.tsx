@@ -6,6 +6,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import TabTable from "./TabTable";
 import { AdminValues } from "@/Types/Layout";
 import RegisterForm from "@/Layout/Login/LoginTabs/RegisterForm";
+import AdminsList from "./AdminsList";
 
 const TabProfile = () => {
   const { data: session } = useSession();
@@ -26,10 +27,10 @@ const TabProfile = () => {
                 <Unlock className="me-2" />
                 Create New Admins
               </Tab>
-              {/* <Tab className="nav-link">
+              <Tab className="nav-link">
                 <Settings className="me-2" />
                 Admins list
-              </Tab> */}
+              </Tab>
             </>
           )}
         </TabList>
@@ -41,7 +42,10 @@ const TabProfile = () => {
             <TabPanel>
               <RegisterForm />
             </TabPanel>
-            {/* <TabPanel>list admin</TabPanel> */}
+
+            <TabPanel>
+              <AdminsList />
+            </TabPanel>
           </>
         )}
       </Tabs>

@@ -16,7 +16,7 @@ const TabTable = () => {
           <tbody>
             <tr>
               <td>Role:</td>
-              <td>{capitalizeHeader(user?.role)}</td>
+              <td>{session?.user && capitalizeHeader(user?.role)}</td>
             </tr>
             <tr>
               <td>First Name:</td>
