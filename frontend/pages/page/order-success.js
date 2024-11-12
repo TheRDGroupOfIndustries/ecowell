@@ -40,7 +40,7 @@ const OrderSuccess = () => {
                             <div className="success-text"><i className="fa fa-check-circle" aria-hidden="true"></i>
                                 <h2>thank you</h2>
                                 <p>Payment is successfully processed and your order is on the way</p>
-                                <p>Transaction ID: {orderedDetails?.order_info?.order_id}</p>
+                                <p>Order ID: {orderedDetails?.order_info?.order_id}</p>
                             </div>
                         </Col>
                     </Row>
@@ -75,7 +75,7 @@ const OrderSuccess = () => {
                                         <Col xs="3" className="order_detail">
                                             <div>
                                                 <h4>price</h4>
-                                                <h5>{symbol}{item.productId.price}</h5>
+                                                <h5>{symbol}{item.productId.salePrice ? item.productId.salePrice : item.productId.price}</h5>
                                             </div>
                                         </Col>
                                     </Row>

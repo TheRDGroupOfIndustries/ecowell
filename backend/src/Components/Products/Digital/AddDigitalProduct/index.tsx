@@ -57,7 +57,7 @@ const AddDigitalProduct = () => {
     images: [],
     stock: 0,
     form: "tablet",
-    netQuantity: "0",
+    netQuantity: "",
     nutritionFacts: [],
     allergens: [],
     servingSize: "",
@@ -125,13 +125,27 @@ const AddDigitalProduct = () => {
       toast.error("Please add at least one variant.");
       return;
     }
+    if (generalFormState.price <= 0 || generalFormState.salePrice <= 0) {
+      toast.error("Price and sale price must be greater than 0.");
+      return;
+    }
+
+    if (generalFormState.price <= generalFormState.salePrice) {
+      toast.error("Sale price must be less than the price.");
+      return;
+    }
 
     setIsPosting(true);
 
     const product = {
       ...generalFormState,
       variants: variants,
-      additionalInfo: additionalInfoStates,
+      additionalInfo: {
+        manufacturedBy: additionalInfoStates.manufacturedBy || " ",
+        countryOfOrigin: additionalInfoStates.countryOfOrigin || " ",
+        phone: additionalInfoStates.phone || " ",
+        email: additionalInfoStates.email || " ",
+      },
       sku: "some-sku-value", // Add a valid SKU value
       ratings: 0, // Default value
       reviews_number: 0, // Default value

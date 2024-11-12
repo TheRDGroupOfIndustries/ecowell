@@ -72,6 +72,6 @@ const calculateTotalPrice = async (items) => {
 
     return items.reduce((total, item) => {
         const product = products.find(p => p._id.toString() === item.product.toString());
-        return total + (product ? product.price * item.quantity : 0);
+        return total + (product ? (product.salePrice ? product.salePrice : product.price) * item.quantity : 0);
     }, 0);
 };

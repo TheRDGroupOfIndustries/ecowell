@@ -17,7 +17,7 @@ const ProductListDigital = () => {
       try {
         setLoading(true);
         const response = await axios.get("/api/products/get/get-all-products");
-        console.log("Fetched Products:", response.data);
+        // console.log("Fetched Products:", response.data);
         const transformedData = response.data.reverse().map((product: any) => ({
           sku: product.sku,
           image_link: product.variants[0].images[0],

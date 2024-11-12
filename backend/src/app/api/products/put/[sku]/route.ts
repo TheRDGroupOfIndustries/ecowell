@@ -3,19 +3,19 @@ import { connectToMongoDB } from "@/lib/db";
 import Products from "@/models/Products";
 import { generateSlug } from "@/lib/utils";
 
-const generateUniqueSlug = async (slug: string) => {
-    let uniqueSlug = slug;
-    let slugExists = await Products.findOne({ "category.slug": uniqueSlug });
+// const generateUniqueSlug = async (slug: string) => {
+//     let uniqueSlug = slug;
+//     let slugExists = await Products.findOne({ "category.slug": uniqueSlug });
   
-    let counter = 1;
-    while (slugExists) {
-      uniqueSlug = `${slug}-${counter}`;
-      slugExists = await Products.findOne({ "category.slug": uniqueSlug });
-      counter++;
-    }
+//     let counter = 1;
+//     while (slugExists) {
+//       uniqueSlug = `${slug}-${counter}`;
+//       slugExists = await Products.findOne({ "category.slug": uniqueSlug });
+//       counter++;
+//     }
   
-    return uniqueSlug;
-  };
+//     return uniqueSlug;
+//   };
 // PUT: Update a product by SKU
 export const PUT = async (request: NextRequest, { params }: { params: { sku: string } }) => {
     const { sku } = params;
@@ -78,12 +78,7 @@ export const PUT = async (request: NextRequest, { params }: { params: { sku: str
         );
       }
   
-      if (category && category.title !== product.category.title) {
-        const slugTemp = generateSlug(category.title);
-        const uniqueSlug = await generateUniqueSlug(slugTemp);
-        product.category.slug = uniqueSlug;
-        product.category.title = category.title;
-      }
+
   if(variants){
       const sell_on_google_quantity = variants.reduce((acc, variant) => acc + Number(variant.stock), 0);
       product.sell_on_google_quantity = sell_on_google_quantity
@@ -102,7 +97,12 @@ export const PUT = async (request: NextRequest, { params }: { params: { sku: str
       if (benefits) product.benefits = benefits;
       if (faqs) product.faqs = faqs;
       if (additionalInfo) product.additionalInfo = additionalInfo;
-      
+      if (category) {
+        product.category.slug = category.slug;
+        product.category.title = category.title;
+      }
+      console.log("Category: ", category);
+      console.log("updated category: ", product.category);
   
       await product.save();
   

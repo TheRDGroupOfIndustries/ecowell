@@ -3,19 +3,19 @@ import { connectToMongoDB } from "@/lib/db";
 import Products from "@/models/Products";
 import { generateSlug } from "@/lib/utils";
 
-const generateUniqueSlug = async (slug: string) => {
-  let uniqueSlug = slug;
-  let slugExists = await Products.findOne({ "category.slug": uniqueSlug });
+// const generateUniqueSlug = async (slug: string) => {
+//   let uniqueSlug = slug;
+//   let slugExists = await Products.findOne({ "category.slug": uniqueSlug });
 
-  let counter = 1;
-  while (slugExists) {
-    uniqueSlug = `${slug}-${counter}`;
-    slugExists = await Products.findOne({ "category.slug": uniqueSlug });
-    counter++;
-  }
+//   let counter = 1;
+//   while (slugExists) {
+//     uniqueSlug = `${slug}-${counter}`;
+//     slugExists = await Products.findOne({ "category.slug": uniqueSlug });
+//     counter++;
+//   }
 
-  return uniqueSlug;
-};
+//   return uniqueSlug;
+// };
 
 // Generate a simple 8-digit SKU based on the product count in the database
 const generateSequentialSku = async () => {
@@ -77,7 +77,7 @@ export const POST = async (request: NextRequest) => {
     await connectToMongoDB();
 
     const slug = generateSlug(category.title);
-    const uniqueSlug = await generateUniqueSlug(slug);
+    // const uniqueSlug = await generateUniqueSlug(slug);
 
     const sku = await generateSequentialSku(); // Use the sequential SKU
 let sell_on_google_quantity = 0;
@@ -90,7 +90,7 @@ variants.map((variant) => {
       description,
       category: {
         title: category.title,
-        slug: uniqueSlug,
+        slug: category.slug
       },
       brand,
       price,

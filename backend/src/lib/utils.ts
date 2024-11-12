@@ -32,8 +32,6 @@ export const capitalizeHeader = (str: string): string => {
 export const fetchCategories = async () => {
   try {
     const response = await axios.get("/api/categories/all-categories");
-    console.log("Fetched Categories:", response.data);
-    //only title, image_link and slug to show
     let categoriesToShow = response.data.map((category: any) => {
       return { title: category.title, slug: category.slug };
     });
