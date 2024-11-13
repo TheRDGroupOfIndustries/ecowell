@@ -134,7 +134,7 @@ const HeaderOne = ({ headerClass, topClass, noTopBar, direction }) => {
                             ></i>
                           </div>
                         </li>
-                        <Currency icon={settings.src} />
+                        {/* <Currency icon={settings.src} /> */}
 
                         {/*Header Cart Component */}
                         {direction === undefined ? (

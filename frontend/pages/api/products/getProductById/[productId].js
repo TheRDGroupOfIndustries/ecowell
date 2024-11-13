@@ -2,15 +2,13 @@ import { connectToMongoDB } from "../../../../utils/db";
 import Product from "../../../../models/Products";
 
 export default async function handler(req, res) {
-    const { method, query } = req;
-console.log("Query: ",query);
+    const { method, query: { productId } } = req;
+
     if (method !== "GET") {
         return res.status(405).json({ message: "Method not allowed." });
     }
 
     try {
-        const { productId } = query;
-
         if (!productId) {
             return res.status(400).json({ message: "productId is required." });
         }
@@ -30,7 +28,7 @@ console.log("Query: ",query);
         // Return the product details
         return res.status(200).json({
             success: true,
-            product: product
+            product
         });
     } catch (error) {
         console.error("Fetching product error:", error);

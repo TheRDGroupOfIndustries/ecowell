@@ -223,11 +223,11 @@ const Popupsidebar = ({ colClass, layoutList }) => {
                     </li>
                   ))}
                   {
-                    <li>
-                      <a href={null} className="filter_tag">
-                        price: {selectedPrice.min}- {selectedPrice.max}
-                      </a>
-                    </li>
+                    // <li>
+                    //   <a href={null} className="filter_tag">
+                    //     price: {selectedPrice.min}- {selectedPrice.max}
+                    //   </a>
+                    // </li>
                   }
                 </ul>
               </Col>

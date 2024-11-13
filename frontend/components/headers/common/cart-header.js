@@ -10,95 +10,44 @@ const CartHeader = ({ item, symbol }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // console.log("item:",item)
-  // console.log("productDetails:",productDetails)
-
-  useEffect(() => {
-    const fetchProductDetails = async () => {
-      if (!item?.product) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        // Updated API endpoint
-        const response = await fetch(
-          `/api/products/getProductById/${item.product._id}`
-        );
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(
-            errorData.message || "Failed to fetch product details"
-          );
-        }
-
-        const data = await response.json();
-        // console.log("data:", data);
-        setProductDetails(data);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (item.product) {
-      fetchProductDetails();
+  console.log("item:",item)
+  console.log("productDetails:",productDetails)
+  const {
+    productId: {
+      _id,
+      title,
+      qty = 1,
+      price = 0,
+      discount = 0
     }
-  }, [item?.product, cartList]);
+  } = item;
 
-  if (loading) {
-    return (
-      <li className="loading">
-        <div className="media">
-          <div>Loading product details...</div>
-        </div>
-      </li>
-    );
-  }
-
-  if (error) {
-    return (
-      <li className="error">
-        <div className="media">
-          <div>Error: {error}</div>
-        </div>
-      </li>
-    );
-  }
-
-  if (!productDetails) {
-    return null;
-  }
+  
+  const discountedPrice = (price - (price * discount) / 100).toFixed(2);
 
   return (
     <Fragment>
       <li>
         <div className="media">
-          <Link href={"/product-details/" + item.product._id}>
+          <Link href={"/product-details/" + _id}>
             {/* <a> */}
             <Media
               alt=""
               className="me-3"
-              src={`${item?.productDetails?.product?.variants?.images[0]}`}
+              src={`${item.variant.image_link}`}
             />
             {/* </a> */}
           </Link>
           <div className="media-body">
-            <Link href={"/product-details/" + item.product._id}>
+            <Link href={"/product-details/" + _id}>
               {/* <a> */}
-              <h6>{item.product.title}</h6>
+              <h6>{title}</h6>
               {/* </a> */}
             </Link>
 
             <h4>
               <span>
-                {item.product.qty} x {symbol}
-                {(
-                  item.product.price -
-                  (item.product.price * item?.productDetails?.discount) / 100
-                ).toFixed(2)}
+                {qty} x {symbol}{discountedPrice}
               </span>
             </h4>
           </div>
@@ -115,3 +64,6 @@ const CartHeader = ({ item, symbol }) => {
 };
 
 export default CartHeader;
+
+
+
