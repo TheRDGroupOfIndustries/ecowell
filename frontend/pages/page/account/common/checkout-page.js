@@ -471,7 +471,7 @@ useEffect(() => {
                                   <label htmlFor="payment-2">COD</label>
                                 </div>
                               </li>
-                              <li>
+                              {/* <li>
                                 <div className="radio-option paypal">
                                   <input type="radio" name="payment-group" id="payment-1" onClick={() => checkhandle("paypal")} />
                                   <label htmlFor="payment-1">
@@ -481,7 +481,7 @@ useEffect(() => {
                                     </span>
                                   </label>
                                 </div>
-                              </li>
+                              </li> */}
                             </ul>
                           </div>
                         </div>
