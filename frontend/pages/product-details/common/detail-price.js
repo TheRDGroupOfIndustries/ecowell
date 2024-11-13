@@ -51,26 +51,20 @@ const DetailsWithPrice = ({
       <div className={`product-right ${stickyClass}`}>
         <h2> {product.title} </h2>
         <h4>
-          {product.salePrice ? (
-            <>
-              <del>
-                {/* ruppees entitu */}
-            {symbol}{product.price}
+          <del>
+            {/* ruppees entitu */}
+            {symbol}|{product.price}
           </del>
-              <span>
-                {product.discount ? Number(product?.discount).toFixed(2) : "90"}%
-                off
-              </span>
-            </>
-          ) : (
-            ""
-          )}
+          <span>
+            {product.discount ? Number(product?.discount).toFixed(2) : "90"}%
+            off
+          </span>
         </h4>
         <h3>
           {symbol}
-          {
-            product.salePrice ? product.salePrice : product.price
-          }
+          {(product.price - (product.price * product.discount) / 100).toFixed(
+            2
+          )}
         </h3>
         {product.variants.map((vari) => {
           var findItem = uniqueFlavors.find((x) => x.flavor === vari.flavor);

@@ -46,7 +46,7 @@ const FilterProvider = (props) => {
           throw new Error("Network response was not ok");
         }
         const dataTemp = await response.json();
-        // console.log("Fetched Products:", dataTemp);
+        console.log("Fetched Products:", dataTemp);
         let dataTemp1 = [...dataTemp];
         setAllProducts(dataTemp1);
       } catch (error) {

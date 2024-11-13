@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     await connectToMongoDB(); // Connect to MongoDB
 
     // Find the cart for the user
-    const cart = await Cart.findOne({ userId }).populate("items.productId", "price title _id salePrice price variants sku");
+    const cart = await Cart.findOne({ userId }).populate("items.productId", "price title _id variants");
 
     if (!cart) {
       return res.status(404).json({ message: "Cart not found for this user." });
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     // Recalculate the total quantity and total price
     cart.totalQuantity = cart.items.reduce((total, item) => total + item.quantity, 0);
     cart.totalPrice = cart.items.reduce((total, item) => {
-      const itemPrice = item.productId.salePrice ? item.productId.salePrice : item.productId.price;
+      const itemPrice = item.productId.price;
       const itemQuantity = item.quantity;
       return total + (isNaN(itemPrice) || isNaN(itemQuantity) ? 0 : itemPrice * itemQuantity);
     }, 0);
