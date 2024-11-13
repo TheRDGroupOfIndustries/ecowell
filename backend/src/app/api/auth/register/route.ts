@@ -30,7 +30,7 @@ export const POST = async (request: NextRequest) => {
     console.log("sending otp");
 
     if (isEmail) {
-      otpCode = Math.floor(1000 + Math.random() * 9000);
+      otpCode = Math.floor(100000 + Math.random() * 9000);
       const body = `<h1 style="color: #333; font-family: 'Arial', sans-serif;">Heya ${name}!!</h1>
     <span style="color: #ccc; font-size: 18px; font-family: 'Arial', sans-serif;">Here's an OTP for your email verification <b style="color: #2fff00;">${otpCode}</b><br /></span>`;
 
