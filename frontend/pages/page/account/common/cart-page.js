@@ -65,7 +65,6 @@ const CartPage = () => {
                   </thead>
                   {cartItems.map((item, index) => {
                     // console.log("item index: ", item.productId.variants)
-                    // console.log("item: ", item);
                     const currentVariant = item.productId.variants.find(
                       (variant) => variant.flavor === item.variant.flavor
                     );
@@ -77,12 +76,12 @@ const CartPage = () => {
                       <tbody key={index}>
                         <tr>
                           <td>
-                            <Link href={`/product-details/${item.productId.sku}`}>
+                            <Link href={`/left-sidebar/product/` + item.id}>
                               <Media src={item.variant.image_link} alt="" />
                             </Link>
                           </td>
                           <td>
-                            <Link href={`/product-details/${item.productId.sku}`}>
+                            <Link href={`/left-sidebar/product/` + item.id}>
                               {item?.productId?.title}
                             </Link>
                             <div className="mobile-cart-content row">
@@ -110,7 +109,7 @@ const CartPage = () => {
                               <div className="col-xs-3">
                                 <h2 className="td-color">
                                   {symbol}
-                                  {item.productId.salePrice ? item.productId.salePrice : item.productId.price}
+                                  {item?.productId?.salePrice}
                                 </h2>
                               </div>
                               <div className="col-xs-3">
@@ -128,7 +127,7 @@ const CartPage = () => {
                           <td>
                             <h2>
                               {symbol}
-                              {item.productId.salePrice ? item.productId.salePrice : item.productId.price}
+                              {item?.productId?.salePrice}
                             </h2>
                           </td>
                           <td>
@@ -165,7 +164,7 @@ const CartPage = () => {
                           <td>
                             <h2 className="td-color">
                               {symbol}
-                              {item.productId.salePrice ? item.productId.salePrice * item.quantity : item.productId.price * item.quantity}
+                              {item.quantity * item.productId.salePrice}
                             </h2>
                           </td>
                         </tr>

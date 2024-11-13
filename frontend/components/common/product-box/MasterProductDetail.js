@@ -28,17 +28,16 @@ const MasterProductDetail = ({
         {des ? <p>{product.description}</p> : ""}
         <h4>
           {currency.symbol}
-          {product.salePrice ? product.salePrice : product.price}
-          {product.salePrice ? (
+          {(
+            (product.price - (product.price * product.discount) / 100) *
+            currency.value
+          ).toFixed(2)}
           <del>
             <span className="money">
               {currency.symbol}
-              {product.price}
-              </span>
-            </del>
-          ) : (
-            ""
-          )}
+              {(product.price * currency.value).toFixed(2)}
+            </span>
+          </del>
         </h4>
 
         {product.variants.map((vari) => {

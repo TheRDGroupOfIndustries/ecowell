@@ -363,9 +363,7 @@ useEffect(() => {
                 <div className="coupons-container">
                   <h3>Available Coupons</h3>
                   <div className="coupons-list">
-                    {coupons
-                      .filter(coupon => new Date(coupon.endDate) > new Date()) // Filter out expired coupons
-                      .map((coupon, index) => (
+                    {coupons.map((coupon, index) => (
                       <div key={index} className="coupon-card">
                         <input
                           type="checkbox"
@@ -381,7 +379,8 @@ useEffect(() => {
                                 selectedCoupons.filter((selectedCoupon) => selectedCoupon.code !== coupon.code)
                               );
                             }
-                          }}
+                          }
+                          }
                         />
                         <label htmlFor={`coupon-${index}`} className="coupon-label">
                           <div className="coupon-code">{coupon.code}</div>
@@ -429,7 +428,7 @@ useEffect(() => {
                               </span>
                               <span style={{ width: "25%", textAlign: "right" }}>
                                 {symbol}
-                                {item.productId.salePrice ? item.productId.salePrice * item.quantity : item.productId.price * item.quantity}
+                                {item.productId.price * item.quantity}
                               </span>
                             </li>
                           ))}
