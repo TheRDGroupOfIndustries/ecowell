@@ -35,7 +35,7 @@
     "jimp": "^0.22.7",
     "lucide-react": "^0.456.0",
     "mongoose": "^8.7.3",
-    "next": "^14.2.5",
+    "next": "^14.2.14",
     "next-auth": "^4.24.10",
     "next-compose-plugins": "^2.2.1",
     "next-fonts": "^1.5.1",

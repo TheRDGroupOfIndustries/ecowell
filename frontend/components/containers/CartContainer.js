@@ -12,7 +12,7 @@ const CartContainer = ({ icon }) => {
   const cartList = context.state;
   const total = context.cartTotal;
 
-  console.log("cartlist",cartList)
+  // console.log("cartlist",cartList)
 
   return (
     <Fragment>
@@ -68,4 +68,3 @@ const CartContainer = ({ icon }) => {
 };
 
 export default CartContainer;
-

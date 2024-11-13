@@ -46,7 +46,7 @@ const HeaderOne = ({ headerClass, topClass, noTopBar, direction }) => {
       document.body.scrollTop ||
       0;
     if (number >= 300) {
-      if (window.innerWidth < 581)
+      if (window.innerWidth && window.innerWidth < 581)
         document.getElementById("sticky").classList.remove("fixed");
       else document.getElementById("sticky").classList.add("fixed");
     } else document.getElementById("sticky").classList.remove("fixed");

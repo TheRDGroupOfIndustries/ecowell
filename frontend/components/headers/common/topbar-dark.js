@@ -47,10 +47,10 @@ const TopBarDark = ({ topClass, fluid }) => {
                   ) : (
                     <>
                       <li>
-                        <Link href={`/page/account/login`}>Login</Link>
+                        <Link href="/page/account/login">Login</Link>
                       </li>
                       <li>
-                        <Link href={`/page/account/register`}>Register</Link>
+                        <Link href="/page/account/register">Register</Link>
                       </li>
                     </>
                   )}

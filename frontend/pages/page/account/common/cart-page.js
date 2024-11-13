@@ -65,7 +65,7 @@ const CartPage = () => {
                   </thead>
                   {cartItems.map((item, index) => {
                     // console.log("item index: ", item.productId.variants)
-                    console.log("item: ", item);
+                    // console.log("item: ", item);
                     const currentVariant = item.productId.variants.find(
                       (variant) => variant.flavor === item.variant.flavor
                     );
