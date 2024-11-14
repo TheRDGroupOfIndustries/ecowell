@@ -18,20 +18,20 @@ const MasterBanner = ({ img, ecoSubtitle, link, classes, btn, btnClass }) => {
                 justifyContent: "center",
                 alignItems: "start",
               }}>
-                <img src={logo.src}
+                {/* <img src={logo.src}
                           className=" mb-4"
                           alt=""
                           style={{
                             width: "400px",
                           }}
-                        />
-                <img src={ecoSubtitle?.src}
+                        /> */}
+                {/* <img src={ecoSubtitle?.src}
                           className=" mb-5"
                           alt=""
                           style={{
                             width: "600px",
                           }}
-                        />
+                        /> */}
                   <Link
                     href={link}
                     className={`btn ${btnClass ? btnClass : "btn-solid"}`}>
