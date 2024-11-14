@@ -57,10 +57,10 @@ const IconTopbar = () => {
                     </div>
                   </a>
                 </div>
-                <div className="brand-logo mobile-logo">
+                <div className="brand-logo mobile-logo" style={{width: "3rem", height: "3rem"}}>
                   <a href={null}>
                     <Media
-                      style={{width: "4rem", height: "4rem"}}
+                      
                       src={logo}
                       className="img-fluid blur-up lazyload"
                       alt=""

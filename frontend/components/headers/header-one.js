@@ -111,7 +111,7 @@ const HeaderOne = ({ headerClass, topClass, noTopBar, direction }) => {
                   >
                     {/* <NavBar /> */}
                     <div style={{ scale: "130%", marginBottom: "10px" }}>
-                      <Link href="/page/account/wishlist">
+                       <Link href="/page/account/wishlist">
                         <i className="fa fa-heart" aria-hidden="true"></i>
                       </Link>
                     </div>
