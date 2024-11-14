@@ -42,7 +42,7 @@ const IconTopbar = () => {
                   <li>Welcome to Our store EcoWell</li>
                   <li>
                     <i className="fa fa-phone" aria-hidden="true"></i>Call Us:
-                    123 - 456 - 7890
+                    9355951519, 7065937377
                   </li>
                 </ul>
               </div>
@@ -60,6 +60,7 @@ const IconTopbar = () => {
                 <div className="brand-logo mobile-logo">
                   <a href={null}>
                     <Media
+                      style={{width: "4rem", height: "4rem"}}
                       src={logo}
                       className="img-fluid blur-up lazyload"
                       alt=""
@@ -105,6 +106,7 @@ const IconTopbar = () => {
                             src={search.src}
                             onClick={openSearch}
                             className="img-fluid"
+                            style={{width: "4rem", height: "4rem"}}
                             alt=""
                           />
                           <i className="fa fa-search" onClick={openSearch}></i>

@@ -9,6 +9,7 @@ const LogoImage = ({ logo }) => {
         <img
           src={`/assets/images/icon/${logo ? logo : "logo-dark.png"}`}
           alt=""
+          style={{width: "4rem", height: "4rem"}}
           className="img-fluid"
         />
         {/* </a> */}

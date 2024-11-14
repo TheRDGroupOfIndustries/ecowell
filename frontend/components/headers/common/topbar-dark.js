@@ -19,7 +19,7 @@ const TopBarDark = ({ topClass, fluid }) => {
                 <li>Welcome to Our store EcoWell</li>
                 <li>
                   <i className="fa fa-phone text-white" aria-hidden="true"></i>
-                  Call Us: 123 - 456 - 7890
+                  Call Us: 9355951519, 7065937377
                 </li>
               </ul>
             </div>
