@@ -32,7 +32,7 @@ const CartProvider = (props) => {
             headers: { "Cache-Control": "no-cache" },
           });
           const data = await response.json();
-          // console.log("data of cart:", data);
+          console.log("data of cart:", data);
           if (response.ok) {
             // console.log("data:", data);
             setCartItems(data.items || []);
@@ -53,7 +53,7 @@ const CartProvider = (props) => {
 
   useEffect(() => {
     const Total = cartItems.reduce(
-      (a, b) => a + b.productId.salePrice * b.quantity,
+      (a, b) => a + (b.productId.salePrice ? b.productId.salePrice : b.productId.price) * b.quantity,
       0
     );
     setCartTotal(Total);
@@ -97,6 +97,7 @@ const CartProvider = (props) => {
 
       setCartItems(data.cart.items); // Set cart items from the response
       setCartTotal(data.cart.totalPrice); // Update the total price from the response
+      console.log("cartTotal: ", data.cart);
       toast.success("Product Added Successfully!");
     } else {
       // Handle error response
@@ -107,7 +108,7 @@ const CartProvider = (props) => {
   // Update the removeFromCart function in your CartProvider
   const removeFromCart = async (item) => {
     try {
-      // console.log("Product id: ", item);
+      console.log("Product id: ", item);
 
       const response = await fetch(`/api/cart/remove-from-cart`, {
         method: "DELETE",
@@ -120,7 +121,7 @@ const CartProvider = (props) => {
         }),
       });
       const data = await response.json();
-      // console.log("data afer removing:", data);
+      console.log("data afer removing:", data);
       if (response.ok) {
         toast.success("Product Removed Successfully !");
         setCartItems(data.cart.items);
@@ -154,7 +155,7 @@ const CartProvider = (props) => {
   // Update Product Quantity
   const updateQty = async (item, quantity, currentStock) => {
     if (quantity >= 1) {
-      // console.log("updateQty:", item, quantity, currentStock);
+      console.log("updateQty:", item, quantity, currentStock);
       if (!currentStock) {
         toast.error("No current stock found!");
         return;
@@ -180,7 +181,7 @@ const CartProvider = (props) => {
 
         if (response.ok) {
           // toast.info("Product Quantity Updated !");
-          // console.log("data:", data.items);
+          console.log("data:", data.items);
           setCartItems(data.items);
           setCartTotal(data.totalPrice);
         } else {

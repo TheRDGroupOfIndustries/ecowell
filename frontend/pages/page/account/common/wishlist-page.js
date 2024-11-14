@@ -45,18 +45,18 @@ const WishlistPage = () => {
                     <tbody key={i}>
                       <tr className="table-body">
                         <td>
-                          <Link href={`/page/product/${item.sku}`}>
-                            <img src={item.variants[0].images[0]} alt="" />
+                          <Link href={`/page/product/${item?.sku}`}>
+                            <img src={item?.variants[0]?.images[0]} alt="" />
                           </Link>
                         </td>
                         <td>
-                          <Link href={`/page/product/${item.sku}`}>
-                            {item.title}
+                          <Link href={`/page/product/${item?.sku}`}>
+                            {item?.title}
                           </Link>
                           <Row className="mobile-cart-content">
                             <div className="col-xs-3">
                               <p>
-                                {item.variants[0].stock > 0
+                                {item?.variants[0]?.stock > 0
                                   ? "In Stock"
                                   : "Out of Stock"}
                               </p>
@@ -64,7 +64,7 @@ const WishlistPage = () => {
                             <div className="col-xs-3">
                               <p className="td-colo">
                                 {symbol}
-                                {item.price}
+                                {item?.price}
                               </p>
                             </div>
                             <div className="col-xs-3">
@@ -92,12 +92,12 @@ const WishlistPage = () => {
                         <td>
                           <p>
                             {symbol}
-                            {item.price}
+                            {item?.price}
                           </p>
                         </td>
                         <td>
                           <p>
-                            {item.variants[0].stock > 0
+                            {item?.variants[0]?.stock > 0
                               ? "In Stock"
                               : "Out of Stock"}
                           </p>

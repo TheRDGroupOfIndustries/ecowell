@@ -34,8 +34,8 @@ const Filter = () => {
         //         </Collapse>
         //     </div>
         // </div>
-        <div>
-            
+        <div style={{display:"none"}}>
+            .
         </div>
     );
 }

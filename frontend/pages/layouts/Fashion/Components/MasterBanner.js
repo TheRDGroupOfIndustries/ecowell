@@ -33,7 +33,7 @@ const MasterBanner = ({ img, ecoSubtitle, link, classes, btn, btnClass }) => {
                           }}
                         />
                   <Link
-                    href={'/shop/left_sidebar'}
+                    href={link}
                     className={`btn ${btnClass ? btnClass : "btn-solid"}`}>
                     {/* <a > */}
                     {btn ? btn : "Shop Now"} {/* </a> */}

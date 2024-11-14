@@ -46,13 +46,14 @@ export default async function handler(req, res) {
       (total, item) => total + item.quantity,
       0
     );
+    console.log("cart.items: ", cart.items);
     cart.totalPrice = await calculateTotalPrice(cart.items); // Call the function to calculate total price
 
     await cart.save();
 
     const updatedCart = await Cart.findOne({ userId }).populate(
       "items.productId",
-      "_id title price variants"
+      "_id title salePrice price sku variants"
     );
     return res.status(200).json({
       message: "Product added to cart successfully",
@@ -68,16 +69,24 @@ export default async function handler(req, res) {
 
 // Helper function to calculate total price
 const calculateTotalPrice = async (items) => {
-  const productIds = items.map((item) => item.product);
+  console.log("items: ", items);
+  const productIds = items.map((item) => item.productId);
   const products = await Product.find({ _id: { $in: productIds } }); // Fetch product details from the database
 
   let total = 0;
   items.forEach((item) => {
     const product = products.find(
-      (p) => p._id.toString() === item.product.toString()
+      (p) => p._id.toString() === item.productId.toString()
     );
     if (product) {
-      total += product.price * item.quantity; // Assuming product has a price field
+      console.log("product: ", product);
+      if (product.salePrice) {
+        total += product.salePrice * item.quantity; // Assuming product has a price field
+        console.log("total with salePrice: ", total);
+      } else {
+        total += product.price * item.quantity; // Assuming product has a price field
+        console.log("total with price: ", total);
+      }
     }
   });
 

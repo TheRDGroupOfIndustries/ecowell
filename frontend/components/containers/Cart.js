@@ -54,7 +54,7 @@ const CartComponent = ({ icon, layout }) => {
                         <Media
                           alt=""
                           className="me-3"
-                          src={`${item.varient.image_link}`}
+                          src={`${item.images[0].src}`}
                         />
                       </a>
                       <div className="media-body">
