@@ -344,19 +344,18 @@ const MasterFooter = ({
                     <div className="footer-contant">
                       <ul className="contact-list">
                         <li>
-                          <i className="fa fa-map-marker"></i>Ecowell Demo
-                          Store, Demo store India 345-659
+                          <i className="fa fa-map-marker"></i>19, Park Lane , Church Road , Vasant Kunj, Delhi - 110070
                         </li>
                         <li>
-                          <i className="fa fa-phone"></i>Call Us: 123-456-7898
+                          <i className="fa fa-phone"></i>Call Us: 9355951519, 7065937377
                         </li>
                         <li>
                           <i className="fa fa-envelope-o"></i>Email Us:{" "}
-                          <a href="#">Support@Fiot.com</a>
+                          <a href="#">Support@ecowellonline.com</a>
                         </li>
-                        <li>
+                        {/* <li>
                           <i className="fa fa-fax"></i>Fax: 123456
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </Collapse>
