@@ -91,3 +91,15 @@
     margin: 10px 0;
   }
   
+  .logo-image {
+    width: 140px;
+    height: 40px;
+    background-image: url('/assets/images/icon/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  body.dark .logo-image {
+    background-image: url('/assets/images/icon/logo-dark.png');
+  }

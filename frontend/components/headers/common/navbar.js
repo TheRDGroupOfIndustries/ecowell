@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
-import { MENUITEMS } from "../../constant/menu";
+// import { MENUITEMS } from "../../constant/menu";
 import { Container, Row } from "reactstrap";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
+import FilterContext from "../../../helpers/filter/FilterContext";
 
 const NavBar = () => {
   const { t } = useTranslation();
   const [navClose, setNavClose] = useState({ right: "0px" });
   const router = useRouter();
-
+  const [MENUITEMS, setMENUITEMS] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const filterContext = useContext(FilterContext);
   useEffect(() => {
     if (window.innerWidth < 750) {
       setNavClose({ right: "-410px" });
@@ -17,6 +20,32 @@ const NavBar = () => {
     if (window.innerWidth < 1199) {
       setNavClose({ right: "-300px" });
     }
+  }, []);
+  useEffect(() => {
+    const fetchCategoriesData = async () => {
+      try {
+        const response = await fetch("/api/categories/all-categories");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const fetchedCategories = await response.json();
+        setCategories(fetchedCategories);
+        setMENUITEMS([...MENUITEMS, {
+          title: "Categories",
+          type: "sub",
+          children: fetchedCategories.map((category) => ({
+            title: category.title,
+            type: "link",
+            categorySlug: category.slug,
+            path: `/shop/left_sidebar?category=${category.slug}`
+          }))
+        }])
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategoriesData();
   }, []);
 
   const openNav = () => {
@@ -122,7 +151,7 @@ const NavBar = () => {
       });
       document
         .querySelector(".mega-menu-container")
-        .classList.remove("opensubmenu");
+        ?.classList?.remove("opensubmenu");
       event.target.nextElementSibling.classList.add("opensubmenu");
     }
   };
@@ -144,6 +173,13 @@ const NavBar = () => {
             {MENUITEMS.map((menuItem, i) => {
               return (
                 <li
+                onClick={()=>{
+                  console.log(menuItem.title);
+                  if(menuItem.title === "Categories"){
+                    filterContext.setSelectedCategory("");
+                    router.push("/shop/left_sidebar");
+                  }
+                }}
                   key={i}
                   className={` ${menuItem.megaMenu ? "mega-menu" : ""}`}
                 >
@@ -164,6 +200,14 @@ const NavBar = () => {
                       {menuItem.children.map((childrenItem, index) => {
                         return (
                           <li
+                          onClick={(e) => {
+                            if(childrenItem.categorySlug){
+                              filterContext.setSelectedCategory(childrenItem.categorySlug);
+                              //prevent bubbling
+                              e.stopPropagation();
+                            }                              
+
+                          }}
                             key={index}
                             className={`${
                               childrenItem.children ? "sub-menu " : ""

@@ -5,13 +5,7 @@ const LogoImage = ({ logo }) => {
   return (
     <Fragment>
       <Link href={"/"}>
-        {/* <a> */}
-        <img
-          src={`/assets/images/icon/${logo ? logo : "logo-dark.png"}`}
-          alt=""
-          className="img-fluid"
-        />
-        {/* </a> */}
+        <div className="logo-image" />
       </Link>
     </Fragment>
   );

@@ -268,4 +268,12 @@
 //   },
 // ];
 
-export const MENUITEMS =[]
+export const MENUITEMS =[{
+    title: "Categories",
+    type: "sub",
+    children: [{
+        title: "All Categories",
+        type: "link",
+        path: "/categories"
+    }]
+}]

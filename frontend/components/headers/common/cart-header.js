@@ -10,7 +10,7 @@ const CartHeader = ({ item, symbol }) => {
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null);
 
-  console.log("item:",item)
+  // console.log("item:",item)
   // console.log("productDetails:",productDetails)
 
   // useEffect(() => {
