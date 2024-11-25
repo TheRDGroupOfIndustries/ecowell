@@ -1,3 +1,10 @@
+// Ecowell Brand Color Variables
+$dark-forest-green: #0B3D2E;
+$golden-glow: #D4A017;
+$cool-silver: #BDC3C7;
+$soft-ivory: #F9F6F0;
+$warm-coral: #FF6F61;
+$white: #FFFFFF;
 /*=====================
     27.Responsive CSS start
 ==========================*/
@@ -1751,7 +1758,7 @@ body {
           width: auto;
           border-radius: 0;
           font-size: 18px;
-          background-color: var(--theme-deafult);
+          background-color: var(--golden-glow);
           padding: 5px 16px;
           color: $white;
           margin-bottom: 20px;
@@ -2559,7 +2566,7 @@ body {
           padding-bottom: 10px;
           text-align: center;
           margin-bottom: 20px;
-          background: none var(--theme-deafult);
+          background: none var(--golden-glow);
           .open-popup {
             text-align: left;
           }
@@ -2908,7 +2915,7 @@ body {
         .nav-item {
           .nav-link {
             &.active {
-              border-bottom: 2px solid var(--theme-deafult);
+              border-bottom: 2px solid var(--golden-glow);
               border-right: none;
             }
           }
@@ -4184,7 +4191,7 @@ body {
           a {
             &:hover {
               i {
-                color: var(--theme-deafult);
+                color: var(--golden-glow);
               }
             }
           }

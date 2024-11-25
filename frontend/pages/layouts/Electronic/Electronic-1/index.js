@@ -11,7 +11,7 @@ import MasterFooter from "../../../../components/footers/common/MasterFooter";
 
 const Electronic = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#cc2121");
+    document.documentElement.style.setProperty("--golden-glow", "#cc2121");
   });
   return (
     <Fragment>

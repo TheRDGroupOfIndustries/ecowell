@@ -1,3 +1,10 @@
+// Ecowell Brand Color Variables
+$dark-forest-green: #0B3D2E;
+$golden-glow: #D4A017;
+$cool-silver: #BDC3C7;
+$soft-ivory: #F9F6F0;
+$warm-coral: #FF6F61;
+$white: #FFFFFF;
 /*=====================
     RTL CSS start
 ==========================*/
@@ -1143,7 +1150,7 @@ body.rtl {
                     &.active,
                     &:hover {
                         border-right: none;
-                        border-left: 2px solid var(--theme-deafult);
+                        border-left: 2px solid var(--golden-glow);
                     }
                 }
             }

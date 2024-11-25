@@ -28,7 +28,7 @@ const TopBar = ({ topClass }) => {
               </li>
               <li className="mobile-wishlist">
                 <Link href={`/page/account/wishlist`}>
-                  <i className="fa fa-heart" aria-hidden="true"></i>
+                  <i  className="fa fa-heart" aria-hidden="true"></i>
                   {"wishlist"}
                 </Link>
               </li>

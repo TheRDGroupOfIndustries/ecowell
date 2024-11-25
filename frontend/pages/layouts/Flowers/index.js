@@ -15,7 +15,7 @@ import MasterFooter from "../../../components/footers/common/MasterFooter";
 
 const Flowers = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#fa869b");
+    document.documentElement.style.setProperty("--golden-glow", "#fa869b");
   });
   return (
     <>

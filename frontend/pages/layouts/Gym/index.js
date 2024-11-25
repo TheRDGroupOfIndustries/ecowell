@@ -14,7 +14,7 @@ import MasterFooterTwo from "../../../components/footers/common/MasterFooterTwo"
 
 const Gym = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#01effc");
+    document.documentElement.style.setProperty("--golden-glow", "#01effc");
     document.documentElement.style.setProperty("--gradient1", "#01effc");
     document.documentElement.style.setProperty("--gradient2", "#485ff2");
   });

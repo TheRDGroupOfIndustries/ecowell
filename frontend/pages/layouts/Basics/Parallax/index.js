@@ -5,7 +5,7 @@ import CopyRight from '../../../../components/footers/common/copyright';
 
 const Parallax = () => {
     useEffect(() => {
-        document.documentElement.style.setProperty('--theme-deafult', '#866e6c');
+        document.documentElement.style.setProperty('--golden-glow', '#866e6c');
     })
     return (
         <Fragment>

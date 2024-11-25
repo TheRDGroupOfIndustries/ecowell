@@ -109,7 +109,7 @@ const ProfilePage = () => {
             <Link
               href={"/page/account/profile/my-orders"}
               style={{
-                backgroundColor: "#399B2E",
+                backgroundColor: "#D4A017",
                 color: "white",
                 padding: "5px",
               }}

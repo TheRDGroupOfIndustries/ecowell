@@ -15,7 +15,7 @@ import MasterFooter from "../../../components/footers/common/MasterFooter";
 
 const Goggles = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#dc457e");
+    document.documentElement.style.setProperty("--golden-glow", "#dc457e");
   });
   return (
     <Fragment>

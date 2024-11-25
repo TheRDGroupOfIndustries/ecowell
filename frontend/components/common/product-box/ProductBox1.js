@@ -531,7 +531,7 @@ const ProductItem = ({
             <i
               className="fa fa-heart"
               style={{
-                color: wishlistContext.productExistsInWishlist(product._id) && "#399B2E",
+                color: wishlistContext.productExistsInWishlist(product._id) && "#D4A017",
               }}
               aria-hidden="true"
             ></i>
@@ -540,7 +540,7 @@ const ProductItem = ({
             <i
               className="fa fa-shopping-cart"
               style={{
-                color: variantExistsInCart() && "#399B2E",
+                color: variantExistsInCart() && "#D4A017",
               }}
               aria-hidden="true"
             ></i>

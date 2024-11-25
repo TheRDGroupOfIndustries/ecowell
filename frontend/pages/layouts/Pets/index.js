@@ -14,7 +14,7 @@ import Helmet from "react-helmet";
 
 const Pets = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#ff9944");
+    document.documentElement.style.setProperty("--golden-glow", "#ff9944");
   });
   return (
     <>

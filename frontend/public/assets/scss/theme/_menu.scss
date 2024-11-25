@@ -1,3 +1,11 @@
+// Ecowell Brand Color Variables
+$dark-forest-green: #0B3D2E;
+$golden-glow: #D4A017;
+$cool-silver: #BDC3C7;
+$soft-ivory: #F9F6F0;
+$warm-coral: #FF6F61;
+$white: #FFFFFF;
+
 @mixin round_corner($amount, $chainable: "ul > li:last-child > ", $level: 4, $chain_prefix: "> li:last-child > ", $chain: "", $selector: "") {
   $chain: $chain_prefix;
   $selector: $chain + "a, " + $chain + "*:not(ul) a, " + $chain + "ul";
@@ -304,7 +312,7 @@ header {
                 content: "";
                 height: 2px;
                 width: 0;
-                background-color: var(--theme-deafult);
+                background-color: var(--golden-glow);
                 -webkit-transition: 0.5s ease;
                 transition: 0.5s ease;
               }
@@ -389,7 +397,7 @@ header {
                         content: "";
                         height: 2px;
                         width: 0;
-                        background-color: var(--theme-deafult);
+                        background-color: var(--golden-glow);
                         -webkit-transition: 0.5s ease;
                         transition: 0.5s ease;
                       }
@@ -402,7 +410,7 @@ header {
         }
         &:hover {
           > a {
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
           }
         }
         &.mega-menu {
@@ -606,7 +614,7 @@ header {
   cursor: pointer;
   i {
     font-size: 24px;
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     opacity: 0.6;
   }
 }
@@ -619,7 +627,7 @@ header {
 }
 .new-tag {
   padding-left: 3px;
-  color: var(--theme-deafult);
+  color: var(--golden-glow);
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 700;
@@ -630,7 +638,7 @@ header {
     position: absolute;
     top: -5px;
     right: -10px;
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     font-size: 12px;
     font-weight: 700;
   }
@@ -670,7 +678,7 @@ header {
       letter-spacing: 0.07em;
     }
     &:hover {
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
     }
     &.disabled {
       color: $theme-deafult__collapsible-item-disabled-color;
@@ -737,7 +745,7 @@ header {
     }
   }
   .icon-trend {
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
   }
   .full-mega-menu,
   .clothing-menu {
@@ -846,7 +854,7 @@ header {
   }
   .lable-nav {
     position: absolute;
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     padding: 2px 7px;
     color: $white;
     top: 20px;
@@ -861,7 +869,7 @@ header {
       height: 0;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-top: 5px solid var(--theme-deafult);
+      border-top: 5px solid var(--golden-glow);
       top: 15px;
       left: 5px;
     }
@@ -896,7 +904,7 @@ header {
         top: -8px;
         right: 0px;
         color: white;
-        background-color: var(--theme-deafult);
+        background-color: var(--golden-glow);
         padding: 2px 7px;
         text-transform: uppercase;
         font-size: 9px;
@@ -1012,7 +1020,7 @@ header {
                   content: "";
                   height: 2px;
                   width: 0;
-                  background-color: var(--theme-deafult);
+                  background-color: var(--golden-glow);
                   -webkit-transition: 0.5s ease;
                   transition: 0.5s ease;
                 }
@@ -1065,7 +1073,7 @@ header {
                         content: "";
                         height: 2px;
                         width: 0;
-                        background-color: var(--theme-deafult);
+                        background-color: var(--golden-glow);
                         -webkit-transition: 0.5s ease;
                         transition: 0.5s ease;
                       }
@@ -1275,7 +1283,7 @@ header {
           content: "";
           height: 2px;
           width: 0;
-          background-color: var(--theme-deafult);
+          background-color: var(--golden-glow);
           transition: 0.5s ease;
         }
         &,
@@ -1921,7 +1929,7 @@ header {
             color: $dark-font;
             font-weight: 400;
             &:hover {
-              color: var(--theme-deafult);
+              color: var(--golden-glow);
               font-size: 14px;
               padding: 5px 35px;
             }

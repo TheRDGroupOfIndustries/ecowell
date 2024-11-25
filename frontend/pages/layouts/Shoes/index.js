@@ -20,7 +20,7 @@ import Helmet from 'react-helmet';
 
 const Shoes = () => {
     useEffect(() => {
-        document.documentElement.style.setProperty('--theme-deafult', '#f7869b');
+        document.documentElement.style.setProperty('--golden-glow', '#f7869b');
     })
     return (
     <>

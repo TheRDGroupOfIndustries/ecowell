@@ -12,7 +12,7 @@ import MasterFooter from "../../../components/footers/common/MasterFooter";
 
 const Furniture = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#d4b196");
+    document.documentElement.style.setProperty("--golden-glow", "#d4b196");
   });
   return (
     <>

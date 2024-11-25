@@ -15,7 +15,7 @@ import MasterFooter from "../../../components/footers/common/MasterFooter";
 
 const Marketplace = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#3e5067");
+    document.documentElement.style.setProperty("--golden-glow", "#3e5067");
   });
   return (
     <Fragment>

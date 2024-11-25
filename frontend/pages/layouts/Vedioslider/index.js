@@ -19,7 +19,7 @@ import MasterFooter from "../../../components/footers/common/MasterFooter";
 const Vedioslider = () => {
   const [offerDisplay, setOffer] = useState(false);
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#e38888");
+    document.documentElement.style.setProperty("--golden-glow", "#e38888");
   });
   return (
     <Fragment>

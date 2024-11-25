@@ -1,3 +1,10 @@
+// Ecowell Brand Color Variables
+$dark-forest-green: #0B3D2E;
+$golden-glow: #D4A017;
+$cool-silver: #BDC3C7;
+$soft-ivory: #F9F6F0;
+$warm-coral: #FF6F61;
+$white: #FFFFFF;
 /*-----------------------------------------------------------------------------------
     Template Name:Multikart
     Template URI: themes.pixelstrap.com/multikart
@@ -46,7 +53,7 @@
 body {
   font-family: $font_0, $font_1;
   position: relative;
-  background: $white;
+  background: #F4EDE3;
   font-size: 14px;
   overflow-x: hidden;
   letter-spacing: 0.8px;
@@ -68,7 +75,7 @@ h1 {
   span {
     font-size: 107px;
     font-weight: 700;
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
   }
 }
 h2 {
@@ -253,7 +260,7 @@ hr.style1 {
   width: 75px;
   height: 3px;
   margin-top: 13px;
-  background-color: var(--theme-deafult);
+  background-color: var(--golden-glow);
   text-align: center;
   margin-left: auto;
   margin-right: auto;
@@ -336,11 +343,11 @@ hr.style1 {
   }
 }
 .input-range__track--active {
-  background: var(--theme-deafult) !important;
+  background: var(--golden-glow) !important;
 }
 .input-range__slider {
-  background: var(--theme-deafult) !important;
-  border: 1px solid var(--theme-deafult) !important;
+  background: var(--golden-glow) !important;
+  border: 1px solid var(--golden-glow) !important;
 }
 .block-price-content {
   .custom-control {
@@ -418,7 +425,7 @@ del {
   }
   /* Handle */
   &::-webkit-scrollbar-thumb {
-    background: var(--theme-deafult);
+    background: var(--golden-glow);
     border-radius: 10px;
   }
   /* Handle on hover */
@@ -568,16 +575,16 @@ button {
   padding: 13px 29px;
   color: $white !important;
   letter-spacing: 0.05em;
-  border: 2px solid var(--theme-deafult);
-  border-color: var(--theme-deafult) !important;
+  border: 2px solid var(--golden-glow);
+  border-color: var(--golden-glow) !important;
   background-image: -webkit-linear-gradient(
     30deg,
-    var(--theme-deafult) 50%,
+    var(--golden-glow) 50%,
     transparent 50%
   );
   background-image: linear-gradient(
     30deg,
-    var(--theme-deafult) 50%,
+    var(--golden-glow) 50%,
     transparent 50%
   );
   background-size: 540px;
@@ -588,7 +595,7 @@ button {
   &:hover {
     background-position: 100%;
     color: $black !important;
-    background-color: $white;
+    background-color: #F4EDE3;
   }
   &.black-btn {
     background-image: -webkit-linear-gradient(
@@ -603,7 +610,7 @@ button {
     color: $white;
   }
   &.btn-gradient {
-    background: var(--theme-deafult);
+    background: var(--golden-glow);
     background: linear-gradient(
       180deg,
       var(--gradient1) 0%,
@@ -629,9 +636,9 @@ button {
       var(--gradient2)
     );
     border: none;
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     &:hover {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       background-image: none;
       color: white;
     }
@@ -648,7 +655,7 @@ button {
   display: inline-block;
   padding: 13px 29px;
   letter-spacing: 0.05em;
-  border: 2px solid var(--theme-deafult);
+  border: 2px solid var(--golden-glow);
   position: relative;
   color: $black;
   &:before {
@@ -661,12 +668,12 @@ button {
     bottom: 0;
     opacity: 0;
     content: "";
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     z-index: -2;
   }
   &:hover {
     color: $white;
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     &:before {
       -webkit-transition: 0.5s all ease;
       transition: 0.5s all ease;
@@ -691,28 +698,28 @@ button {
       &:active {
         background-image: -webkit-linear-gradient(
           30deg,
-          var(--theme-deafult) 50%,
+          var(--golden-glow) 50%,
           transparent 50%
         );
         background-image: linear-gradient(
           30deg,
-          var(--theme-deafult) 50%,
+          var(--golden-glow) 50%,
           transparent 50%
         );
         color: $white;
-        background: var(--theme-deafult);
+        background: var(--golden-glow);
       }
     }
   }
 }
 .btn-classic {
   &:hover {
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
   }
 }
 .btn-white {
   background-color: white !important;
-  color: var(--theme-deafult);
+  color: var(--golden-glow);
   transition: all 0.5s ease;
   padding: 10px 29px;
   &:hover {
@@ -721,7 +728,7 @@ button {
   }
 }
 .btn-theme {
-  background-color: var(--theme-deafult);
+  background-color: var(--golden-glow);
   color: $white;
 }
 .btn-custom {
@@ -734,7 +741,7 @@ button {
 .title1 {
   text-align: center;
   h4 {
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     padding-bottom: 10px;
     margin-bottom: 0;
     margin-top: -3px;
@@ -747,7 +754,7 @@ button {
       position: absolute;
       height: 5px;
       width: 70px;
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       content: "";
       left: 0;
       right: 0;
@@ -769,7 +776,7 @@ button {
       background-image: linear-gradient(
         to right,
         rgba(0, 0, 0, 0),
-        var(--theme-deafult),
+        var(--golden-glow),
         rgba(0, 0, 0, 0)
       );
       display: block;
@@ -780,7 +787,7 @@ button {
       position: absolute;
       background-color: #efefef;
       border: 1px solid;
-      border-color: var(--theme-deafult);
+      border-color: var(--golden-glow);
       padding: 5px;
       -webkit-transform: rotate(45deg);
       transform: rotate(45deg);
@@ -793,7 +800,7 @@ button {
 .title2 {
   text-align: center;
   h4 {
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     padding-bottom: 10px;
     margin-bottom: 0;
     text-transform: uppercase;
@@ -808,7 +815,7 @@ button {
       position: absolute;
       height: 5px;
       width: 100%;
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       opacity: 0.4;
       content: "";
       left: 0;
@@ -822,7 +829,7 @@ button {
 .title3 {
   text-align: center;
   h4 {
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     padding-bottom: 10px;
     margin-bottom: 5px;
     margin-top: -3px;
@@ -836,7 +843,7 @@ button {
     position: relative;
     height: 5px;
     width: 45px;
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     content: "";
     left: 0;
     right: 0;
@@ -849,7 +856,7 @@ button {
       height: 5px;
       width: 10px;
       content: "";
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
     }
     &:after {
       right: 50px;
@@ -871,7 +878,7 @@ button {
     position: relative;
     height: 1px;
     width: 180px;
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     margin: 0 auto;
     margin-bottom: 55px;
     bottom: 0;
@@ -882,7 +889,7 @@ button {
       height: 10px;
       width: 10px;
       content: "";
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       top: -4px;
     }
     &:after {
@@ -898,7 +905,7 @@ button {
         height: 10px;
         width: 10px;
         content: "";
-        background-color: var(--theme-deafult);
+        background-color: var(--golden-glow);
         top: -4px;
       }
       &:after {
@@ -943,15 +950,15 @@ button {
     2.Header CSS start
 ==========================*/
 header {
-  background-color: $white;
+  background-color: #F4EDE3;
   .marketplace {
     .top-header {
-      background-color: rgba(var(--theme-deafult), 0.75);
+      background-color: #BDC3C7;
     }
   }
   &.video-header {
     .top-header {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       .header-contact {
         padding: 10px 0;
         li {
@@ -1074,7 +1081,7 @@ header {
     }
     .cart-qty-cls {
       background: #ffffff;
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
     }
   }
   &.marketplace {
@@ -1084,7 +1091,7 @@ header {
       top: 0;
     }
     .top-header {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       .header-contact {
         li {
           color: white;
@@ -1105,7 +1112,7 @@ header {
   }
 }
 .header-christmas.fixed {
-  background: var(--theme-deafult);
+  background: var(--golden-glow);
 }
 .color-dark {
   .top-header {
@@ -1263,7 +1270,7 @@ header {
       font-size: 14px;
       padding-right: 25px;
       i {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         padding-left: 10px;
         transform: rotateY(180deg);
       }
@@ -1303,14 +1310,14 @@ header {
         }
         &:hover {
           i {
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
             transition: all 0.5s ease;
           }
         }
       }
       &:hover {
         i {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           transition: all 0.5s ease;
         }
       }
@@ -1352,7 +1359,7 @@ header {
           }
           &:hover {
             i {
-              color: var(--theme-deafult);
+              color: var(--golden-glow);
             }
           }
         }
@@ -1379,7 +1386,7 @@ header {
           }
           &:hover {
             i {
-              color: var(--theme-deafult);
+              color: var(--golden-glow);
             }
           }
         }
@@ -1406,7 +1413,7 @@ header {
           }
           &:hover {
             i {
-              color: var(--theme-deafult);
+              color: var(--golden-glow);
             }
           }
         }
@@ -1468,7 +1475,7 @@ header {
     &.around-border {
       .navbar {
         > a {
-          // border: 2px solid lighten(var(--theme-deafult), 35%);
+          // border: 2px solid lighten(var(--golden-glow), 35%);
           padding: 11px 10px 6px;
         }
       }
@@ -1559,7 +1566,7 @@ header {
                   text-transform: capitalize;
                   font-weight: 700;
                   &:hover {
-                    color: var(--theme-deafult);
+                    color: var(--golden-glow);
                   }
                 }
                 .checkout {
@@ -1612,7 +1619,7 @@ header {
             }
             .search-btn {
               padding: 8px 12px;
-              background-color: var(--theme-deafult);
+              background-color: var(--golden-glow);
               color: $white;
             }
           }
@@ -1990,7 +1997,7 @@ header {
 }
 .instagram-box {
   position: relative;
-  background-color: var(--theme-deafult);
+  background-color: var(--golden-glow);
   overflow: hidden;
   img {
     width: 100%;
@@ -2001,7 +2008,7 @@ header {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     top: 0;
     text-align: center;
     display: flex;
@@ -2037,7 +2044,7 @@ header {
   overflow: hidden;
   &:before,
   &:after {
-    background: var(--theme-deafult);
+    background: var(--golden-glow);
     width: 25%;
     position: absolute;
     content: "";
@@ -2059,7 +2066,7 @@ header {
   span {
     &:before,
     &:after {
-      background: var(--theme-deafult);
+      background: var(--golden-glow);
       width: 25%;
       position: absolute;
       content: "";
@@ -2104,7 +2111,7 @@ del {
   padding-left: 15px;
   padding-right: 15px;
   h4 {
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     margin-top: 25px;
     line-height: 1;
     margin-bottom: 0;
@@ -2123,7 +2130,7 @@ del {
     margin-bottom: -5px;
     transition: all 0.5s ease;
     &:hover {
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
       transition: all 0.5s ease;
     }
   }
@@ -2164,7 +2171,7 @@ del {
     width: 60px;
     height: 60px;
     path {
-      fill: var(--theme-deafult);
+      fill: var(--golden-glow);
     }
   }
   h4 {
@@ -2185,7 +2192,7 @@ del {
       transition: all 0.3s ease;
     }
     h4 {
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
       transition: all 0.3s ease;
     }
   }
@@ -2200,7 +2207,7 @@ del {
     width: 60px;
     height: 60px;
     path {
-      fill: var(--theme-deafult);
+      fill: var(--golden-glow);
     }
   }
   h4 {
@@ -2219,7 +2226,7 @@ del {
       transition: all 0.3s ease;
     }
     h4 {
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
       transition: all 0.3s ease;
     }
   }
@@ -2270,7 +2277,7 @@ del {
       margin-bottom: 0;
       text-align: center;
       span {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
       }
     }
   }
@@ -2323,7 +2330,7 @@ del {
     &.svg-image {
       svg {
         width: 50px;
-        fill: var(--theme-deafult);
+        fill: var(--golden-glow);
       }
     }
   }
@@ -2339,7 +2346,7 @@ del {
   }
   &:hover {
     .category-image {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       transition: all 0.5s ease;
       &.svg-image {
         svg {
@@ -2353,7 +2360,7 @@ del {
     }
     .category-details {
       h5 {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         transition: all 0.5s ease;
       }
     }
@@ -2381,7 +2388,7 @@ del {
           transition: 0.5s ease;
         }
         h2 {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           transition: 0.5s ease;
         }
       }
@@ -2423,7 +2430,7 @@ del {
     &:after {
       content: "";
       position: absolute;
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       height: 0;
       width: 40px;
       z-index: 1;
@@ -2457,7 +2464,7 @@ del {
     &:after {
       content: "";
       position: absolute;
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       height: 0;
       width: 40px;
       z-index: 1;
@@ -2470,12 +2477,12 @@ del {
     }
     &:hover {
       h2 {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         transition: all 0.5s ease;
       }
       h6 {
         span {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           transition: all 0.5s ease;
         }
       }
@@ -2501,7 +2508,7 @@ del {
       color: $dark-font;
     }
     h6 {
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
       text-transform: uppercase;
       letter-spacing: 0.3em;
       line-height: 1;
@@ -2525,7 +2532,7 @@ del {
     content: "";
     left: 0;
     top: 0;
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     opacity: 0.3;
     width: 100%;
     height: 100%;
@@ -2554,7 +2561,7 @@ del {
         height: 0;
         position: absolute;
         transition: all 0.2s linear;
-        background: var(--theme-deafult);
+        background: var(--golden-glow);
         transition-delay: 0s;
       }
       &:before {
@@ -2573,7 +2580,7 @@ del {
       height: 1px;
       position: absolute;
       transition: all 0.2s linear;
-      background: var(--theme-deafult);
+      background: var(--golden-glow);
     }
     &:before {
       right: 0;
@@ -2623,7 +2630,7 @@ del {
         a {
           color: $grey-link;
           &:hover {
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
           }
         }
       }
@@ -2649,7 +2656,7 @@ del {
       transition: all 0.5s ease;
     }
     &:hover {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       h4 {
         color: white;
         transition: all 0.5s ease;
@@ -2727,7 +2734,7 @@ del {
           padding-left: 7px;
           transition: all 0.5s ease;
           &:hover {
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
             transition: all 0.5s ease;
           }
         }
@@ -2752,7 +2759,7 @@ del {
           .live-demo,
           .details_product {
             width: 50%;
-            background-color: rgba(var(--theme-deafult), 0.6);
+            background-color: rgba(var(--golden-glow), 0.6);
             color: white;
             display: flex;
             align-items: center;
@@ -2860,7 +2867,7 @@ del {
       width: 100%;
       height: 100%;
       content: "";
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       opacity: 0;
     }
   }
@@ -2910,7 +2917,7 @@ del {
           padding: 10px;
           border-radius: 100%;
           transform: translate(-50%, -50%);
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           font-size: 22px;
           display: none;
           transition: all 0.4s ease;
@@ -2934,7 +2941,7 @@ del {
           width: 100%;
           height: 100%;
           z-index: 1;
-          background-color: rgba(var(--theme-deafult), 0.2);
+          background-color: rgba(var(--golden-glow), 0.2);
           transition: all 0.4s ease;
           i {
             display: flex;
@@ -2959,7 +2966,7 @@ del {
     background-color: white;
     cursor: pointer;
     &.active {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       color: $white;
     }
   }
@@ -3110,7 +3117,7 @@ del {
         text-align: center;
       }
       .lable1 {
-        background-color: var(--theme-deafult);
+        background-color: var(--golden-glow);
         color: $white;
         border-bottom-left-radius: 25px;
         border-top-left-radius: 25px;
@@ -3169,7 +3176,7 @@ del {
         transition: all 0.2s ease;
         display: inline-block;
         &:hover {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           transition: all 0.2s ease;
         }
       }
@@ -3177,7 +3184,7 @@ del {
     .lable-block {
       .lable3 {
         border-radius: 100%;
-        background-color: var(--theme-deafult);
+        background-color: var(--golden-glow);
         text-align: center;
         font-size: 14px;
         font-weight: 700;
@@ -3261,7 +3268,7 @@ del {
       padding-right: 10px;
       padding-left: 10px;
       &:hover {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
       }
     }
   }
@@ -3347,11 +3354,11 @@ del {
       transition: all 0.2s ease;
       z-index: 1;
       i {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
       }
       .btn-outline {
         transition: all 0.2s ease;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         &:hover {
           color: $white;
           i {
@@ -3581,7 +3588,7 @@ del {
     .tab-title2 {
       .current {
         a {
-          border-bottom: 2px solid var(--theme-deafult);
+          border-bottom: 2px solid var(--golden-glow);
           padding-bottom: 5px;
         }
       }
@@ -3605,7 +3612,7 @@ del {
       }
     }
     .add-button {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       color: white;
       text-align: center;
       font-size: 18px;
@@ -3665,20 +3672,20 @@ del {
 .theme-tab {
   .react-tabs__tab--selected {
     background: unset !important;
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     border-radius: 0 !important;
     a {
       color: #dafe69 !important;
     }
     .nav-link {
-      color: var(--theme-deafult) !important;
+      color: var(--golden-glow) !important;
     }
   }
 }
 .tab-content {
   &.nav-material {
     .react-tabs__tab--selected {
-      border-bottom: 2px solid var(--theme-deafult) !important;
+      border-bottom: 2px solid var(--golden-glow) !important;
     }
   }
 }
@@ -3778,7 +3785,7 @@ del {
     margin-top: -9px;
     .current {
       a {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
       }
     }
     li {
@@ -3830,7 +3837,7 @@ del {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     opacity: 0.09;
     z-index: -1;
   }
@@ -3880,7 +3887,7 @@ del {
         margin-top: 10px;
       }
       .color {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         line-height: 1;
       }
     }
@@ -4024,7 +4031,7 @@ del {
     h2 {
       font-size: 100px;
       font-weight: 700;
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
       text-transform: uppercase;
       margin-top: -15px;
     }
@@ -4075,7 +4082,7 @@ del {
         margin-bottom: -5px;
         line-height: 1.3;
         span {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
         }
       }
     }
@@ -4221,7 +4228,7 @@ del {
       }
     }
     h4 {
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -4280,7 +4287,7 @@ del {
           margin-bottom: 0;
         }
         h4 {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
         }
       }
     }
@@ -4294,7 +4301,7 @@ del {
           color: $dark-font;
         }
         h4 {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
         }
       }
     }
@@ -4339,7 +4346,7 @@ del {
       text-align: center;
       transition: all 0.5s ease;
       h3 {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         text-transform: capitalize;
         margin-top: -5px;
         font-weight: 700;
@@ -4636,7 +4643,7 @@ del {
 .ribbon-1 {
   width: 24px;
   height: 45px;
-  background: var(--theme-deafult);
+  background: var(--golden-glow);
   top: -6px;
   left: 25px;
   position: absolute;
@@ -4644,7 +4651,7 @@ del {
   &:before {
     height: 0;
     width: 0;
-    // border-bottom: 6px solid darken(var(--theme-deafult), 20%);
+    // border-bottom: 6px solid darken(var(--golden-glow), 20%);
     border-right: 6px solid transparent;
     right: -6px;
     content: "";
@@ -4653,8 +4660,8 @@ del {
   &:after {
     height: 0;
     width: 0;
-    border-left: 12px solid var(--theme-deafult);
-    border-right: 12px solid var(--theme-deafult);
+    border-left: 12px solid var(--golden-glow);
+    border-right: 12px solid var(--golden-glow);
     border-bottom: 12px solid transparent;
     bottom: -11px;
     left: 0;
@@ -4689,15 +4696,15 @@ del {
       .modal-body {
         background-image: linear-gradient(
           135deg,
-          var(--theme-deafult) 5.77%,
+          var(--golden-glow) 5.77%,
           $white 5.77%,
           $white 25%,
           $grey01 25%,
           $grey01 30.77%,
           $white 30.77%,
           $white 50%,
-          var(--theme-deafult) 50%,
-          var(--theme-deafult) 55.77%,
+          var(--golden-glow) 50%,
+          var(--golden-glow) 55.77%,
           $white 55.77%,
           $white 75%,
           $grey01 75%,
@@ -4840,7 +4847,7 @@ del {
           }
           /* Handle */
           &::-webkit-scrollbar-thumb {
-            background: var(--theme-deafult);
+            background: var(--golden-glow);
           }
           /* Handle on hover */
           &::-webkit-scrollbar-thumb:hover {
@@ -4900,7 +4907,7 @@ del {
                       font-weight: 700;
                       text-transform: capitalize;
                       a {
-                        color: var(--theme-deafult);
+                        color: var(--golden-glow);
                       }
                     }
                   }
@@ -4927,7 +4934,7 @@ del {
         h4 {
           font-size: 20px;
           line-height: 1.2;
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           font-weight: 500;
         }
         h5 {
@@ -4988,7 +4995,7 @@ del {
                   font-weight: 700;
                   text-transform: capitalize;
                   a {
-                    color: var(--theme-deafult);
+                    color: var(--golden-glow);
                   }
                 }
               }
@@ -5164,7 +5171,7 @@ del {
           }
           h6 {
             text-transform: uppercase;
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
             margin-bottom: 0;
           }
         }
@@ -5181,7 +5188,7 @@ del {
         }
       }
       &:hover {
-        background-color: var(--theme-deafult);
+        background-color: var(--golden-glow);
         -webkit-box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
         box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
         z-index: 10;
@@ -5263,7 +5270,7 @@ del {
         height: 60px;
         width: 60px;
         border-radius: 100%;
-        background-color: var(--theme-deafult);
+        background-color: var(--golden-glow);
         text-align: center;
         justify-content: center;
         align-items: center;
@@ -5341,7 +5348,7 @@ del {
           top: 0;
           width: 100%;
           height: 100%;
-          background-color: var(--theme-deafult);
+          background-color: var(--golden-glow);
           opacity: 0.3;
           z-index: -1;
         }
@@ -5505,7 +5512,7 @@ footer {
     }
     .sub-footer {
       &.black-subfooter {
-        background-color: var(--theme-deafult);
+        background-color: var(--golden-glow);
       }
       p {
         padding: 15px 0;
@@ -5520,7 +5527,7 @@ footer {
   }
   &.footer-classic {
     .upper-footer {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       .small-section {
         padding: 35px 0;
       }
@@ -5600,7 +5607,7 @@ footer {
           li {
             a {
               &:hover {
-                color: var(--theme-deafult);
+                color: var(--golden-glow);
                 transition: all 0.5s ease;
               }
             }
@@ -5618,7 +5625,7 @@ footer {
         color: $white;
         transition: 0.5s ease;
         &:hover {
-          color: var(--theme-deafult) !important;
+          color: var(--golden-glow) !important;
           transition: 0.5s ease;
         }
       }
@@ -5670,7 +5677,7 @@ footer {
     border-radius: 5px;
     i {
       font-size: 18px;
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
     }
   }
 }
@@ -6029,7 +6036,7 @@ footer {
           margin-bottom: 0;
         }
         h4 {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
         }
       }
     }
@@ -6156,7 +6163,7 @@ footer {
   }
 }
 .btn-gradient {
-  background: var(--theme-deafult);
+  background: var(--golden-glow);
   background: linear-gradient(
     180deg,
     var(--gradient1) 0%,
@@ -6397,7 +6404,7 @@ footer {
 }
 .header-6 {
   .top-header {
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     .header-contact {
       li {
         color: $white;
@@ -6454,7 +6461,7 @@ footer {
     border-radius: 5px;
     i {
       font-size: 18px;
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
     }
   }
 }
@@ -6481,7 +6488,7 @@ footer {
   .top-header {
     background-color: transparent;
     .container {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
     }
     .header-contact {
       padding: 10px 0;
@@ -6511,7 +6518,7 @@ footer {
   .logo-menu-part {
     > .container {
       background-color: #fff;
-      border-bottom: 2px solid var(--theme-deafult);
+      border-bottom: 2px solid var(--golden-glow);
     }
   }
   .main-menu {
@@ -6714,7 +6721,7 @@ footer {
           color: $grey2;
         }
         &:hover {
-          background-color: var(--theme-deafult);
+          background-color: var(--golden-glow);
           transition: all 0.5s ease;
           i {
             color: $white;
@@ -6733,7 +6740,7 @@ footer {
           display: none;
         }
         &:hover {
-          background-color: var(--theme-deafult);
+          background-color: var(--golden-glow);
           color: $white;
           transition: all 0.5s ease;
         }
@@ -6744,7 +6751,7 @@ footer {
       top: 50%;
       left: 50%;
       margin-top: -20px;
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       border-radius: 100%;
       width: 40px;
       height: 40px;
@@ -6837,7 +6844,7 @@ footer {
       transform: rotate(-45deg);
       width: 100px;
       display: block;
-      background: var(--theme-deafult);
+      background: var(--golden-glow);
       box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
       position: absolute;
       top: 19px;
@@ -6848,10 +6855,10 @@ footer {
         left: 0px;
         top: 100%;
         z-index: -1;
-        border-left: 3px solid var(--theme-deafult);
+        border-left: 3px solid var(--golden-glow);
         border-right: 3px solid transparent;
         border-bottom: 3px solid transparent;
-        border-top: 3px solid var(--theme-deafult);
+        border-top: 3px solid var(--golden-glow);
       }
       &:after {
         content: "";
@@ -6860,9 +6867,9 @@ footer {
         top: 100%;
         z-index: -1;
         border-left: 3px solid transparent;
-        border-right: 3px solid var(--theme-deafult);
+        border-right: 3px solid var(--golden-glow);
         border-bottom: 3px solid transparent;
-        border-top: 3px solid var(--theme-deafult);
+        border-top: 3px solid var(--golden-glow);
       }
     }
   }
@@ -6933,7 +6940,7 @@ footer {
 }
 .green-gradient {
   .top-header {
-    background: var(--theme-deafult);
+    background: var(--golden-glow);
     background-image: linear-gradient(
       to right,
       var(--gradient1),
@@ -6964,7 +6971,7 @@ footer {
   .pixelstrap {
     li {
       .lable-nav {
-        background: var(--theme-deafult);
+        background: var(--golden-glow);
         background-image: linear-gradient(
           to right,
           var(--gradient1),
@@ -7120,7 +7127,7 @@ footer {
     svg {
       width: 50px;
       margin-bottom: 15px;
-      fill: var(--theme-deafult);
+      fill: var(--golden-glow);
     }
   }
 }
@@ -7312,7 +7319,7 @@ footer {
     position: absolute;
     width: 50px;
     height: 50px;
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     top: -10px;
     display: flex;
     align-items: center;
@@ -7322,7 +7329,7 @@ footer {
       position: absolute;
       width: 0;
       height: 0;
-      // border-bottom: 10px solid darken(var(--theme-deafult), 30%);
+      // border-bottom: 10px solid darken(var(--golden-glow), 30%);
       border-right: 10px solid transparent;
       top: 0;
       right: -10px;
@@ -7421,7 +7428,7 @@ footer {
     display: block;
     margin-bottom: 15px;
     i {
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
       padding-right: 5px;
       font-size: 23px;
     }
@@ -7468,7 +7475,7 @@ footer {
     color: $black;
     transition: 0.5s ease;
     &:hover {
-      color: var(--theme-deafult) !important;
+      color: var(--golden-glow) !important;
       transition: 0.5s ease;
     }
   }
@@ -7513,7 +7520,7 @@ footer {
           content: "";
           height: 2px;
           width: 0;
-          background-color: var(--theme-deafult);
+          background-color: var(--golden-glow);
           transition: 0.5s ease;
         }
       }
@@ -7539,7 +7546,7 @@ footer {
         line-height: 28px;
         a {
           &:hover {
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
             transition: all 0.5s ease;
           }
         }
@@ -7606,7 +7613,7 @@ footer {
       a {
         color: $grey-shade;
         &:hover {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           transition: all 0.5s ease;
         }
       }
@@ -7721,7 +7728,7 @@ footer {
           a {
             color: $grey-shade;
             &:hover {
-              color: var(--theme-deafult);
+              color: var(--golden-glow);
               transition: all 0.5s ease;
             }
           }
@@ -7741,7 +7748,7 @@ footer {
           top: 0;
           width: 100%;
           height: 100%;
-          background-color: var(--theme-deafult);
+          background-color: var(--golden-glow);
           opacity: 0.4;
           z-index: -1;
         }
@@ -7772,7 +7779,7 @@ footer {
 }
 .cart-qty-cls {
   position: absolute;
-  background: var(--theme-deafult);
+  background: var(--golden-glow);
   width: 20px;
   height: 20px;
   color: #fff;
@@ -7805,7 +7812,7 @@ footer {
     transform: translate(-50%, -50%);
     width: 50px;
     height: 50px;
-    background-color: var(--theme-deafult);
+    background-color: var(--golden-glow);
     border-radius: 50%;
     &:after {
       content: "";
@@ -7878,7 +7885,7 @@ footer {
   display: none;
   color: #fff;
   text-align: center;
-  background: var(--theme-deafult);
+  background: var(--golden-glow);
   border: none;
   font-size: 22px;
   padding: 7px;
@@ -8151,7 +8158,7 @@ footer {
     border-bottom: 1px solid #efefef;
     .setting_buttons {
       .setting_btn {
-        background-color: var(--theme-deafult);
+        background-color: var(--golden-glow);
         color: white;
         width: 100%;
       }
@@ -8230,7 +8237,7 @@ footer {
 .demo-section {
   .title-text {
     h3 {
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
       margin-bottom: 24px;
       display: inline-block;
       padding-bottom: 5px;
@@ -8286,11 +8293,11 @@ footer {
             border: 1px solid #ddd;
             background-color: white;
             width: 90px;
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
             padding: 5px 10px;
             border-radius: 30px;
             &:hover {
-              background-color: var(--theme-deafult);
+              background-color: var(--golden-glow);
               color: white;
             }
           }
@@ -8393,7 +8400,7 @@ footer {
         margin-left: 5px;
       }
       &:hover {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
       }
     }
   }
@@ -8488,7 +8495,7 @@ footer {
   display: flex;
   height: 100%;
   h2 {
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     margin-bottom: 0;
   }
 }
@@ -8525,7 +8532,7 @@ footer {
       }
       h5 {
         font-weight: 700;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         margin-bottom: 0;
         margin-top: 7px;
       }
@@ -8594,7 +8601,7 @@ footer {
     text-align: center;
   }
   h4 {
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     font-weight: 700;
     margin-top: 15px;
     margin-bottom: 5px;
@@ -8622,7 +8629,7 @@ footer {
         height: 40px;
         width: 40px;
         path {
-          fill: var(--theme-deafult);
+          fill: var(--golden-glow);
         }
       }
       .media-body {
@@ -8682,7 +8689,7 @@ footer {
     ::-webkit-scrollbar-thumb {
       border-radius: 10px;
       -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
     }
     .color-selector {
       margin-top: 30px;
@@ -9102,7 +9109,7 @@ footer {
   }
   .filter-btn {
     &:hover {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
     }
   }
 }
@@ -9154,7 +9161,7 @@ footer {
     }
     .page-item.active {
       a {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         background-color: $white;
         border-color: lighten($black, 86.5%);
       }
@@ -9272,7 +9279,7 @@ footer {
           }
           &:hover {
             text-decoration: none;
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
             transition: all 0.3s ease;
           }
         }
@@ -9580,7 +9587,7 @@ footer {
           }
         }
         .td-color {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
         }
         h2 {
           font-size: 24px;
@@ -9800,7 +9807,7 @@ footer {
       .popular-blog {
         li {
           .blog-date {
-            background-color: var(--theme-deafult);
+            background-color: var(--golden-glow);
             height: 70px;
             width: 70px;
             margin: 0 15px 0 0;
@@ -9836,7 +9843,7 @@ footer {
       justify-content: center;
       display: flex;
       h6 {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         text-transform: uppercase;
         margin-bottom: 10px;
         margin-top: -3px;
@@ -9893,7 +9900,7 @@ footer {
   }
 }
 .instock-cls {
-  color: var(--theme-deafult);
+  color: var(--golden-glow);
   font-weight: 700;
 }
 .product-slick,
@@ -10101,7 +10108,7 @@ footer {
     }
     span {
       padding-left: 5px;
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
     }
   }
   .color-variant {
@@ -10183,7 +10190,7 @@ footer {
             font-size: 18px;
           }
           &:hover {
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
           }
         }
         &:last-child {
@@ -10207,7 +10214,7 @@ footer {
       }
       &:hover {
         i {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           transition: all 0.5s ease;
         }
       }
@@ -10367,12 +10374,12 @@ footer {
           cursor: pointer;
           border-bottom: 2px solid transparent;
           &.active {
-            border-bottom: 2px solid var(--theme-deafult);
-            color: var(--theme-deafult);
+            border-bottom: 2px solid var(--golden-glow);
+            color: var(--golden-glow);
           }
         }
         .material-border {
-          border-bottom: 2px solid var(--theme-deafult);
+          border-bottom: 2px solid var(--golden-glow);
           opacity: 0;
         }
       }
@@ -10411,7 +10418,7 @@ footer {
   }
   .title {
     padding-right: 45px;
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     padding-bottom: 20px;
   }
   .theme-slider {
@@ -10471,12 +10478,12 @@ footer {
         box-shadow: 0 0 12px 0 $round-border;
         :hover {
           transition: all 0.3s ease;
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
         }
       }
     }
     .lbl-1 {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       padding: 2px 20px 2px 10px;
       display: inline-block;
       text-align: center;
@@ -10494,8 +10501,8 @@ footer {
         top: 0;
         width: 0;
         height: 0;
-        border-top: 12px solid var(--theme-deafult);
-        border-bottom: 13px solid var(--theme-deafult);
+        border-top: 12px solid var(--golden-glow);
+        border-bottom: 13px solid var(--golden-glow);
         border-right: 7px solid $white;
       }
     }
@@ -10549,7 +10556,7 @@ footer {
       .price {
         padding-bottom: 10px;
         font-size: 16px;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
       }
     }
   }
@@ -10748,7 +10755,7 @@ footer {
         position: relative;
         font-size: 18px;
         line-height: 20px;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         font-weight: 400;
         width: 35%;
         float: right;
@@ -10783,7 +10790,7 @@ footer {
         position: relative;
         font-size: 18px;
         line-height: 20px;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         font-weight: 400;
       }
       span {
@@ -10918,9 +10925,9 @@ footer {
         color: black;
       }
       &.active {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         a {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
         }
       }
       &:before {
@@ -10984,7 +10991,7 @@ footer {
   }
   .box {
     a {
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
     }
     h6 {
       margin-bottom: 0;
@@ -11006,7 +11013,7 @@ footer {
         position: absolute;
         right: 0;
         top: 12px;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
       }
     }
     address {
@@ -11021,13 +11028,13 @@ footer {
     margin-bottom: 0;
   }
   a {
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
   }
 }
 .account-sidebar {
   display: none;
   cursor: pointer;
-  background-color: var(--theme-deafult);
+  background-color: var(--golden-glow);
   color: $white;
   width: 30%;
   font-size: 16px;
@@ -11361,7 +11368,7 @@ footer {
           padding: 10px;
           border-radius: 100%;
           transform: translate(-50%, -50%);
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           font-size: 22px;
           display: none;
           transition: all 0.4s ease;
@@ -11385,7 +11392,7 @@ footer {
           width: 100%;
           height: 100%;
           z-index: 1;
-          background-color: rgba(var(--theme-deafult), 0.2);
+          background-color: rgba(var(--golden-glow), 0.2);
           transition: all 0.4s ease;
           i {
             display: flex;
@@ -11409,7 +11416,7 @@ footer {
     border: none;
     background-color: white;
     &.active {
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       color: $white;
     }
   }
@@ -11538,7 +11545,7 @@ footer {
             padding: 10px;
             border-radius: 100%;
             transform: translate(-50%, -50%);
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
             font-size: 22px;
             display: none;
             transition: all 0.4s ease;
@@ -11562,7 +11569,7 @@ footer {
             width: 100%;
             height: 100%;
             z-index: 1;
-            background-color: rgba(var(--theme-deafult), 0.2);
+            background-color: rgba(var(--golden-glow), 0.2);
             transition: all 0.4s ease;
             i {
               display: flex;
@@ -11583,18 +11590,18 @@ footer {
         > li {
           padding: 0 25px;
           > a {
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
             font-size: 20px;
             line-height: 40px;
             &:hover,
             &:focus {
               text-decoration: none;
-              color: var(--theme-deafult);
+              color: var(--golden-glow);
               outline: none;
             }
           }
           &.active {
-            background-color: var(--theme-deafult);
+            background-color: var(--golden-glow);
             a {
               color: $white;
             }
@@ -11679,7 +11686,7 @@ footer {
       text-transform: uppercase;
       transform: translate(50%, -50%) rotate(-90deg);
       text-align: center;
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       margin-bottom: 0;
       cursor: pointer;
     }
@@ -11767,7 +11774,7 @@ footer {
       &.title-border {
         padding: 10px;
         color: white;
-        background-color: var(--theme-deafult);
+        background-color: var(--golden-glow);
         border-radius: 5px;
       }
     }
@@ -11794,7 +11801,7 @@ footer {
       align-items: center;
       margin-bottom: 30px;
       margin-top: -6px;
-      background-color: var(--theme-deafult);
+      background-color: var(--golden-glow);
       padding: 10px;
       border-radius: 5px;
       .title-border {
@@ -11848,7 +11855,7 @@ footer {
       background-color: rgba($white, 0.9);
       padding: 40px 0;
       width: 90%;
-      border: 3px solid var(--theme-deafult);
+      border: 3px solid var(--golden-glow);
       h2 {
         font-size: 75px;
       }
@@ -11895,7 +11902,7 @@ footer {
               padding-right: 7px;
               transition: all 0.5s ease;
               &:hover {
-                color: var(--theme-deafult);
+                color: var(--golden-glow);
                 transition: all 0.5s ease;
               }
             }
@@ -12100,7 +12107,7 @@ header {
         button {
           &:before {
             font-size: 15px;
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
             opacity: 0.2;
           }
         }
@@ -12307,7 +12314,7 @@ table {
           bottom: 0;
           right: 30%;
           svg {
-            stroke: var(--theme-deafult);
+            stroke: var(--golden-glow);
           }
         }
       }
@@ -12338,7 +12345,7 @@ table {
       padding: 30px 30px;
       display: flex;
       align-items: center;
-      border-left: 3px solid var(--theme-deafult);
+      border-left: 3px solid var(--golden-glow);
       border-radius: 8px;
       img {
         height: 50px;
@@ -12346,7 +12353,7 @@ table {
       }
       h3 {
         font-weight: 700;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         margin-bottom: 4px;
         font-size: 20px;
       }
@@ -12416,7 +12423,7 @@ table {
         padding: 2px 16px;
         border-radius: 2px;
         text-transform: capitalize;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         cursor: pointer;
       }
     }
@@ -12437,7 +12444,7 @@ table {
               );
               border-radius: 2px;
               text-transform: capitalize;
-              color: var(--theme-deafult);
+              color: var(--golden-glow);
               cursor: pointer;
             }
             .left {
@@ -12498,7 +12505,7 @@ table {
       z-index: 1;
       width: 0.75rem;
       height: 0.75rem;
-      background: var(--theme-deafult);
+      background: var(--golden-glow);
       border-radius: 50%;
     }
     &:after {
@@ -12537,15 +12544,15 @@ table {
         cursor: pointer;
         &.active {
           border: none;
-          border-right: 2px solid var(--theme-deafult);
+          border-right: 2px solid var(--golden-glow);
           border-radius: 0;
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           transition: all 0.5s ease;
         }
         &:hover {
           border: none;
-          border-right: 2px solid var(--theme-deafult);
-          color: var(--theme-deafult);
+          border-right: 2px solid var(--golden-glow);
+          color: var(--golden-glow);
           transition: all 0.5s ease;
         }
       }
@@ -12711,7 +12718,7 @@ table {
         height: 80px;
         background: $grey-about;
         margin: 0 auto 25px auto;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         text-align: center;
         font-weight: 500;
         border-radius: 10px;
@@ -12822,7 +12829,7 @@ table {
           position: relative;
           width: 50px;
           height: 50px;
-          background-color: var(--theme-deafult);
+          background-color: var(--golden-glow);
           border-radius: 50%;
           &:after {
             content: "";
@@ -13004,7 +13011,7 @@ table {
 // sitemap page //
 .sitemap_page {
   .title {
-    color: var(--theme-deafult);
+    color: var(--golden-glow);
     text-transform: capitalize;
     font-weight: 700;
   }
@@ -13022,7 +13029,7 @@ table {
           font-size: 10px;
         }
         &:hover {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           transition: all 0.5s ease;
         }
       }
@@ -13060,7 +13067,7 @@ table {
       width: 100%;
       margin-bottom: 120px;
       h2 {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         font-size: 30px;
         font-weight: 400;
       }
@@ -13091,7 +13098,7 @@ table {
     }
     #owner {
       a {
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
       }
     }
   }
@@ -13250,7 +13257,7 @@ table {
             font-weight: 700;
             transition: all 0.5s ease;
             &:hover {
-              color: var(--theme-deafult);
+              color: var(--golden-glow);
               transition: all 0.5s ease;
             }
           }
@@ -13440,15 +13447,15 @@ table {
       .modal-body {
         background-image: linear-gradient(
           135deg,
-          var(--theme-deafult) 5.77%,
+          var(--golden-glow) 5.77%,
           $white 5.77%,
           $white 25%,
           $grey01 25%,
           $grey01 30.77%,
           $white 30.77%,
           $white 50%,
-          var(--theme-deafult) 50%,
-          var(--theme-deafult) 55.77%,
+          var(--golden-glow) 50%,
+          var(--golden-glow) 55.77%,
           $white 55.77%,
           $white 75%,
           $grey01 75%,
@@ -13575,7 +13582,7 @@ table {
           }
           /* Handle */
           &::-webkit-scrollbar-thumb {
-            background: var(--theme-deafult);
+            background: var(--golden-glow);
           }
           /* Handle on hover */
           &::-webkit-scrollbar-thumb:hover {
@@ -13635,7 +13642,7 @@ table {
                       font-weight: 700;
                       text-transform: capitalize;
                       a {
-                        color: var(--theme-deafult);
+                        color: var(--golden-glow);
                       }
                     }
                   }
@@ -13662,7 +13669,7 @@ table {
         h4 {
           font-size: 20px;
           line-height: 1.2;
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           font-weight: 500;
         }
         h5 {
@@ -13741,7 +13748,7 @@ table {
       .rating {
         i {
           &:nth-child(-n + 4) {
-            color: var(--theme-deafult);
+            color: var(--golden-glow);
           }
           &:last-child {
             color: #878787;
@@ -13760,7 +13767,7 @@ table {
       }
       h4 {
         font-size: 18px;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         font-weight: 700;
         margin-bottom: 0;
         transition: all 0.5s ease;
@@ -13769,7 +13776,7 @@ table {
     &:hover {
       .cart-info {
         bottom: 0;
-        background-color: var(--theme-deafult);
+        background-color: var(--golden-glow);
         opacity: 1;
         transition: all 0.5s ease;
         button {
@@ -13810,7 +13817,7 @@ table {
 .blog-section {
   .blog-details {
     h4 {
-      color: var(--theme-deafult);
+      color: var(--golden-glow);
       margin-top: 15px;
       line-height: 1;
       margin-bottom: 0;
@@ -13843,7 +13850,7 @@ table {
     &:hover {
       .blog-details {
         p {
-          color: var(--theme-deafult);
+          color: var(--golden-glow);
           transition: all 0.5s ease;
         }
       }
@@ -13879,7 +13886,7 @@ table {
       top: 0;
       width: 100%;
       height: 100%;
-      border: 3px solid var(--theme-deafult);
+      border: 3px solid var(--golden-glow);
       opacity: 0.5;
       z-index: -1;
     }
@@ -13945,7 +13952,7 @@ table {
         margin-bottom: 0;
         text-transform: uppercase;
         font-weight: 700;
-        color: var(--theme-deafult);
+        color: var(--golden-glow);
         margin-top: 15px;
       }
       h6 {
@@ -14028,4 +14035,17 @@ video#background-video {
   min-height: 100%;
   width: auto;
   height: auto;
+}
+
+.fa-heart {
+  color: rgb(46, 43, 43);
+
+  // Optional: Add styles for hover effects or other states
+  &:hover {
+    color: #000000; // Slightly lighter shade of white
+  }
+
+  &:active {
+    opacity: 0.8; // Add a pressed effect
+  }
 }

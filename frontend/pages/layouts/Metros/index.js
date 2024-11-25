@@ -14,7 +14,7 @@ import MasterFooter from "../../../components/footers/common/MasterFooter";
 
 const Metros = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#000000");
+    document.documentElement.style.setProperty("--golden-glow", "#000000");
   });
   return (
     <Fragment>

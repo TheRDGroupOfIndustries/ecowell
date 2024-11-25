@@ -19,7 +19,7 @@ import MasterFooterThree from '../../../components/footers/common/MasterFooterTh
 
 const Watch = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#e4604a");
+    document.documentElement.style.setProperty("--golden-glow", "#e4604a");
   });
   return (
     <>

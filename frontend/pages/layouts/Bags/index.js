@@ -17,7 +17,7 @@ import MasterFooterTwo from "../../../components/footers/common/MasterFooterTwo"
 
 const Bags = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#f0b54d");
+    document.documentElement.style.setProperty("--golden-glow", "#f0b54d");
   });
 
   return (

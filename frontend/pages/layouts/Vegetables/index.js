@@ -13,7 +13,7 @@ import MasterFooter from "../../../components/footers/common/MasterFooter";
 
 const Vegetables = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#399B2E");
+    document.documentElement.style.setProperty("--golden-glow", "#399B2E");
   });
   return (
     <>

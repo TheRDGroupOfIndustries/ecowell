@@ -21,7 +21,7 @@
 
 //   const layoutColorFun = (item) => {
 //     document.documentElement.style.setProperty(
-//       "--theme-deafult",
+//       "--golden-glow",
 //       item.target.value
 //     );
 //     config.color = item.target.value;
@@ -71,7 +71,7 @@ const SettingProvider = (props) => {
 
   const layoutColorFun = (item) => {
     document.documentElement.style.setProperty(
-      "--theme-deafult",
+      "--golden-glow",
       item.target.value
     );
     config.color = item.target.value;

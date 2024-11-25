@@ -13,10 +13,10 @@ import MasterFooter from "../../../components/footers/common/MasterFooter";
 
 const Beauty = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#f0b54d");
+    document.documentElement.style.setProperty("--golden-glow", "#f0b54d");
 
     return () => {
-      document.documentElement.style.removeProperty("--theme-deafult");
+      document.documentElement.style.removeProperty("--golden-glow");
     };
   });
   return (

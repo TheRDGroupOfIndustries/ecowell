@@ -16,7 +16,7 @@ import MasterFooter from "../../../components/footers/common/MasterFooter";
 
 const Tools = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#399B2E");
+    document.documentElement.style.setProperty("--golden-glow", "#399B2E");
   });
   return (
     <Fragment>

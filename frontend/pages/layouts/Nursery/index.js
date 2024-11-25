@@ -13,7 +13,7 @@ import MasterFooterTwo from "../../../components/footers/common/MasterFooterTwo"
 
 const Nursery = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#81ba00");
+    document.documentElement.style.setProperty("--golden-glow", "#81ba00");
   }, []);
   return (
     <div className="layout-20">

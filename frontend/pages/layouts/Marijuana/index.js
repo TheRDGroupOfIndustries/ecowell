@@ -17,7 +17,7 @@ import MasterFooterTwo from "../../../components/footers/common/MasterFooterTwo"
 
 const Marijuana = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#5d7227");
+    document.documentElement.style.setProperty("--golden-glow", "#5d7227");
     document.documentElement.style.setProperty("--gradient1", "#5d7227");
     document.documentElement.style.setProperty("--gradient2", "#203f15");
   });

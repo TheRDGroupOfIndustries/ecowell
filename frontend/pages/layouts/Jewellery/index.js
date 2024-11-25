@@ -16,7 +16,7 @@ import MasterParallaxBanner from "../Fashion/Components/MasterParallaxBanner";
 
 const Jewellery = () => {
   useEffect(() => {
-    document.documentElement.style.setProperty("--theme-deafult", "#5fcbc4");
+    document.documentElement.style.setProperty("--golden-glow", "#5fcbc4");
   });
   
   return (
