@@ -308,15 +308,15 @@ const MasterFooter = ({
                         <li>
                           <a href="#">secure shopping</a>
                         </li>
-                        {/* <li>
-                          <a href="#">gallary</a>
+                         <li>
+                          <a href="page/terms">Terms and conditions</a>
                         </li>
                         <li>
-                          <a href="#">affiliates</a>
+                          <a href="page/policies">Privacy policies</a>
                         </li>
                         <li>
-                          <a href="#">contacts</a>
-                        </li> */}
+                          <a href="page/about-us">About us</a>
+                        </li>
                       </ul>
                     </div>
                   </Collapse>

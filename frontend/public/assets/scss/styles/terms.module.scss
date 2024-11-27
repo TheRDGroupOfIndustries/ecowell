@@ -1,0 +1,86 @@
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    h1 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+        color: #444;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #00b894;
+        padding-bottom: 0.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .effectiveDate {
+        text-align: center;
+        font-size: 1rem;
+        color: #777;
+        margin-bottom: 2rem;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+
+            .icon {
+                margin-right: 1rem;
+                color: #00b894;
+                flex-shrink: 0;
+            }
+
+            span {
+                font-size: 1rem;
+                color: #555;
+            }
+        }
+    }
+
+    footer {
+        text-align: center;
+        font-size: 1rem;
+        color: #777;
+        margin-top: 3rem;
+        padding-top: 1rem;
+        border-top: 1px solid #ddd;
+    }
+
+    @media (max-width: 768px) {
+        padding: 1.5rem;
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        p,
+        span {
+            font-size: 0.9rem;
+        }
+    }
+}

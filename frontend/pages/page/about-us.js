@@ -1,3 +1,7 @@
+
+
+
+
 import React from "react";
 import CommonLayout from "../../components/shop/common-layout";
 import { Container, Row, Col, Media } from "reactstrap";
@@ -5,32 +9,32 @@ import aboutus from "../../public/assets/images/about/about_us.jpg";
 import Slider from "react-slick";
 import { Slider2, Slider4 } from "../../services/script";
 import ServiceLayout from "../../components/common/Service/service1.js";
-
+import baner from '../../public/assets/images/Aboutbanner.jpeg'
 const TeamData = [
   {
     img: "/assets/images/team/1.jpg",
-    name: "Hileri Keol",
-    post: "CEo & Founder At Company",
+    name: "Dr. Emily Chen",
+    post: "Founder & Chief Nutritionist",
   },
   {
     img: "/assets/images/team/2.jpg",
-    name: "Hileri Keol",
-    post: "CEo & Founder At Company",
+    name: "Michael Rodriguez",
+    post: "Head of Research & Development",
   },
   {
     img: "/assets/images/team/3.jpg",
-    name: "Hileri Keol",
-    post: "CEo & Founder At Company",
+    name: "Sarah Thompson",
+    post: "Wellness Strategy Director",
   },
   {
     img: "/assets/images/team/4.jpg",
-    name: "Hileri Keol",
-    post: "CEo & Founder At Company",
+    name: "David Kim",
+    post: "Quality Assurance Lead",
   },
   {
     img: "/assets/images/team/1.jpg",
-    name: "Hileri Keol",
-    post: "CEo & Founder At Company",
+    name: "Lisa Patel",
+    post: "Nutrition Science Specialist",
   },
 ];
 
@@ -49,39 +53,39 @@ const Team = ({ img, name, post }) => {
 const TeamDetailData = [
   {
     img: "/assets/images/avtar.jpg",
-    name: "mark jenco",
-    post: "designer",
-    about: "you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings.",
+    name: "Dr. Emily Chen",
+    post: "Founder",
+    about: "With over 15 years of experience in nutrition and holistic wellness, I founded EcoWell to provide scientifically-backed, natural supplements that support optimal health and well-being.",
   },
   {
     img: "/assets/images/2.jpg",
-    name: "mark jenco",
-    post: "designer",
-    about: "you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings.",
+    name: "Michael Rodriguez",
+    post: "Research Director",
+    about: "Our rigorous research process ensures that every EcoWell supplement is developed using the highest quality, sustainably sourced ingredients and cutting-edge nutritional science.",
   },
   {
     img: "/assets/images/avtar.jpg",
-    name: "mark jenco",
-    post: "designer",
-    about: "you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings.",
+    name: "Sarah Thompson",
+    post: "Wellness Expert",
+    about: "We believe in a holistic approach to health, combining superior nutritional supplements with education and lifestyle guidance to help our customers achieve their wellness goals.",
   },
   {
     img: "/assets/images/avtar.jpg",
-    name: "mark jenco",
-    post: "designer",
-    about: "you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings.",
+    name: "David Kim",
+    post: "Quality Assurance",
+    about: "Our commitment to quality means every supplement undergoes extensive testing to ensure purity, potency, and safety for our customers.",
   },
   {
     img: "/assets/images/avtar.jpg",
-    name: "mark jenco",
-    post: "designer",
-    about: "you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings.",
+    name: "Lisa Patel",
+    post: "Nutrition Scientist",
+    about: "By staying at the forefront of nutritional research, we continuously innovate to create supplements that address modern health challenges.",
   },
   {
     img: "/assets/images/avtar.jpg",
-    name: "mark jenco",
-    post: "designer",
-    about: "you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings.",
+    name: "Mark Johnson",
+    post: "Sustainability Lead",
+    about: "Our eco-friendly practices ensure that our supplements not only support human health but also contribute to the health of our planet.",
   },
 ];
 
@@ -101,36 +105,34 @@ const TeamDetail = ({ img, name, post, about }) => {
     </div>
   );
 };
+
 const AboutUs = () => {
   return (
     <>
       <CommonLayout parent="home" title="About-us">
-        {/* // <!-- about section start --> */}
         <section className="about-page section-b-space">
           <Container>
             <Row>
               <Col lg="12">
                 <div className="banner-section">
-                  <Media src={aboutus.src} className="img-fluid blur-up lazyload" alt="" />
+                  <Media src={baner.src} className="img-fluid blur-up lazyload" alt="" />
                 </div>
               </Col>
               <Col sm="12">
-                <h4>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</h4>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,</p>
+                <h4>Empowering Wellness Through Natural, Science-Driven Nutrition</h4>
+                <p>At EcoWell, we are dedicated to transforming health through innovative, sustainable nutritional supplements.</p>
                 <p>
-                  On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they
-                  cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through
-                  shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being
-                  able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it
-                  will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects
-                  pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.
+                  Our mission goes beyond simply creating supplements. We are committed to providing holistic wellness solutions that address the complex nutritional needs of modern life. By combining
+                  cutting-edge nutritional science with sustainable, natural ingredients, we create supplements that support your body's optimal functioning.
+
+                  We understand that true wellness is a journey, not a destination. That's why our approach is comprehensive – focusing not just on individual supplements, but on supporting
+                  your overall health, energy, and vitality. Each product is carefully formulated to meet the highest standards of quality, efficacy, and environmental responsibility.
                 </p>
               </Col>
             </Row>
           </Container>
         </section>
 
-        {/* <!--Testimonial start--> */}
         <section className="testimonial small-section">
           <Container>
             <Row>
@@ -144,9 +146,7 @@ const AboutUs = () => {
             </Row>
           </Container>
         </section>
-        {/* <!--Testimonial ends--> */}
 
-        {/* <!--Team start--> */}
         <section id="team" className="team section-b-space ratio_asos">
           <Container>
             <Row>
@@ -161,7 +161,6 @@ const AboutUs = () => {
             </Row>
           </Container>
         </section>
-        {/* <!--Team ends--> */}
 
         <div className="section-b-space">
           <ServiceLayout sectionClass={"service border-section small-section"} />
