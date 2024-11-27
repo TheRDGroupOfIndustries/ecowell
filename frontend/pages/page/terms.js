@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, ShieldCheck, Globe, Users, Lock } from 'lucide-react';
+import CommonLayout from '../../components/shop/common-layout';
 
 const TermsAndConditions = () => {
     const primaryColor = '#d4a018';
